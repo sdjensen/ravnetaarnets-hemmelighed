@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="da">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ravnetårnets Hemmelighed</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <button class="lydknap" id="lyd" type="button">🔇</button>
+  <div class="layout">
+    <main class="bog" id="bog" aria-live="polite">
+      <!-- game.js fylder indhold her -->
+    </main>
+
+    <aside class="ark" id="ark" hidden>
+      <h2>Eventyrark</h2>
+      <dl class="stats">
+        <div><dt>Evne</dt><dd id="stat-evne">–</dd></div>
+        <div><dt>Udholdenhed</dt><dd id="stat-udholdenhed">–</dd></div>
+        <div><dt>Held</dt><dd id="stat-held">–</dd></div>
+        <div><dt>Guld</dt><dd id="stat-guld">–</dd></div>
+      </dl>
+      <h3>Oppakning</h3>
+      <ul class="inventar" id="inventar"></ul>
+      <button class="lille" id="forfra" type="button">Start forfra</button>
+    </aside>
+  </div>
+
+  <script src="story.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

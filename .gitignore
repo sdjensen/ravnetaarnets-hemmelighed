@@ -1,0 +1,14 @@
+# Dine originalbilleder (store) – spillet bruger de komprimerede i assets/art/egne/
+tools/art/originaler/
+
+# Genereres af tools/art/byg.py og eksport.py
+tools/art/svg/
+assets/art/scenes/
+
+# Python-cache og midlertidige filer
+__pycache__/
+*.pyc
+tools/art/_*.html
+
+# Lokale Claude-indstillinger
+.claude/

@@ -1,0 +1,421 @@
+:root {
+  --pergament: #f3e7c9;
+  --pergament-mork: #e6d3a3;
+  --blaek: #2b1d0e;
+  --blaek-svag: #6b5536;
+  --rod: #8b1e1e;
+  --guld: #a87b1f;
+  --nat: #1b140c;
+  --skygge: rgba(43, 29, 14, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+/* Stemninger: baggrundens farve skifter med afsnittets "stemning" */
+body                         { --himmel: #3a2a17; }
+body[data-stemning="landsby"] { --himmel: #4a3518; }
+body[data-stemning="skov"]   { --himmel: #1f3a22; }
+body[data-stemning="flod"]   { --himmel: #1d3446; }
+body[data-stemning="taarn"]  { --himmel: #2e2140; }
+body[data-stemning="kammer"] { --himmel: #16264a; }
+body[data-stemning="fare"]   { --himmel: #4a1a14; }
+body[data-stemning="sejr"]   { --himmel: #8a6420; }
+body[data-stemning="død"]    { --himmel: #2a0808; }
+body[data-stemning="bjerg"]  { --himmel: #3a4a5a; }
+body[data-stemning="aske"]   { --himmel: #3a3430; }
+body[data-stemning="skygge"] { --himmel: #24102e; }
+body[data-stemning="smedje"] { --himmel: #5a2a10; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--himmel);
+  background-image: radial-gradient(ellipse at top, rgba(255, 220, 160, 0.10) 0%, rgba(10, 6, 2, 0.85) 75%);
+  background-attachment: fixed;
+  transition: background-color 1.2s ease;
+  color: var(--blaek);
+  font-family: "EB Garamond", Georgia, serif;
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 24px;
+  align-items: start;
+}
+
+.layout:has(.ark[hidden]) { grid-template-columns: minmax(0, 1fr); max-width: 760px; }
+
+
+/* ---------- Bogsiden ---------- */
+.bog {
+  background:
+    radial-gradient(ellipse at center, var(--pergament) 55%, var(--pergament-mork) 100%);
+  border-radius: 4px;
+  padding: 48px clamp(20px, 6vw, 64px);
+  box-shadow: 0 20px 60px rgba(0,0,0,.6), inset 0 0 80px var(--skygge);
+  min-height: 60vh;
+  animation: blad 0.45s ease-out;
+}
+
+.bog.vend { animation: none; }
+
+@keyframes blad {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+h1, h2, h3, .nummer {
+  font-family: "Cinzel", serif;
+  color: var(--blaek);
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  text-align: center;
+  letter-spacing: 0.04em;
+}
+
+.undertitel {
+  text-align: center;
+  font-style: italic;
+  color: var(--blaek-svag);
+  margin: 4px 0 32px;
+}
+
+.nummer {
+  display: block;
+  text-align: center;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--rod);
+  margin-bottom: 16px;
+}
+
+.kapitel {
+  text-align: center;
+  font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+  color: var(--guld);
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.nummer::before, .nummer::after {
+  content: "❦";
+  font-size: 1.2rem;
+  color: var(--guld);
+  vertical-align: middle;
+  margin: 0 16px;
+}
+
+.tekst p { margin: 0 0 1em; }
+.tekst p:first-child::first-letter {
+  font-family: "Cinzel", serif;
+  float: left;
+  font-size: 3.4em;
+  line-height: 0.85;
+  padding: 6px 8px 0 0;
+  color: var(--rod);
+}
+
+/* Effekter: "−3 Udholdenhed" osv. */
+.effekter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 0;
+  list-style: none;
+}
+.effekter li {
+  font-family: "Cinzel", serif;
+  font-size: 0.85rem;
+  padding: 4px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+}
+.effekter .minus { color: var(--rod); }
+.effekter .plus  { color: #2f6b2f; }
+.effekter .ting  { color: var(--guld); }
+
+/* ---------- Valg ---------- */
+.valg {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  border-top: 1px solid var(--blaek-svag);
+  padding-top: 24px;
+  display: grid;
+  gap: 12px;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.valg button, .stor {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid var(--blaek-svag);
+  border-radius: 4px;
+  padding: 12px 16px;
+  color: var(--blaek);
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  transition: background .15s, transform .15s;
+}
+
+.valg button:hover:not(:disabled),
+.valg button:focus-visible,
+.stor:hover, .stor:focus-visible {
+  background: rgba(139, 30, 30, 0.08);
+  transform: translateX(4px);
+  outline: none;
+  border-color: var(--rod);
+}
+
+.valg button .til {
+  font-family: "Cinzel", serif;
+  color: var(--rod);
+  white-space: nowrap;
+}
+
+.valg button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stor {
+  justify-content: center;
+  text-align: center;
+  font-family: "Cinzel", serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  background: var(--rod);
+  color: var(--pergament);
+  border-color: var(--rod);
+}
+.stor:hover, .stor:focus-visible { background: #a52626; color: var(--pergament); }
+
+.knapper { display: grid; gap: 12px; margin-top: 32px; }
+
+.sekundaer {
+  background: transparent;
+  color: var(--blaek);
+}
+.sekundaer:hover, .sekundaer:focus-visible { background: rgba(139,30,30,.08); color: var(--blaek); }
+
+/* ---------- Terningeslag ved start ---------- */
+.slag {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 24px 0;
+  text-align: center;
+}
+.slag div {
+  border: 1px solid var(--blaek-svag);
+  border-radius: 4px;
+  padding: 12px 8px;
+}
+.slag .vaerdi {
+  display: block;
+  font-family: "Cinzel", serif;
+  font-size: 2.2rem;
+  color: var(--rod);
+}
+.slag .navn { font-size: 0.95rem; color: var(--blaek-svag); }
+.regel { font-size: 1rem; color: var(--blaek-svag); font-style: italic; }
+
+/* ---------- Illustrationer ---------- */
+.illustration {
+  margin: 0 0 28px;
+}
+.illustration img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 2px 10px rgba(43, 29, 14, 0.35);
+  animation: fremkald 1.2s ease-out;
+}
+.illustration figcaption {
+  text-align: center;
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--blaek-svag);
+  margin-top: 6px;
+}
+@keyframes fremkald {
+  from { opacity: 0; filter: blur(3px) sepia(1); }
+  to   { opacity: 1; filter: none; }
+}
+
+/* ---------- Lydknap ---------- */
+.lydknap {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--guld);
+  background: var(--pergament);
+  font-size: 1.3rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+}
+.lydknap:hover, .lydknap:focus-visible { outline: 2px solid var(--rod); outline-offset: 2px; }
+
+/* ---------- Kampanimationer ---------- */
+.bog.ryst { animation: ryst 0.4s ease; }
+@keyframes ryst {
+  0%, 100% { transform: none; box-shadow: 0 20px 60px rgba(0,0,0,.6), inset 0 0 80px var(--skygge); }
+  20% { transform: translateX(-8px); box-shadow: 0 20px 60px rgba(0,0,0,.6), inset 0 0 120px rgba(139,30,30,.55); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(3px); }
+}
+.fjende.truffet { animation: truffet 0.5s ease; }
+@keyframes truffet {
+  0%   { background: rgba(139,30,30,.35); transform: scale(1.04); }
+  100% { background: rgba(139,30,30,.06); transform: none; }
+}
+.kamplog li:first-child { animation: ny 0.35s ease-out; }
+@keyframes ny { from { opacity: 0; transform: translateY(-6px); } }
+
+/* ---------- Gemt spil ---------- */
+.gemt {
+  border: 1px solid var(--guld);
+  background: rgba(168, 123, 31, 0.1);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 0 0 32px;
+  text-align: center;
+}
+.gemt p { margin: 0 0 12px; }
+
+/* ---------- Kamp ---------- */
+.kamp {
+  margin-top: 32px;
+  border-top: 1px solid var(--blaek-svag);
+  padding-top: 24px;
+}
+.kamp h2 { text-align: center; color: var(--rod); margin-bottom: 16px; }
+
+.fjender {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.fjende {
+  border: 1px solid var(--blaek-svag);
+  border-radius: 4px;
+  padding: 10px 14px;
+  display: grid;
+  font-size: 1rem;
+}
+.fjende .fnavn { font-family: "Cinzel", serif; font-weight: 700; font-size: 1.1rem; }
+.fjende.aktiv { border: 2px solid var(--rod); background: rgba(139,30,30,.06); }
+.fjende.faldet { opacity: .45; text-decoration: line-through; }
+
+.kampknapper { display: grid; gap: 10px; }
+.kampknapper button:disabled { opacity: .4; cursor: not-allowed; }
+
+.kamplog {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  font-size: 1rem;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.kamplog li {
+  padding: 6px 10px;
+  border-left: 3px solid var(--blaek-svag);
+  margin-bottom: 6px;
+}
+.kamplog li:first-child { font-weight: 600; }
+.kamplog .ramte { border-color: #2f6b2f; }
+.kamplog .ramt  { border-color: var(--rod); }
+.kamplog .vandt { border-color: var(--guld); font-family: "Cinzel", serif; }
+
+.sejrtekst { font-style: italic; text-align: center; margin: 20px 0 0; }
+
+/* ---------- Slutninger ---------- */
+.slut-sejr .nummer, .slut-sejr h2 { color: #2f6b2f; }
+.slut-dod  h2 { color: var(--rod); }
+.slutskilt {
+  text-align: center;
+  font-size: 1.8rem;
+  margin: 24px 0 0;
+}
+
+/* ---------- Eventyrark ---------- */
+.ark {
+  position: sticky;
+  top: 24px;
+  background: var(--pergament);
+  border-radius: 4px;
+  padding: 24px;
+  box-shadow: 0 12px 40px rgba(0,0,0,.5), inset 0 0 40px var(--skygge);
+}
+.ark h2 { font-size: 1.2rem; text-align: center; margin-bottom: 16px; }
+.ark h3 { font-size: 0.95rem; margin: 20px 0 8px; }
+
+.stats { margin: 0; display: grid; gap: 6px; }
+.stats div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px dotted var(--blaek-svag);
+  padding-bottom: 2px;
+}
+.stats dt { font-family: "Cinzel", serif; font-size: 0.9rem; }
+.stats dd { margin: 0; font-weight: 600; }
+.stats dd.blink { animation: blink .7s ease; }
+@keyframes blink { 0%,100% { color: inherit; } 40% { color: var(--rod); transform: scale(1.3); } }
+
+.inventar { margin: 0; padding-left: 20px; font-size: 1rem; }
+.inventar .tom { list-style: none; margin-left: -20px; color: var(--blaek-svag); font-style: italic; }
+
+.lille {
+  margin-top: 20px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--blaek-svag);
+  border-radius: 4px;
+  padding: 6px;
+  font-size: 0.95rem;
+  color: var(--blaek-svag);
+}
+.lille:hover { color: var(--rod); border-color: var(--rod); }
+
+/* ---------- Smalle skærme (skal stå sidst, så den vinder) ---------- */
+@media (max-width: 820px) {
+  .layout { grid-template-columns: minmax(0, 1fr); padding-top: 16px; }
+  .ark { order: -1; position: static; padding: 12px 16px; }
+  .ark h2 { display: none; }
+  .ark .stats { grid-template-columns: repeat(2, 1fr); column-gap: 16px; }
+  .ark h3 { margin-top: 10px; }
+  .ark .inventar { display: flex; flex-wrap: wrap; gap: 4px 14px; padding-left: 0; list-style: none; }
+  .ark .inventar li:not(:last-child)::after { content: " ·"; color: var(--blaek-svag); }
+  .ark .inventar .tom { margin-left: 0; }
+  .lille { margin-top: 10px; }
+  .kampknapper .stor { font-size: 1rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
