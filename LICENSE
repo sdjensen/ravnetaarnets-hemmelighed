@@ -1,0 +1,63 @@
+Ravnetårnets Hemmelighed
+Copyright (c) 2026 sdjensen
+
+Dette projekt bruger to licenser:
+
+  1. KODEN – MIT-licensen
+     index.html, style.css, game.js og alt i mappen tools/
+
+  2. HISTORIEN OG BILLEDERNE – Creative Commons Kreditering-IkkeKommerciel 4.0
+     (CC BY-NC 4.0)
+     story.js, BILLED-PROMPTS.md og alt i mappen assets/
+
+Kort fortalt: koden må alle genbruge frit. Historien og billederne må gerne
+deles og bygges videre på, så længe man krediterer ophavspersonen og ikke
+bruger dem kommercielt.
+
+--------------------------------------------------------------------------------
+1. MIT License (koden)
+--------------------------------------------------------------------------------
+
+Copyright (c) 2026 sdjensen
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+--------------------------------------------------------------------------------
+2. Creative Commons Attribution-NonCommercial 4.0 International (historien og
+   billederne)
+--------------------------------------------------------------------------------
+
+Copyright (c) 2026 sdjensen
+
+Historien og billederne i "Ravnetårnets Hemmelighed" er licenseret under
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0).
+
+Du må:
+  - Dele – kopiere og videredistribuere materialet i ethvert medie og format.
+  - Bearbejde – remixe, ændre og bygge videre på materialet.
+
+På følgende betingelser:
+  - Kreditering – du skal angive ophavspersonen (sdjensen), give et link til
+    licensen og angive, om der er foretaget ændringer.
+  - IkkeKommerciel – du må ikke bruge materialet til kommercielle formål.
+
+Den fulde, juridisk gældende licenstekst findes her:
+https://creativecommons.org/licenses/by-nc/4.0/legalcode
+
+Billederne er skabt med hjælp fra en AI-billedgenerator (Google Gemini).
