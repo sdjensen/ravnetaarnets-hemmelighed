@@ -54,6 +54,31 @@ window.STORY = {
     },
   ],
 
+  // Præstationer, som huskes på tværs af gennemspilninger (se Opdagelser).
+  // Betingelser: afsnit (besøgt), ting (fået), procent (af alle afsnit),
+  // slutninger (antal fundet), doede (antal gange død).
+  praestationer: [
+    { id: "runesvaerd", titel: "Sværdet i stenen", tekst: "Trak Runesværdet ud af alteret i stencirklen.", ting: "Runesværd" },
+    { id: "pip", titel: "En kobold i gæld", tekst: "Lukkede kobolden Pip ud af buret.", ting: "Koboldens løfte" },
+    { id: "ilsa", titel: "Befrieren", tekst: "Satte Ilsa fri i tårnets kælder.", afsnit: 70 },
+    { id: "spejl", titel: "Spejl, spejl", tekst: "Lod Morvaks egen forbandelse ramme ham selv.", afsnit: 80 },
+    { id: "korvus", titel: "Ravnens navn", tekst: "Kaldte ravnen Korvus ved navn og fik den til at vende om.", afsnit: 94 },
+    { id: "tudse", titel: "Kvæk!", tekst: "Svarede forkert på heksens gåde.", afsnit: 109 },
+    { id: "dvaerg", titel: "Dværgeven", tekst: "Fik smedet dit sværd om i Jernbjerget.", ting: "Dværgestålsværd" },
+    { id: "ylva", titel: "Lysbringeren", tekst: "Satte prinsesse Ylva fri og så hende blive kronet.", afsnit: 149 },
+    { id: "havfrue", titel: "Reddet af havet", tekst: "Faldt over bord og blev reddet af havfruen Nerea.", afsnit: 163 },
+    { id: "havfolk", titel: "Havfolkets ven", tekst: "Befriede havfolket i den sunkne by.", afsnit: 189 },
+    { id: "skarre", titel: "Et ord er et ord", tekst: "Holdt din aftale med smugleren Skarre.", afsnit: 198 },
+    { id: "morga", titel: "Havets Hjerte", tekst: "Bragte Havets Hjerte tilbage fra Ulmar.", afsnit: 195 },
+    { id: "isvinge", titel: "Dragens ven", tekst: "Gav Isvinge sit æg tilbage.", afsnit: 238 },
+    { id: "dragedraeber", titel: "Den bitre sejr", tekst: "Dræbte den sidste drage.", afsnit: 240 },
+    { id: "saga", titel: "Hele sagaen", tekst: "Gennemførte alle fire kapitler.", nogenAfsnit: [249, 250] },
+    { id: "opdager", titel: "Opdagelsesrejsende", tekst: "Har set halvdelen af alle afsnit.", procent: 50 },
+    { id: "kortlaegger", titel: "Kortlægger", tekst: "Har set alle afsnit i eventyret.", procent: 100 },
+    { id: "slutninger5", titel: "Mange veje", tekst: "Har fundet 5 forskellige slutninger.", slutninger: 5 },
+    { id: "doed5", titel: "Ni liv? Ikke helt", tekst: "Er død 5 gange.", doede: 5 },
+  ],
+
   intro:
     "I landsbyen Vildmose er Månestenen, den gamle amulet som holder ulvene borte fra markerne, blevet stjålet. Sporene fører mod Ravnetårnet, hvor troldmanden Morvak bor.\n\n" +
     "Du er landsbyens sidste håb. Slå dine evner med terningerne, og begynd så din rejse.",
@@ -420,6 +445,7 @@ window.STORY = {
       stemning: "død",
       tekst: "Jo mere du kæmper, jo hurtigere synker du. Mudderet når dine skuldre, så din hage. Det sidste du ser, er de blå lys, der danser videre over vandet.",
       slut: "død",
+      slutnavn: "Sunket i sumpen",
     },
 
     63: {
@@ -634,6 +660,7 @@ window.STORY = {
       tekst:
         "Dit sværd hugger mod golemmens arm, men klingen knækker, som var den af glas. Kæmpen griber dig, og det sidste du hører, er ravnens hæse latter.",
       slut: "død",
+      slutnavn: "Golemmens greb",
     },
 
     85: {
@@ -711,6 +738,7 @@ window.STORY = {
         "Du rækker ham hånden. Morvak lærer dig meget, men det første han lærer dig er at glemme. Snart husker du hverken dit navn eller hvorfor du kom.\n\n" +
         "Den vinter kommer ulvene til Vildmose, og ingen helt kommer for at redde den.",
       slut: "død",
+      slutnavn: "Morvaks lærling",
     },
 
     99: {
@@ -753,6 +781,7 @@ window.STORY = {
         "Ravnetårnet står tomt bag dig, og Morvak kan aldrig mere gøre nogen ondt. Hele Vildmose møder dig ved landsbyens port med fakler og sang.\n\n" +
         "Den ældste hænger Månestenen tilbage på sin plads. Fra den dag fortælles historien om dig ved hver eneste ild i landet: helten, der ikke bare hentede amuletten hjem, men også gjorde en ende på troldmanden.",
       slut: "sejr",
+      slutnavn: "Den store sejr",
       fortsaet: { til: 101, tekst: "Fortsæt til kapitel 2: Skyggekongen" },
     },
 
@@ -762,6 +791,7 @@ window.STORY = {
         "Du løfter dit sværd, men Morvaks øjne springer op, før du når at hugge. Han hvisker et enkelt ord, og din krop bliver tung som sten.\n\n" +
         "Fra nu af står du som en statue i hans kammer, endnu et trofæ blandt mange.",
       slut: "død",
+      slutnavn: "En statue i kammeret",
     },
 
     77: {
@@ -826,6 +856,7 @@ window.STORY = {
         "Bag dig gjalder Morvaks raseri ud over landet, men du løber og løber, til tårnet kun er en lille sort plet i horisonten.\n\n" +
         "Ved fuldmåne vender du hjem til Vildmose. Den ældste hænger Månestenen tilbage på sin plads, og den nat holder ulvene sig ude i skoven.",
       slut: "sejr",
+      slutnavn: "Månestenen vender hjem",
       fortsaet: { til: 101, tekst: "Fortsæt til kapitel 2: Skyggekongen" },
     },
 
@@ -1288,6 +1319,7 @@ window.STORY = {
       tekst:
         "Du lander skævt, og før du når krystallen, har skyggerne fået fat i dig. De er kolde som vinternat, og de bliver ved med at trække. Det sidste du ser, er Månestenen, der glider ud af din hånd og forsvinder i mørket.",
       slut: "død",
+      slutnavn: "Opslugt af skyggerne",
     },
 
     145: {
@@ -1325,6 +1357,7 @@ window.STORY = {
         "Ylva bliver kronet i den genopbyggede tronsal, og du står ved hendes side. Bagefter rejser du hjem til Vildmose med en karavane af dværge, bønder og købmænd.\n\n" +
         "Den nat hænger Månestenen igen på sin pæl, og dens sølvlys når helt ud til Askeborg. Fra den dag hedder du ikke bare helten fra Vildmose. Du hedder Lysbringeren.",
       slut: "sejr",
+      slutnavn: "Lysbringeren",
       fortsaet: { til: 151, tekst: "Fortsæt til kapitel 3: Havets Sang" },
     },
 
@@ -1336,6 +1369,7 @@ window.STORY = {
         "Vildmose tager imod dig med fakler, lygter og sang. Den ældste hænger Månestenen tilbage på pælen, og den lyser så klart, at selv skyggerne under sengene forsvinder.\n\n" +
         "Den nat danser hele landsbyen under stenens lys. Skyggekongen er væk, og Vildmose har en helt, som har reddet den to gange.",
       slut: "sejr",
+      slutnavn: "Helten fra Vildmose",
       fortsaet: { til: 151, tekst: "Fortsæt til kapitel 3: Havets Sang" },
     },
 
@@ -1736,6 +1770,7 @@ window.STORY = {
         "Du rækker hende Månestenen. Morga smiler, og hendes smil er det sidste, du ser, før havet lukker sig om dig. Hun havde aldrig tænkt sig at give dig perlen.\n\n" +
         "Den nat bliver Månestenen sort i Vildmose, og ulvene kommer.",
       slut: "død",
+      slutnavn: "Havheksens handel",
     },
 
     196: {
@@ -1796,6 +1831,7 @@ window.STORY = {
       tekst:
         "Den nat sidder du på kajen og ser solen gå ned i havet. Hvaler blæser springvand i horisonten, og bølgerne synger mod molen. I Vildmose fortæller de nu historien om den helt, der reddede både månen og havet.",
       slut: "sejr",
+      slutnavn: "Havet synger igen",
       fortsaet: { til: 201, tekst: "Fortsæt til kapitel 4: Dragens Vinter" },
     },
 
@@ -2193,6 +2229,7 @@ window.STORY = {
         "Du løber gennem sneen, men dragens ånde rammer dig som en vinterstorm. Du bliver stående midt i et skridt, frosset til en statue af is.\n\n" +
         "Isvinge tager sit æg og flyver mod nord. Vinteren bliver i Norden i hundrede år.",
       slut: "død",
+      slutnavn: "Frosset til is",
     },
 
     239: {
@@ -2208,6 +2245,7 @@ window.STORY = {
         "Isvinge synker sammen i sneen. Hendes øjne finder ægget en sidste gang, og så lukker hun dem. Vinteren slutter, og foråret kommer til Norden.\n\n" +
         "Men da du går hjem med ægget i armene, føles sejren tom. Den sidste drage i verden er død, og det var ikke hende, der var skurken. I Vildmose fejrer de dig, men du ved, at du kunne have valgt anderledes.",
       slut: "sejr",
+      slutnavn: "Dragedræberen",
     },
 
     238: {
@@ -2255,6 +2293,7 @@ window.STORY = {
         "Du bliver i Vildmose. Den sommer er den varmeste i mands minde. Månestenen lyser over landsbyen, havet synger i Saltvig, og hvert forår flyver en hvid drage forbi og vifter med vingerne.\n\n" +
         "Om aftenen sidder børnene om dig ved ilden og vil høre om ravnetårnet, skyggekongen, havheksen og isdragen. Og du fortæller, for det er de bedste historier, du kender.",
       slut: "sejr",
+      slutnavn: "Hjemme i Vildmose",
     },
 
     250: {
@@ -2265,6 +2304,7 @@ window.STORY = {
         "År senere flyver to drager over Norden, en stor og en lille, og på den lilles ryg sidder en rytter med en lysende sten om halsen.\n\n" +
         "I Vildmose fortæller de stadig om helten, der begyndte som en ganske almindelig landsbyboer og endte som dragernes ven. Og eventyret? Det er aldrig rigtigt slut.",
       slut: "sejr",
+      slutnavn: "Dragernes ven",
     },
   },
 };

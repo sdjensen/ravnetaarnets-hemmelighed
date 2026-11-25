@@ -297,6 +297,76 @@ button {
 .kamplog li:first-child { animation: ny 0.35s ease-out; }
 @keyframes ny { from { opacity: 0; transform: translateY(-6px); } }
 
+/* ---------- Opdagelser ---------- */
+.opd-link { text-align: center; margin: -18px 0 24px; }
+.opd-link .lille { width: auto; padding: 6px 16px; margin: 0; }
+.ark #opdagelser { margin-top: 20px; }
+.ark #opdagelser + #forfra { margin-top: 8px; }
+
+dialog.opdagelser {
+  width: min(640px, calc(100vw - 32px));
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: none;
+  border-radius: 6px;
+  padding: 28px clamp(18px, 5vw, 40px) 24px;
+  background: radial-gradient(ellipse at center, var(--pergament) 55%, var(--pergament-mork) 100%);
+  color: var(--blaek);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .7), inset 0 0 60px var(--skygge);
+}
+dialog.opdagelser::backdrop { background: rgba(15, 10, 5, .7); }
+dialog.opdagelser h2 { text-align: center; margin-bottom: 12px; }
+dialog.opdagelser h3 { font-size: 1.05rem; margin: 24px 0 10px; border-bottom: 1px solid var(--blaek-svag); padding-bottom: 4px; }
+dialog.opdagelser .luk {
+  position: absolute; top: 10px; right: 12px;
+  background: none; border: none; font-size: 1.3rem; color: var(--blaek-svag);
+}
+dialog.opdagelser .luk:hover { color: var(--rod); }
+.samlet { text-align: center; margin: 0 0 6px; font-weight: 600; }
+.bar { height: 10px; background: rgba(107, 85, 54, .2); border-radius: 999px; overflow: hidden; margin-bottom: 12px; }
+.bar .fyld { height: 100%; background: linear-gradient(90deg, var(--guld), var(--rod)); border-radius: 999px; }
+.kaprad .kaptitel { display: flex; justify-content: space-between; font-size: .95rem; margin-bottom: 3px; }
+.kaprad .bar { height: 6px; margin-bottom: 10px; }
+
+.slutliste { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 6px 14px; }
+.slutliste li { font-size: 1rem; display: flex; gap: 8px; align-items: baseline; }
+.slutliste .ikon { font-family: "Cinzel", serif; width: 1.1em; text-align: center; }
+.slutliste .sejr .ikon { color: var(--guld); }
+.slutliste .doed .ikon { color: var(--rod); }
+.slutliste .skjult { color: var(--blaek-svag); opacity: .6; }
+
+.praestliste { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.praestliste li { display: flex; gap: 10px; align-items: flex-start; padding: 8px 10px; border-radius: 4px; border: 1px solid rgba(107, 85, 54, .3); }
+.praestliste li div { display: grid; }
+.praestliste li strong { font-family: "Cinzel", serif; font-size: .95rem; }
+.praestliste li span:not(.ikon) { font-size: .95rem; }
+.praestliste .har { background: rgba(168, 123, 31, .12); border-color: var(--guld); }
+.praestliste .mangler { opacity: .55; }
+.praestliste .mangler span:not(.ikon) { font-style: italic; }
+.praestliste .ikon { font-size: 1.3rem; line-height: 1.2; }
+.doede { text-align: center; font-style: italic; color: var(--blaek-svag); margin: 20px 0 8px; }
+
+/* Små beskeder ved nye slutninger og præstationer */
+#toasts {
+  position: fixed; left: 16px; bottom: 16px; z-index: 50;
+  display: grid; gap: 8px; max-width: min(320px, calc(100vw - 96px));
+}
+.toast {
+  background: var(--pergament);
+  border: 1px solid var(--guld);
+  border-left: 5px solid var(--guld);
+  border-radius: 4px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .5);
+  display: grid;
+  animation: toastind .35s ease-out;
+  transition: opacity .6s, transform .6s;
+}
+.toast strong { font-family: "Cinzel", serif; font-size: .85rem; color: var(--rod); }
+.toast span { font-size: 1rem; }
+.toast.vaek { opacity: 0; transform: translateY(10px); }
+@keyframes toastind { from { opacity: 0; transform: translateY(12px); } }
+
 /* ---------- Kapitelvalg på forsiden ---------- */
 .kapitelvalg {
   margin-top: 28px;

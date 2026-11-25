@@ -46,6 +46,141 @@
     try { localStorage.removeItem(GEMNOEGLE); } catch (e) { /* ignorer */ }
   }
 
+  // ---------- Opdagelser (huskes på tværs af gennemspilninger) ----------
+  //  Hvilke afsnit, slutninger og ting du nogensinde har fundet, hvor mange
+  //  gange du er død, og hvilke præstationer du har låst op. Gemmes for sig,
+  //  så de overlever "Start forfra" og nye eventyr.
+  const OPDNOEGLE = "eventyr-opdagelser:" + STORY.titel;
+  const ALLE_AFSNIT = Object.keys(STORY.afsnit).map(Number).sort((x, y) => x - y);
+  const SLUTNINGER = [
+    ...ALLE_AFSNIT.filter((n) => STORY.afsnit[n].slut).map((n) => ({
+      id: String(n), navn: STORY.afsnit[n].slutnavn || `Slutning ${n}`, sejr: STORY.afsnit[n].slut === "sejr",
+    })),
+    { id: "udmattet", navn: "Kræfterne slap op", sejr: false },
+  ];
+  const opd = hentOpd();
+
+  function hentOpd() {
+    const tom = { afsnit: new Set(), slutninger: new Set(), ting: new Set(), praestationer: new Set(), doede: 0 };
+    try {
+      const d = JSON.parse(localStorage.getItem(OPDNOEGLE));
+      if (d) {
+        return {
+          afsnit: new Set((d.afsnit || []).map(Number)), slutninger: new Set(d.slutninger || []),
+          ting: new Set(d.ting || []), praestationer: new Set(d.praestationer || []), doede: d.doede || 0,
+        };
+      }
+    } catch (e) { /* ugyldigt eller utilgængeligt */ }
+    return tom;
+  }
+
+  function gemOpd() {
+    try {
+      localStorage.setItem(OPDNOEGLE, JSON.stringify({
+        afsnit: [...opd.afsnit], slutninger: [...opd.slutninger], ting: [...opd.ting],
+        praestationer: [...opd.praestationer], doede: opd.doede,
+      }));
+    } catch (e) { /* ignorer */ }
+  }
+
+  function opfyldt(p) {
+    if (p.afsnit != null) return opd.afsnit.has(p.afsnit);
+    if (p.nogenAfsnit) return p.nogenAfsnit.some((n) => opd.afsnit.has(n));
+    if (p.ting) return opd.ting.has(p.ting);
+    if (p.procent != null) return (opd.afsnit.size * 100) / ALLE_AFSNIT.length >= p.procent;
+    if (p.slutninger != null) return opd.slutninger.size >= p.slutninger;
+    if (p.doede != null) return opd.doede >= p.doede;
+    return false;
+  }
+
+  // Registrér noget nyt og vis en lille besked ved nye slutninger og præstationer
+  function noter({ afsnit, slut, ting, doed } = {}) {
+    if (afsnit != null) opd.afsnit.add(Number(afsnit));
+    if (ting) opd.ting.add(ting);
+    if (doed) opd.doede++;
+    if (slut != null && !opd.slutninger.has(String(slut))) {
+      opd.slutninger.add(String(slut));
+      const s = SLUTNINGER.find((x) => x.id === String(slut));
+      if (s) toast(s.sejr ? "✦ Ny slutning" : "☠ Ny slutning", s.navn);
+    }
+    for (const p of STORY.praestationer || []) {
+      if (!opd.praestationer.has(p.id) && opfyldt(p)) {
+        opd.praestationer.add(p.id);
+        toast("🏆 Præstation", p.titel);
+        Lyd.spil("held");
+      }
+    }
+    gemOpd();
+  }
+
+  function toast(overskrift, tekst) {
+    let holder = document.getElementById("toasts");
+    if (!holder) {
+      holder = el("div", { id: "toasts", "aria-live": "polite" });
+      document.body.append(holder);
+    }
+    const t = el("div", { class: "toast" }, el("strong", {}, overskrift), el("span", {}, tekst));
+    holder.append(t);
+    setTimeout(() => t.classList.add("vaek"), 4200);
+    setTimeout(() => t.remove(), 5000);
+  }
+
+  function visOpdagelser() {
+    const set = opd.afsnit.size;
+    const pct = (n, i) => (i ? Math.round((n * 100) / i) : 0);
+    const bar = (n, i) => el("div", { class: "bar" }, el("div", { class: "fyld", style: `width:${pct(n, i)}%` }));
+
+    const kapitler = [...(STORY.kapitler || [{ titel: STORY.titel, start: STORY.start }])].sort((a, b) => a.start - b.start);
+    const kapRaekker = kapitler.map((k, i) => {
+      const slut = kapitler[i + 1] ? kapitler[i + 1].start : Infinity;
+      const ids = ALLE_AFSNIT.filter((n) => n >= k.start && n < slut);
+      const sete = ids.filter((n) => opd.afsnit.has(n)).length;
+      return el("div", { class: "kaprad" },
+        el("div", { class: "kaptitel" }, el("span", {}, k.titel), el("span", {}, `${sete} / ${ids.length}`)), bar(sete, ids.length));
+    });
+
+    const slutListe = el("ul", { class: "slutliste" }, ...SLUTNINGER.map((s) => {
+      const fundet = opd.slutninger.has(s.id);
+      return el("li", { class: fundet ? (s.sejr ? "sejr" : "doed") : "skjult" },
+        el("span", { class: "ikon" }, fundet ? (s.sejr ? "✦" : "☠") : "?"), fundet ? s.navn : "???");
+    }));
+
+    const praest = STORY.praestationer || [];
+    const praestListe = el("ul", { class: "praestliste" }, ...praest.map((p) => {
+      const har = opd.praestationer.has(p.id);
+      return el("li", { class: har ? "har" : "mangler" },
+        el("span", { class: "ikon" }, har ? "🏆" : "🔒"),
+        el("div", {}, el("strong", {}, p.titel), el("span", {}, p.tekst)));
+    }));
+
+    const dlg = el("dialog", { class: "opdagelser" },
+      el("button", { class: "luk", type: "button", "aria-label": "Luk", onclick: () => dlg.close() }, "✕"),
+      el("h2", {}, "📜 Opdagelser"),
+      el("p", { class: "samlet" }, `Du har set ${set} af ${ALLE_AFSNIT.length} afsnit (${pct(set, ALLE_AFSNIT.length)} %)`),
+      bar(set, ALLE_AFSNIT.length),
+      ...kapRaekker,
+      el("h3", {}, `Slutninger · ${opd.slutninger.size} af ${SLUTNINGER.length}`),
+      slutListe,
+      el("h3", {}, `Præstationer · ${opd.praestationer.size} af ${praest.length}`),
+      praestListe,
+      el("p", { class: "doede" }, opd.doede ? `Du er død ${opd.doede} ${opd.doede === 1 ? "gang" : "gange"} indtil videre.` : "Du er ikke død endnu. Godt gået!"),
+      el("button", {
+        class: "lille", type: "button",
+        onclick: () => {
+          if (!confirm("Vil du nulstille alle opdagelser og præstationer? Det kan ikke fortrydes.")) return;
+          for (const k of ["afsnit", "slutninger", "ting", "praestationer"]) opd[k].clear();
+          opd.doede = 0;
+          gemOpd();
+          dlg.close();
+        },
+      }, "Nulstil opdagelser")
+    );
+    dlg.addEventListener("close", () => dlg.remove());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    document.body.append(dlg);
+    dlg.showModal();
+  }
+
   // ---------- Hjælpere ----------
   const d6 = () => 1 + Math.floor(Math.random() * 6);
 
@@ -217,6 +352,9 @@
     fyld(bog,
       el("h1", {}, STORY.titel),
       el("p", { class: "undertitel" }, STORY.undertitel || ""),
+      el("p", { class: "opd-link" },
+        el("button", { class: "lille", type: "button", onclick: visOpdagelser },
+          `📜 Opdagelser · ${opd.praestationer.size} af ${(STORY.praestationer || []).length} præstationer`)),
       illustration(STORY.forsidebillede),
       fortsaet,
       afsnitTekst(STORY.intro),
@@ -302,6 +440,7 @@
       if (!spiller.inventar.includes(ting)) {
         spiller.inventar.push(ting);
         log.push({ klasse: "ting", tekst: `+ ${ting}` });
+        opd.ting.add(ting);
       }
     }
     for (const ting of [].concat(eff.tag || [])) {
@@ -360,6 +499,7 @@
     kampVundet = vundet;
     gem();
     opdaterArk();
+    if (!fraGem) noter({ afsnit: id });
 
     const doed = spiller.udholdenhed <= 0 || a.slut === "død";
     nySide(a.slut === "sejr" ? "slut-sejr" : doed ? "slut-dod" : "");
@@ -378,7 +518,10 @@
     }
 
     if (doed || a.slut) {
-      visSlut(a.slut === "sejr" && !doed, doed && a.slut !== "død", doed ? null : a.fortsaet);
+      const sejr = a.slut === "sejr" && !doed;
+      const udmattet = doed && a.slut !== "død";
+      if (!fraGem) noter({ slut: udmattet ? "udmattet" : id, doed: !sejr });
+      visSlut(sejr, udmattet, doed ? null : a.fortsaet);
       return;
     }
 
@@ -452,6 +595,7 @@
     function tjekSlut() {
       if (spiller.udholdenhed <= 0) {
         tegn(false);
+        noter({ slut: "udmattet", doed: true });
         visSlut(false, true);
         return true;
       }
@@ -521,6 +665,7 @@
       if (spiller.udholdenhed <= 0) {
         log.unshift({ k: "ramt", t: "Du får et hug i ryggen, da du vender dig for at flygte." });
         tegn(false);
+        noter({ slut: "udmattet", doed: true });
         visSlut(false, true);
         return;
       }
@@ -610,6 +755,8 @@
     );
   }
 
+  document.getElementById("opdagelser").addEventListener("click", visOpdagelser);
+
   document.getElementById("forfra").addEventListener("click", () => {
     if (confirm("Vil du starte forfra? Dit nuværende eventyr går tabt.")) {
       sletGemt();
@@ -646,6 +793,11 @@
       if (a.fortsaet) koe.push(a.fortsaet.til);
     }
     for (const id of ids) if (!naaet.has(id)) fejl.push(`Afsnit ${id} kan ikke nås`);
+    for (const p of STORY.praestationer || []) {
+      for (const n of [].concat(p.afsnit ?? [], p.nogenAfsnit ?? [])) {
+        if (!ids.has(n)) fejl.push(`Præstationen "${p.titel}" peger på afsnit ${n}, som ikke findes`);
+      }
+    }
     return fejl.length ? fejl : "Alt ser fint ud ✔";
   };
 })();
