@@ -478,9 +478,31 @@ window.STORY = {
       billedtekst: "Troldmandens værksted",
       tekst:
         "Du svinger dig over vindueskarmen og lander i et værksted fuldt af bobler og damp. Glaskolber syder over små blå flammer, og på en hylde står en rød eliksir med en mærkat: KÆMPESTYRKE.\n\n" +
-        "I et fuglebur i hjørnet sidder en lille grøn nisse med horn og hale. \"Pst! Du der!\" hvisker den. \"Luk mig ud, så skylder jeg dig en tjeneste. En nisse holder altid sit ord!\"",
+        "I et fuglebur under loftet sidder en lille grøn kobold med horn, spidse ører og en lang hale. Den ser på dig med store, gyldne øjne. \"Pst! Du der!\" hvisker den. \"Luk mig ud, så skylder jeg dig en tjeneste. En kobold holder altid sit ord!\"",
+      varianter: [
+        {
+          kraever: ["Koboldens løfte", "Tom eliksirflaske"],
+          billede: null,
+          tekst:
+            "Værkstedet bobler og syder som før, og de små blå flammer flakker under glaskolberne. Fugleburet under loftet står åbent og tomt, og på hylden står kun den tomme flaske, hvor den røde eliksir var.\n\n" +
+            "Her er ikke mere at hente.",
+        },
+        {
+          kraever: "Koboldens løfte",
+          billede: null,
+          tekst:
+            "Værkstedet bobler og syder som før, og de små blå flammer flakker under glaskolberne. Fugleburet under loftet står åbent og tomt. Pip er væk, men du synes stadig, du kan lugte en svag duft af grøn røg.\n\n" +
+            "På hylden står den røde eliksir med mærkaten KÆMPESTYRKE.",
+        },
+        {
+          kraever: "Tom eliksirflaske",
+          tekst:
+            "Værkstedet bobler og syder som før. Den røde eliksir er drukket, og den tomme flaske står tilbage på hylden.\n\n" +
+            "Kobolden i fugleburet trykker ansigtet mod tremmerne. \"Pst! Nu har du fået din styrke,\" hvisker den. \"Luk mig nu ud! En kobold holder altid sit ord!\"",
+        },
+      ],
       valg: [
-        { tekst: "Åbn nissens bur", til: 48, mangler: "Nissens løfte" },
+        { tekst: "Åbn koboldens bur", til: 48, mangler: "Koboldens løfte" },
         { tekst: "Drik den røde eliksir", til: 49, mangler: "Tom eliksirflaske" },
         { tekst: "Gå ud ad døren til trappen", til: 53 },
       ],
@@ -489,9 +511,9 @@ window.STORY = {
     48: {
       stemning: "taarn",
       tekst:
-        "Nissen springer ud af buret og laver en kolbøtte i luften. \"Fri! Fri!\" Så bukker den dybt for dig.\n\n" +
-        "\"Når du har brug for mig, så kald på Pip. Én gang, og kun én gang.\" Med et lille knald forsvinder den i en sky af grøn røg.",
-      effekter: { giv: "Nissens løfte" },
+        "Kobolden springer ud af buret, svinger sig i halen fra en kæde og laver en kolbøtte i luften. \"Fri! Fri!\" Så bukker den dybt for dig.\n\n" +
+        "\"Jeg hedder Pip. Når du har brug for mig, så kald på mig. Én gang, og kun én gang.\" Med et lille knald forsvinder den i en sky af grøn røg.",
+      effekter: { giv: "Koboldens løfte" },
       valg: [{ tekst: "Se dig om i værkstedet igen", til: 46 }],
     },
 
@@ -637,7 +659,7 @@ window.STORY = {
       valg: [
         { tekst: "Hold sølvspejlet op foran troldmandens ansigt", til: 80, kraever: "Sølvspejl" },
         { tekst: "Angrib troldmanden med runesværdet", til: 84, kraever: "Runesværd" },
-        { tekst: "Kald på nissen Pip", til: 54, kraever: "Nissens løfte" },
+        { tekst: "Kald på kobolden Pip", til: 54, kraever: "Koboldens løfte" },
         { tekst: "Snig dig hen og tag amuletten", til: 77 },
         { tekst: "Væk troldmanden og forhandl med ham", til: 95 },
         { tekst: "Angrib troldmanden, mens han sover", til: 90, mangler: "Runesværd" },
@@ -647,9 +669,9 @@ window.STORY = {
     54: {
       stemning: "kammer",
       tekst:
-        "\"Pip!\" hvisker du. Med et lille knald sidder nissen på din skulder. Den ser på den sovende troldmand og griner over hele ansigtet.\n\n" +
+        "\"Pip!\" hvisker du. Med et lille knald sidder kobolden på din skulder. Den ser på den sovende troldmand og griner over hele ansigtet.\n\n" +
         "Pip lister hen over bordet, snupper Månestenen og binder i samme bevægelse Morvaks skæg fast til stolen. \"Så er vi kvit!\" fniser den, kaster amuletten til dig og forsvinder for altid.",
-      effekter: { giv: "Månestenen", tag: "Nissens løfte" },
+      effekter: { giv: "Månestenen", tag: "Koboldens løfte" },
       valg: [{ tekst: "Skynd dig ned ad trappen", til: 92 }],
     },
 
@@ -852,7 +874,7 @@ window.STORY = {
       tekst:
         "Grimhild klatrer ned ad stigen med overraskende fart. \"Så den gamle kælling lever endnu,\" griner hun. \"Godt. Så skal du få hjælp.\"\n\n" +
         "Hun smører en salve på dine skrammer og stikker dig en lille pung. \"Sølvpulver. Kast det mod skyggerne, så brænder de som papir. Men der er kun til én gang.\"",
-      effekter: { udholdenhed: 6, giv: "Sølvpulver" },
+      effekter: { tag: "Konens hilsen", udholdenhed: 6, giv: "Sølvpulver" },
       valg: [
         { tekst: "Drik af gryden, som Grimhild byder dig", til: 107 },
         { tekst: "Tag afsked og gå mod Jernbjerget", til: 110 },
@@ -955,7 +977,7 @@ window.STORY = {
     115: {
       stemning: "bjerg",
       tekst:
-        "Fakkellyset jager de gule øjne på flugt. Det var bare grottenisser, og de hader ild. På væggen hænger en gammel stentavle med en indgraveret rune. Under den står der med dværgeskrift: Til venner af Jernbjerget.\n\n" +
+        "Fakkellyset jager de gule øjne på flugt. Det var bare grottekobolder, og de hader ild. På væggen hænger en gammel stentavle med en indgraveret rune. Under den står der med dværgeskrift: Til venner af Jernbjerget.\n\n" +
         "Du tager tavlen med dig. Gangen fører opad og ud i lyset tæt ved en kæmpe port.",
       effekter: { giv: "Dværgerune" },
       valg: [{ tekst: "Gå hen til porten", til: 116 }],
@@ -963,10 +985,10 @@ window.STORY = {
 
     117: {
       stemning: "fare",
-      tekst: "I mørket kommer de krybende: en flok grottenisser med rustne knive og gule øjne. De fniser, mens de omringer dig.",
+      tekst: "I mørket kommer de krybende: en flok grottekobolder med rustne knive og gule øjne. De fniser, mens de omringer dig.",
       kamp: [
-        { navn: "Grottenisse", evne: 5, udholdenhed: 4 },
-        { navn: "Grottenissernes høvding", evne: 7, udholdenhed: 6 },
+        { navn: "Grottekobold", evne: 5, udholdenhed: 4 },
+        { navn: "Grottekoboldernes høvding", evne: 7, udholdenhed: 6 },
       ],
       valg: [{ tekst: "Følg gangen ud i lyset", til: 116 }],
     },
@@ -999,7 +1021,7 @@ window.STORY = {
         "Dybt inde i bjerget brænder dværgenes esse. Den gamle smed Thrain vejer Månestenen i sin hånd og ryster på hovedet. \"Den er bundet til Vardraks krystal. Jeg kan ikke rense den, så længe krystallen lever.\"\n\n" +
         "Men han tager dit sværd og lægger det i ilden. I en time hamrer han, mens gnisterne flyver. Da han giver det tilbage, er klingen blå som is og skarp som et ord.\n\n" +
         "\"Brokk viser dig vores gamle tunnel,\" siger Thrain. \"Den ender lige under Vardraks borg.\"",
-      effekter: { loeft: { evne: 2 }, udholdenhed: 4, giv: "Dværgestålsværd" },
+      effekter: { tag: "Dværgerune", loeft: { evne: 2 }, udholdenhed: 4, giv: "Dværgestålsværd" },
       valg: [{ tekst: "Følg Brokk ind i tunnelen", til: 140 }],
     },
 
@@ -1170,9 +1192,10 @@ window.STORY = {
     134: {
       stemning: "skygge",
       tekst:
-        "Sidedøren fører ind i et fangehul. Bag tremmerne sidder en snes fanger: bønder, købmænd og et par dværge. De ser på dig med store øjne. \"Hjælp os,\" hvisker en af dem. \"Så hjælper vi dig.\"",
+        "Den rustne nøgle passer, men den knækker i låsen, da du drejer den. Døren går dog op, og bagved ligger et fangehul. Bag tremmerne sidder en snes fanger: bønder, købmænd og et par dværge. De ser på dig med store øjne. \"Hjælp os,\" hvisker en af dem. \"Så hjælper vi dig.\"",
+      effekter: { tag: "Rusten nøgle" },
       valg: [
-        { tekst: "Lås cellerne op med den rustne nøgle", til: 135 },
+        { tekst: "Tag fangevogterens nøgleknippe fra krogen og lås cellerne op", til: 135 },
         { tekst: "Skynd dig videre mod tronsalen", til: 136 },
       ],
     },
@@ -1180,7 +1203,7 @@ window.STORY = {
     135: {
       stemning: "skygge",
       tekst:
-        "Nøglen passer i alle låse. Fangerne griber kæppe, kæder og hvad de ellers kan finde. \"Når du giver tegn,\" siger den største dværg, \"så stormer vi ind og holder hans skygger beskæftiget.\"",
+        "Fangevogterens nøgler passer i alle låse. Fangerne griber kæppe, kæder og hvad de ellers kan finde. \"Når du giver tegn,\" siger den største dværg, \"så stormer vi ind og holder hans skygger beskæftiget.\"",
       effekter: { giv: "Fangernes hjælp", held: 1 },
       valg: [{ tekst: "Gå op mod tronsalen", til: 136 }],
     },
@@ -1206,6 +1229,7 @@ window.STORY = {
       stemning: "fare",
       tekst:
         "Salen bliver fyldt med larm og lys. Skyggerne har travlt, og for et øjeblik står Vardrak alene uden sine tjenere. Han rejser sig fra tronen og trækker et sværd af mørke.",
+      effekter: { tag: ["Sølvpulver", "Fangernes hjælp"] },
       kamp: { navn: "Vardrak (svækket)", evne: 8, udholdenhed: 9 },
       valg: [{ tekst: "Knus krystallen", til: 145 }],
     },
@@ -1270,6 +1294,7 @@ window.STORY = {
       tekst:
         "\"Ylva!\" råber du. Hun kommer gående gennem en væg, og denne gang er hun ikke gennemsigtig. Krystallen holdt hende fanget. Nu er hun fri.\n\n" +
         "Hele Askeborgs folk kommer frem fra ruinerne: dem, der overlevede, og dem, der blev fanget som skygger. De falder på knæ for deres prinsesse. Hun tager din hånd. \"Askeborg skal genopbygges,\" siger hun, \"og du skal altid være velkommen her.\"",
+      effekter: { tag: "Ylvas løfte" },
       valg: [{ tekst: "Bliv til kroningsfesten", til: 149 }],
     },
 
@@ -1452,6 +1477,7 @@ window.STORY = {
       stemning: "hav",
       tekst:
         "Du river roret til dig og styrer uden om de sorte klipper. Sangen bliver svagere og svagere bag jer, og sømændene ryster på hovedet som efter en lang søvn. Foran jer ligger åbent hav.",
+      effekter: { tag: "Bivoks" },
       valg: [{ tekst: "Sejl videre", til: 169 }],
     },
 
@@ -1573,7 +1599,7 @@ window.STORY = {
       stemning: "hav",
       tekst:
         "Fløjtens tone er så lys, at du næsten ikke kan høre den. Men et øjeblik efter bryder en gammel, ar-dækket hval vandoverfladen. Den puster en kæmpe sølvskinnende luftboble omkring dig og bærer dig blidt ned i dybet.",
-      effekter: { held: 1 },
+      effekter: { tag: "Hvalbensfløjte", held: 1 },
       valg: [{ tekst: "Lad hvalen bære dig ned", til: 183 }],
     },
 
@@ -1659,6 +1685,7 @@ window.STORY = {
     192: {
       stemning: "hav",
       tekst: "Havfolket strømmer frem fra alle sider med spyd og net. Blæksprutten sprøjter sort blæk og forsvinder i et virvar af arme. Vejen er fri.",
+      effekter: { tag: "Havfolkets løfte" },
       valg: [{ tekst: "Svøm ind i slottet", til: 191 }],
     },
 
@@ -1731,7 +1758,7 @@ window.STORY = {
       stemning: "hav",
       tekst:
         "\"Aftale er aftale,\" siger Skarre og ser på din pung. Du holder dit ord og deler guldet med ham. Han tæller det, griner og slår dig på skulderen. \"Du er den første ærlige person, jeg har sejlet med. Det må jeg vænne mig til.\"",
-      effekter: { guld: -5 },
+      effekter: { tag: "Skarres aftale", guld: -5 },
       valg: [{ tekst: "Sejl hjem mod Saltvig", til: 199 }],
     },
 
@@ -1739,6 +1766,7 @@ window.STORY = {
       stemning: "landsby",
       tekst:
         "Da I sejler ind i Saltvig, står hele byen på kajen. Havets Hjerte bliver sat på sin plads i den gamle havkirke, og samme aften er garnene fulde af sild. Bram finder sin søn, som havde siddet fanget i Ulmar sammen med havfolket.",
+      effekter: { tag: "Havets Hjerte" },
       valg: [{ tekst: "Fejr sejren", til: 200 }],
     },
 
@@ -2168,6 +2196,7 @@ window.STORY = {
       tekst:
         "Isvinge bøjer sit enorme hoved og lægger snuden mod ægget. En dyb, blid lyd vibrerer i hendes bryst. Så ser hun på dig, og vreden i hendes øjne smelter som is i forårssol.\n\n" +
         "Omkring jer begynder sneen at tø. Det drypper fra istapperne, og i dalen bryder de første grønne strå frem gennem sneen. Isvinge sænker sin vinge mod jorden som en trappe.",
+      effekter: { tag: ["Dragens æg", "Uglefjer"] },
       valg: [{ tekst: "Klatr op på dragens ryg", til: 244 }],
     },
 

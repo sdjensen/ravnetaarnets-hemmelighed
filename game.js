@@ -32,7 +32,12 @@
   function hentGemt() {
     try {
       const data = JSON.parse(localStorage.getItem(GEMNOEGLE));
-      if (data && data.version === 1 && data.spiller && STORY.afsnit[data.afsnit]) return data;
+      if (data && data.version === 1 && data.spiller && STORY.afsnit[data.afsnit]) {
+        // ting, der har skiftet navn siden spillet blev gemt
+        const NYE_NAVNE = { "Nissens løfte": "Koboldens løfte" };
+        data.spiller.inventar = (data.spiller.inventar || []).map((t) => NYE_NAVNE[t] || t);
+        return data;
+      }
     } catch (e) { /* ugyldigt eller utilgængeligt */ }
     return null;
   }
@@ -286,6 +291,20 @@
   }
 
   // ---------- Valg ----------
+  // Tekstvarianter: { kraever?: "ting" | ["ting", ...], mangler?: ..., tekst, billede?, billedtekst? }
+  //  Den første variant, hvis betingelser passer med oppakningen, erstatter
+  //  afsnittets tekst – fx når en fange allerede er sluppet fri. Varianten kan
+  //  også skifte billedet ud (eller skjule det med billede: null).
+  function harAlle(liste) {
+    return [].concat(liste || []).every((t) => spiller.inventar.includes(t));
+  }
+  function harIngen(liste) {
+    return [].concat(liste || []).every((t) => !spiller.inventar.includes(t));
+  }
+  function valgtVariant(a) {
+    return (a.varianter || []).find((x) => harAlle(x.kraever) && harIngen(x.mangler)) || null;
+  }
+
   function kanVaelge(v) {
     if (v.kraever && !spiller.inventar.includes(v.kraever)) return { synlig: false };
     if (v.mangler && spiller.inventar.includes(v.mangler)) return { synlig: false };
@@ -315,7 +334,12 @@
     if (a.stemning !== undefined) saetStemning(a.stemning);
     if (!fraGem) Lyd.spil("side");
 
-    fyld(bog, a.kapitel ? el("h2", { class: "kapitel" }, a.kapitel) : null, el("span", { class: "nummer" }, String(id)), illustration(a.billede, a.billedtekst), afsnitTekst(a.tekst));
+    fyld(bog, a.kapitel ? el("h2", { class: "kapitel" }, a.kapitel) : null, el("span", { class: "nummer" }, String(id)), ...(() => {
+      const v = valgtVariant(a);
+      const billede = v && "billede" in v ? v.billede : a.billede;
+      const billedtekst = v && "billedtekst" in v ? v.billedtekst : a.billedtekst;
+      return [illustration(billede, billedtekst), afsnitTekst(v ? v.tekst : a.tekst)];
+    })());
 
     if (log.length) {
       bog.append(el("ul", { class: "effekter" }, ...log.map((l) => el("li", { class: l.klasse }, l.tekst))));
