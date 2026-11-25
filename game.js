@@ -37,6 +37,7 @@
         const NYE_NAVNE = { "Nissens løfte": "Koboldens løfte" };
         data.spiller.inventar = (data.spiller.inventar || []).map((t) => NYE_NAVNE[t] || t);
         data.spiller.foelge = data.spiller.foelge || [];
+        data.spiller.minder = data.spiller.minder || [];
         // gemt før Karisma fandtes: giv en middel-værdi
         if (data.spiller.karisma == null) {
           data.spiller.karisma = 9;
@@ -129,6 +130,128 @@
     holder.append(t);
     setTimeout(() => t.classList.add("vaek"), 4200);
     setTimeout(() => t.remove(), 5000);
+  }
+
+  // ---------- Kortet ----------
+  //  Tegnes ud fra STORY.kort. Et sted bliver synligt, når man har besøgt et af
+  //  dets afsnit (i et hvilket som helst spil). Resten ligger i tåge.
+  function stedFor(afsnit) {
+    return (STORY.kort?.steder || []).find((x) => x.afsnit.includes(Number(afsnit))) || null;
+  }
+
+  function visKort() {
+    const K = STORY.kort;
+    if (!K) return;
+    const B = K.bredde, H = K.hoejde;
+    let frø = 11;
+    const rnd = () => (frø = (frø * 16807) % 2147483647) / 2147483647;
+    const sti = (pts) => "M" + pts.map(([x, y]) => `${x} ${y}`).join(" L") + "Z";
+    const glat = (pts) => {
+      let d = `M${pts[0][0]} ${pts[0][1]}`;
+      for (let i = 1; i < pts.length; i++) {
+        const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
+        d += ` Q${x0} ${y0} ${(x0 + x1) / 2} ${(y0 + y1) / 2}`;
+      }
+      const [xs, ys] = pts[pts.length - 1];
+      return d + ` T${xs} ${ys}`;
+    };
+    const inde = (pts, x, y) => {
+      let ind = false;
+      for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) {
+        const [xi, yi] = pts[i], [xj, yj] = pts[j];
+        if ((yi > y) !== (yj > y) && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) ind = !ind;
+      }
+      return ind;
+    };
+
+    // landskab
+    let ter = "";
+    for (const t of K.terraen) {
+      if (t.type === "sne") ter += `<path d="${sti(t.punkter)}" fill="#eef3f6" stroke="#9fb3c2" stroke-width="2"/>`;
+      if (t.type === "hav") {
+        ter += `<path d="${sti(t.punkter)}" fill="#a9c4d4" stroke="#5f7f94" stroke-width="2.5"/>`;
+        let boelger = "";
+        for (let i = 0; i < 160 && boelger.length < 2600; i++) {
+          const x = rnd() * B, y = rnd() * H;
+          if (inde(t.punkter, x, y) && inde(t.punkter, x + 16, y)) boelger += `M${x.toFixed(0)} ${y.toFixed(0)} q4 -4 8 0 t8 0 `;
+        }
+        ter += `<path d="${boelger}" stroke="#5f7f94" stroke-width="1.4" fill="none" opacity=".7"/>`;
+      }
+      if (t.type === "oe") ter += `<circle cx="${t.x}" cy="${t.y}" r="${t.r}" fill="#c9c08f" stroke="#6b5536" stroke-width="2"/>`;
+      if (t.type === "flod") ter += `<path d="${glat(t.punkter)}" fill="none" stroke="#7fa3bb" stroke-width="7" stroke-linecap="round"/><path d="${glat(t.punkter)}" fill="none" stroke="#5f7f94" stroke-width="1.2" stroke-linecap="round"/>`;
+      if (t.type === "sump") ter += `<ellipse cx="${t.x}" cy="${t.y}" rx="${t.r}" ry="${t.r * 0.6}" fill="#7d8f6a" opacity=".6"/>`;
+      if (t.type === "bjerge") {
+        for (let i = 0; i < t.antal; i++) {
+          const x = t.x - t.b / 2 + (t.b * (i + 0.5)) / t.antal + (rnd() - 0.5) * 18;
+          const y = t.y + (rnd() - 0.5) * 30;
+          const h = 26 + rnd() * 22, w = h * 0.9;
+          ter += `<path d="M${x - w / 2} ${y + h / 2} L${x} ${y - h / 2} L${x + w / 2} ${y + h / 2}Z" fill="${t.sne ? "#dfe6ea" : "#a8987e"}" stroke="#4a3a2a" stroke-width="1.8"/>`;
+          ter += `<path d="M${x} ${y - h / 2} L${x + w / 2} ${y + h / 2} L${x + w * 0.1} ${y + h / 2}Z" fill="#4a3a2a" opacity=".25"/>`;
+          ter += `<path d="M${x - w * 0.18} ${y - h * 0.18} L${x} ${y - h / 2} L${x + w * 0.18} ${y - h * 0.18}" fill="#fff" stroke="none" opacity=".85"/>`;
+        }
+      }
+      if (t.type === "skov") {
+        for (let i = 0; i < Math.round(t.r / 2.2); i++) {
+          const a = rnd() * Math.PI * 2, d = Math.sqrt(rnd()) * t.r;
+          const x = t.x + Math.cos(a) * d, y = t.y + Math.sin(a) * d * 0.6;
+          ter += `<path d="M${x - 6} ${y + 6} L${x} ${y - 9} L${x + 6} ${y + 6}Z" fill="#4f7a3c" stroke="#2f4a2c" stroke-width="1"/>`;
+        }
+      }
+      if (t.type === "hede" || t.type === "aske") {
+        for (let i = 0; i < 40; i++) {
+          const a = rnd() * Math.PI * 2, d = Math.sqrt(rnd()) * t.r;
+          ter += `<circle cx="${(t.x + Math.cos(a) * d).toFixed(0)}" cy="${(t.y + Math.sin(a) * d * 0.6).toFixed(0)}" r="${(1.5 + rnd() * 2).toFixed(1)}" fill="${t.type === "hede" ? "#9a5a7a" : "#8a817a"}" opacity=".7"/>`;
+        }
+      }
+    }
+
+    // steder, veje og tåge
+    const besoegt = (st) => st.afsnit.some((n) => opd.afsnit.has(n));
+    const syn = new Set(K.steder.filter(besoegt).map((x) => x.id));
+    const her = aktueltAfsnit != null ? stedFor(aktueltAfsnit) : null;
+    const pos = Object.fromEntries(K.steder.map((x) => [x.id, x]));
+    let veje = "";
+    for (const [a, b] of K.veje) {
+      if (!syn.has(a) || !syn.has(b)) continue;
+      veje += `<path d="M${pos[a].x} ${pos[a].y} L${pos[b].x} ${pos[b].y}" stroke="#6b5536" stroke-width="2" stroke-dasharray="6 5" fill="none" opacity=".8"/>`;
+    }
+    let huller = "", markoerer = "";
+    for (const st of K.steder) {
+      if (!syn.has(st.id)) continue;
+      huller += `<circle cx="${st.x}" cy="${st.y}" r="78" fill="black"/>`;
+      const erHer = her && her.id === st.id;
+      markoerer += `<g class="kortsted${erHer ? " her" : ""}">` +
+        (erHer ? `<circle cx="${st.x}" cy="${st.y}" r="22" fill="none" stroke="#8b1e1e" stroke-width="3" class="puls"/>` : "") +
+        `<circle cx="${st.x}" cy="${st.y}" r="15" fill="#f3e7c9" stroke="#2b1d0e" stroke-width="2"/>` +
+        `<text x="${st.x}" y="${st.y + 5}" text-anchor="middle" font-size="15">${st.ikon}</text>` +
+        `<text x="${st.x}" y="${st.y + 32}" text-anchor="middle" class="kortnavn">${st.navn}</text></g>`;
+    }
+    const svg =
+      `<svg viewBox="0 0 ${B} ${H}" class="kortsvg" role="img" aria-label="Kort over eventyrets verden">` +
+      `<defs><filter id="kTaage" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="22"/></filter>` +
+      `<mask id="kMaske"><rect width="${B}" height="${H}" fill="white"/><g filter="url(#kTaage)">${huller}</g></mask>` +
+      `<filter id="kPapir"><feTurbulence type="fractalNoise" baseFrequency=".02" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .45  0 0 0 0 .3  0 0 0 .35 -.05"/></filter></defs>` +
+      `<rect width="${B}" height="${H}" fill="#efe0bd"/>${ter}` +
+      `<rect width="${B}" height="${H}" fill="#efe4c8" mask="url(#kMaske)" opacity=".93"/>` +
+      `<rect width="${B}" height="${H}" filter="url(#kPapir)" opacity=".6"/>` +
+      veje + markoerer +
+      `<g transform="translate(${B - 58} ${H - 58})" class="kompas"><circle r="24" fill="#f3e7c9" stroke="#2b1d0e" stroke-width="1.5"/>` +
+      `<path d="M0 -20 L5 0 L0 20 L-5 0Z" fill="#2b1d0e"/><path d="M0 -20 L5 0 L-5 0Z" fill="#8b1e1e"/><text y="-28" text-anchor="middle" class="kortnavn">N</text></g>` +
+      `<rect x="3" y="3" width="${B - 6}" height="${H - 6}" fill="none" stroke="#2b1d0e" stroke-width="4"/></svg>`;
+
+    const holder = el("div", { class: "kort-holder" });
+    holder.innerHTML = svg;
+    const dlg = el("dialog", { class: "opdagelser kort-dialog" },
+      el("button", { class: "luk", type: "button", "aria-label": "Luk", onclick: () => dlg.close() }, "✕"),
+      el("h2", {}, "🗺️ Kortet"),
+      el("p", { class: "samlet" }, `Du har udforsket ${syn.size} af ${K.steder.length} steder${her ? ` · Du er i ${her.navn}` : ""}`),
+      holder,
+      el("p", { class: "regel" }, "Steder dukker op, når du har været der – i dette eller et tidligere eventyr.")
+    );
+    dlg.addEventListener("close", () => dlg.remove());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    document.body.append(dlg);
+    dlg.showModal();
   }
 
   function visOpdagelser() {
@@ -323,6 +446,7 @@
       max: { evne, udholdenhed: udh, held, karisma },
       inventar: [...(STORY.startInventar || [])],
       foelge: [],
+      minder: [],
     };
   }
 
@@ -362,7 +486,8 @@
       el("p", { class: "undertitel" }, STORY.undertitel || ""),
       el("p", { class: "opd-link" },
         el("button", { class: "lille", type: "button", onclick: visOpdagelser },
-          `📜 Opdagelser · ${opd.praestationer.size} af ${(STORY.praestationer || []).length} præstationer`)),
+          `📜 Opdagelser · ${opd.praestationer.size} af ${(STORY.praestationer || []).length} præstationer`),
+        el("button", { class: "lille", type: "button", onclick: visKort }, "🗺️ Kort")),
       illustration(STORY.forsidebillede),
       fortsaet,
       afsnitTekst(STORY.intro),
@@ -459,6 +584,11 @@
         log.push({ klasse: "minus", tekst: `− ${ting}` });
       }
     }
+    // Minder: vigtige valg, som historien husker på tværs af kapitler
+    spiller.minder = spiller.minder || [];
+    for (const m of [].concat(eff.husk || [])) {
+      if (!spiller.minder.includes(m)) spiller.minder.push(m);
+    }
     // Følgesvende kommer og går
     spiller.foelge = spiller.foelge || [];
     if (eff.forladAlle && spiller.foelge.length) {
@@ -547,13 +677,26 @@
   function harIngen(liste) {
     return [].concat(liste || []).every((t) => !spiller.inventar.includes(t));
   }
+  // Betingelser på ting (kraever/mangler) og minder (husker/glemt)
+  function opfylder(x) {
+    const minder = spiller.minder || [];
+    return harAlle(x.kraever) && harIngen(x.mangler)
+      && [].concat(x.husker || []).every((m) => minder.includes(m))
+      && [].concat(x.glemt || []).every((m) => !minder.includes(m));
+  }
   function valgtVariant(a) {
-    return (a.varianter || []).find((x) => harAlle(x.kraever) && harIngen(x.mangler)) || null;
+    return (a.varianter || []).find(opfylder) || null;
+  }
+  // Ekstra tekst: afsnit, der føjes til, når betingelserne passer (fx et minde)
+  function ekstraTekst(a) {
+    return (a.ekstra || []).filter(opfylder).map((x) => x.tekst);
   }
 
   function kanVaelge(v) {
     if (v.kraever && !spiller.inventar.includes(v.kraever)) return { synlig: false };
     if (v.mangler && spiller.inventar.includes(v.mangler)) return { synlig: false };
+    if (v.husker && !(spiller.minder || []).includes(v.husker)) return { synlig: false };
+    if (v.glemt && (spiller.minder || []).includes(v.glemt)) return { synlig: false };
     if (v.kraeverGuld && spiller.guld < v.kraeverGuld) return { synlig: true, aktiv: false, grund: `kræver ${v.kraeverGuld} guld` };
     // Karisma: nogle samtaler kræver, at folk kan lide dig – andre, at du er grov og ligefrem
     const kar = spiller.karisma ?? 9;
@@ -589,7 +732,9 @@
       const v = valgtVariant(a);
       const billede = v && "billede" in v ? v.billede : a.billede;
       const billedtekst = v && "billedtekst" in v ? v.billedtekst : a.billedtekst;
-      return [illustration(billede, billedtekst), afsnitTekst(v ? v.tekst : a.tekst)];
+      const ekstra = ekstraTekst(a);
+      const tekst = [v ? v.tekst : a.tekst, ...ekstra].join("\n\n");
+      return [illustration(billede, billedtekst), afsnitTekst(tekst)];
     })());
 
     if (log.length) {
@@ -887,6 +1032,7 @@
   }
 
   document.getElementById("opdagelser").addEventListener("click", visOpdagelser);
+  document.getElementById("kort").addEventListener("click", visKort);
 
   document.getElementById("forfra").addEventListener("click", () => {
     if (confirm("Vil du starte forfra? Dit nuværende eventyr går tabt.")) {

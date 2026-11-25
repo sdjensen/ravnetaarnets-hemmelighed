@@ -344,10 +344,22 @@ dialog.ting-dialog .luk {
 dialog.ting-dialog .luk:hover { color: var(--rod); }
 dialog.ting-dialog .stor { justify-content: center; }
 
+/* ---------- Kortet ---------- */
+dialog.kort-dialog { width: min(900px, calc(100vw - 24px)); }
+.kort-holder { margin: 8px 0 4px; }
+.kortsvg { width: 100%; height: auto; display: block; border-radius: 4px; box-shadow: 0 4px 16px rgba(0, 0, 0, .3); }
+.kortnavn { font-family: "Cinzel", serif; font-size: 13px; fill: #2b1d0e; paint-order: stroke; stroke: #f3e7c9; stroke-width: 3px; }
+.kortsted.her .kortnavn { fill: #8b1e1e; font-weight: 700; }
+.kortsvg .puls { animation: kortpuls 1.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes kortpuls { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .3; transform: scale(1.35); } }
+.opd-link .lille + .lille { margin-left: 8px; }
+.ark #kort { margin-top: 20px; }
+.ark #kort + #opdagelser { margin-top: 8px; }
+
 /* ---------- Opdagelser ---------- */
 .opd-link { text-align: center; margin: -18px 0 24px; }
 .opd-link .lille { width: auto; padding: 6px 16px; margin: 0; }
-.ark #opdagelser { margin-top: 20px; }
+.ark #opdagelser { margin-top: 8px; }
 .ark #opdagelser + #forfra { margin-top: 8px; }
 
 dialog.opdagelser {

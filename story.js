@@ -13,6 +13,9 @@
 //                 Lykke-valg: { tekst, test: "held", til: <heldig>, ellers: <uheldig> }
 //                 Karisma-valg: { tekst, test: "karisma", til, ellers } (bruger ikke Karisma op)
 //                 kraeverKarisma: N (kun med høj Karisma), hoejstKarisma: N (kun for de grove)
+//                 husker: "minde" / glemt: "minde" – valget vises kun med/uden et minde
+//    effekter.husk – "minde": noget, historien husker på tværs af kapitler
+//    ekstra      – [{ husker?, glemt?, kraever?, mangler?, tekst }] ekstra tekst, når betingelsen passer
 //    effekter.loeft – { evne: 2 } hæver både startværdi og nuværende værdi
 //    slut       – "sejr" eller "død" (så vises ingen valg)
 //    billede    – sti til et billede, fx "assets/art/scenes/graaskoven.jpg" (valgfrit)
@@ -109,6 +112,49 @@ window.STORY = {
     "Brokk": { ikon: "🪓", tekst: "Dværgen fra Jernbjerget. Bred som en dør og stærk som en okse.", chance: 0.4, skade: 2, handling: "Brokk hugger med sin økse" },
   },
 
+  // Kortet: steder (med de afsnit, der hører til dem), landskab og veje.
+  // Et sted dukker op på kortet, når man har besøgt et af dets afsnit.
+  kort: {
+    bredde: 800, hoejde: 560,
+    steder: [
+      { id: "vildmose", navn: "Vildmose", ikon: "🏘️", x: 400, y: 485, afsnit: [1,41,42,45,58,16,17,26,6,7,98,100,101,103,147,149,150,151,201,245,246,249,250] },
+      { id: "graaskoven", navn: "Gråskoven", ikon: "🌲", x: 540, y: 430, afsnit: [24,37,52,59,30,35,39,43,47,56,60,32,34] },
+      { id: "soelvaa", navn: "Sølvå", ikon: "⛵", x: 300, y: 420, afsnit: [9,73,18,2,3] },
+      { id: "marna", navn: "Marnas hytte", ikon: "🐟", x: 330, y: 505, afsnit: [19] },
+      { id: "trolbroen", navn: "Troldebroen", ikon: "🌉", x: 250, y: 330, afsnit: [21,25,27,28,4,5] },
+      { id: "ravnetaarnet", navn: "Ravnetårnet", ikon: "🏰", x: 420, y: 335, afsnit: [61,44,96,33,13,31,85,50,66,29,80,84,86,90,77,81,46,48,49,53,87,88,89,91,76,92,93,94,36,95,97,99,54,68,70,72,74,62] },
+      { id: "ravnesumpen", navn: "Ravnesumpen", ikon: "🕯️", x: 505, y: 325, afsnit: [55,57,63,64,65] },
+      { id: "heden", navn: "Heden", ikon: "🪧", x: 410, y: 240, afsnit: [102] },
+      { id: "heksehytten", navn: "Heksehytten", ikon: "🧙", x: 330, y: 265, afsnit: [104,105,106,107,108,109,8] },
+      { id: "jernbjerget", navn: "Jernbjerget", ikon: "⛏️", x: 170, y: 220, afsnit: [110,111,112,113,114,115,116,117,118,119,140,146,203,20] },
+      { id: "askeborg", navn: "Askeborg", ikon: "🏚️", x: 575, y: 235, afsnit: [120,121,122,123,124,125,126,127,128,129] },
+      { id: "skyggeborgen", navn: "Skyggeborgen", ikon: "🌑", x: 640, y: 185, afsnit: [130,131,132,133,134,135,136,137,138,139,141,142,143,144,145,148] },
+      { id: "saltvig", navn: "Saltvig", ikon: "⚓", x: 650, y: 470, afsnit: [152,153,154,155,156,158,159,10,11,199,200] },
+      { id: "havet", navn: "Havet", ikon: "🌊", x: 735, y: 420, afsnit: [157,160,161,162,163,164,165,166,167,168,169,171,172,173,174] },
+      { id: "fyrtaarnet", navn: "Fyrtårnsøen", ikon: "🗼", x: 760, y: 325, afsnit: [170,175,176,177,178,179,180,181,182,184] },
+      { id: "ulmar", navn: "Ulmar", ikon: "🐚", x: 720, y: 255, afsnit: [183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,12] },
+      { id: "frostby", navn: "Frostby", ikon: "🛖", x: 320, y: 130, afsnit: [202,204,205,206,207,208,209,210,14] },
+      { id: "gletsjeren", navn: "Gletsjeren", ikon: "🧊", x: 225, y: 75, afsnit: [211,212,214,215] },
+      { id: "nordlys", navn: "Nordlysets dal", ikon: "🦉", x: 420, y: 70, afsnit: [213,248,216,217,218,219,221,222,15,22] },
+      { id: "isslottet", navn: "Isslottet", ikon: "❄️", x: 555, y: 60, afsnit: [247,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,23,38] },
+    ],
+    terraen: [
+      { type: "sne", punkter: [[0,0],[800,0],[800,125],[640,150],[470,135],[300,160],[140,150],[0,165]] },
+      { type: "hav", punkter: [[610,560],[625,505],[690,470],[700,420],[680,365],[720,300],[690,230],[735,170],[800,140],[800,560]] },
+      { type: "oe", x: 760, y: 325, r: 16 },
+      { type: "flod", punkter: [[190,240],[235,300],[265,360],[295,420],[330,485],[430,530],[540,520],[620,490],[660,478]] },
+      { type: "sump", x: 505, y: 325, r: 34 },
+      { type: "bjerge", x: 170, y: 215, b: 130, antal: 6 },
+      { type: "bjerge", x: 380, y: 85, b: 420, antal: 9, sne: true },
+      { type: "skov", x: 545, y: 425, r: 55 },
+      { type: "skov", x: 455, y: 400, r: 30 },
+      { type: "skov", x: 120, y: 420, r: 45 },
+      { type: "hede", x: 410, y: 235, r: 70 },
+      { type: "aske", x: 600, y: 215, r: 55 },
+    ],
+    veje: [["vildmose","soelvaa"],["vildmose","graaskoven"],["vildmose","marna"],["soelvaa","trolbroen"],["trolbroen","ravnetaarnet"],["soelvaa","ravnetaarnet"],["graaskoven","ravnetaarnet"],["ravnetaarnet","ravnesumpen"],["ravnetaarnet","heden"],["heden","heksehytten"],["heden","jernbjerget"],["heden","askeborg"],["askeborg","skyggeborgen"],["jernbjerget","skyggeborgen"],["vildmose","saltvig"],["saltvig","havet"],["havet","fyrtaarnet"],["fyrtaarnet","ulmar"],["heden","frostby"],["jernbjerget","frostby"],["frostby","gletsjeren"],["gletsjeren","nordlys"],["nordlys","isslottet"]],
+  },
+
   // Præstationer, som huskes på tværs af gennemspilninger (se Opdagelser).
   // Betingelser: afsnit (besøgt), ting (fået), procent (af alle afsnit),
   // slutninger (antal fundet), doede (antal gange død).
@@ -133,6 +179,7 @@ window.STORY = {
     { id: "slutninger5", titel: "Mange veje", tekst: "Har fundet 5 forskellige slutninger.", slutninger: 5 },
     { id: "soelvtunge", titel: "Sølvtunge", tekst: "Talte dig til noget, andre må betale eller kæmpe for.", nogenAfsnit: [2, 5, 6, 8, 10, 12, 14] },
     { id: "grov", titel: "Grov, men ærlig", tekst: "Fik en trold eller en kæmpe til at grine med dine fornærmelser.", nogenAfsnit: [4, 15] },
+    { id: "gamle-venner", titel: "Gamle venner", tekst: "En du hjalp i et tidligere kapitel, hjalp dig igen.", nogenAfsnit: [20, 22, 23, 38] },
     { id: "doed5", titel: "Ni liv? Ikke helt", tekst: "Er død 5 gange.", doede: 5 },
   ],
 
@@ -360,7 +407,7 @@ window.STORY = {
       stemning: "skov",
       tekst:
         "Brynjen er tung, men den passer. Ungerne knurrer så tappert, de kan, da du går. Du lægger et stykke tørret kød foran dem, og de holder op.",
-      effekter: { loeft: { udholdenhed: 4 }, guld: 3, giv: "Ringbrynje" },
+      effekter: { loeft: { udholdenhed: 4, husk: "Fodrede ulveungerne" }, guld: 3, giv: "Ringbrynje" },
       valg: [{ tekst: "Gå mod tårnet", til: 47 }],
     },
 
@@ -398,6 +445,7 @@ window.STORY = {
       tekst:
         "Du kalder trolden en tangbefængt sumpklump med en ånde værre end en død sild, og du siger, at hans bro ser ud, som om en ged har bygget den.\n\n" +
         "Der bliver helt stille. Så slår trolden sig på lårene og brøler af grin, så broen ryster. \"Ha! Endelig en med ordentlig mund på! Alle de andre siger »kære hr. trold« og »undskyld, hr. trold«.\" Han tørrer en tåre væk. \"Gå bare over, du. Du har gjort min dag.\"",
+      effekter: { husk: "Trolden er din ven" },
       valg: [{ tekst: "Gå over broen og mod tårnet", til: 61 }],
     },
 
@@ -406,7 +454,7 @@ window.STORY = {
       tekst:
         "Du roser trolden for hans flotte bro, hans imponerende skæg og hans smukke stemme. Trolden rødmer under tangen. \"Synes du virkelig?\" Han kigger ned i vandet på sit eget spejlbillede.\n\n" +
         "\"Gå bare over,\" mumler han genert. \"Og tag lige det her. Jeg fandt det i floden.\" Han rækker dig et par blanke mønter.",
-      effekter: { guld: 2 },
+      effekter: { guld: 2, husk: "Trolden er din ven" },
       valg: [{ tekst: "Gå over broen og mod tårnet", til: 61 }],
     },
 
@@ -473,6 +521,39 @@ window.STORY = {
       valg: [{ tekst: "Gå gennem passet", til: 220 }],
     },
 
+    20: {
+      stemning: "bjerg",
+      tekst: "\"Pip!\" kalder du ind i mørket. Med et lille knald sidder kobolden på din skulder, grønnere og frækkere end nogensinde. \"Du igen! Jeg skylder dig stadig en tjeneste, siger min mor.\"\n\nHan hvisler noget ind i mørket, og de gule øjne forsvinder. \"Mine fætre, grottekobolderne. Rigtige pøbler.\" Pip fører dig sikkert gennem gangene og peger på en gammel stentavle med en rune. \"Den skal du bruge.\" Så er han væk igen.",
+      effekter: { giv: "Dværgerune" },
+      valg: [
+        { tekst: "Gå hen til porten", til: 116 },
+      ],
+    },
+
+    22: {
+      stemning: "is",
+      tekst: "\"Min fætter?\" Kæmpen bøjer sig ned og snuser til dig. \"Du lugter af tang og flod. Ja, han har skrevet om dig! Et menneske, der ikke er bange for en trold.\"\n\nHan rækker dig en finger så stor som en træstamme, og du giver den hånd. \"Gå bare. Og hils ham tilbage.\"",
+      valg: [
+        { tekst: "Gå gennem passet", til: 220 },
+      ],
+    },
+
+    23: {
+      stemning: "is",
+      tekst: "Latteren i salen dør. Hrimgar sætter sit bæger fra sig. \"Ylva? Dronningen af Askeborg?\" Han ved godt, at hendes riddere i sølv kunne marchere mod nord. Han rejser sig og tvinger et smil frem. \"Så er vi jo venner, du og jeg. Kom, lad mig vise dig mit lille æg.\"",
+      valg: [
+        { tekst: "Følg med til ægkammeret", til: 227 },
+      ],
+    },
+
+    38: {
+      stemning: "is",
+      tekst: "Du blæser i hænderne og giver det signal, I aftalte i Askeborg. Fra sneen bag dig rejser en flok dværge sig. Det er dem, du befriede fra Vardraks fangehul, og de har fulgt dig hele vejen mod nord.\n\n\"Vi skylder dig,\" siger den største. Med et brøl stormer de porten. Vagterne flygter, og vejen ind i slottet er fri.",
+      valg: [
+        { tekst: "Gå ind i slottet", til: 225 },
+      ],
+    },
+
     9: {
       stemning: "flod",
       billede: "assets/art/egne/soelvaa-faergen.jpg",
@@ -523,7 +604,7 @@ window.STORY = {
       stemning: "flod",
       tekst:
         "Under broen lugter der af fisk og gammelt råddent tang. Mellem knogler og potteskår finder du en læderpung, som må have tilhørt en mindre heldig rejsende.",
-      effekter: { guld: 6 },
+      effekter: { guld: 6, husk: "Dræbte brotrolden" },
       valg: [{ tekst: "Gå over broen og mod tårnet", til: 61 }],
     },
 
@@ -656,7 +737,7 @@ window.STORY = {
       tekst:
         "Ilsa gnider sine håndled. \"Tak. Hør nu godt efter: Morvak fik sin magt fra et spejl, og hans eget blik er hans svaghed. Ser han sig selv, mens han kaster en forbandelse, rammer den ham selv.\"\n\n" +
         "Hun trækker et lille sølvspejl frem fra sin kjole. \"Jeg stjal det fra ham. Og der er en skjult trappe herfra, der fører lige op til hans kammer.\"\n\n\"Og jeg går med dig,\" siger Ilsa og vikler den knækkede kæde om sin hånd. \"Jeg har en regning at gøre op med Morvak.\"",
-      effekter: { giv: "Sølvspejl", held: 2, foelge: "Ilsa" },
+      effekter: { giv: "Sølvspejl", held: 2, foelge: "Ilsa", husk: "Befriede Ilsa" },
       valg: [{ tekst: "Gå op ad den skjulte trappe", til: 29 }],
     },
 
@@ -664,7 +745,7 @@ window.STORY = {
       stemning: "taarn",
       tekst:
         "Du vender ryggen til hendes bønner og finder en smal trappe op til tårnets hovedtrappe. Hendes gråd følger dig et stykke vej op.",
-      effekter: { held: -1 },
+      effekter: { held: -1, husk: "Svigtede Ilsa" },
       valg: [{ tekst: "Fortsæt op ad hovedtrappen", til: 66 }],
     },
 
@@ -721,7 +802,7 @@ window.STORY = {
       tekst:
         "Kobolden springer ud af buret, svinger sig i halen fra en kæde og laver en kolbøtte i luften. \"Fri! Fri!\" Så bukker den dybt for dig.\n\n" +
         "\"Jeg hedder Pip. Når du har brug for mig, så kald på mig. Én gang, og kun én gang.\" Med et lille knald forsvinder den i en sky af grøn røg.",
-      effekter: { giv: "Koboldens løfte" },
+      effekter: { giv: "Koboldens løfte", husk: "Befriede Pip" },
       valg: [{ tekst: "Se dig om i værkstedet igen", til: 46 }],
     },
 
@@ -917,7 +998,7 @@ window.STORY = {
       tekst:
         "Du stiller dig foran lænestolen med spejlet løftet og rømmer dig. Morvaks øjne springer op. Han rækker hånden frem og råber en forbandelse, men hans blik møder hans eget spejlbillede.\n\n" +
         "Forbandelsen slår tilbage mod ham selv. Fra fødderne og op bliver han grå, hård og tavs. Om et øjeblik står der kun en statue i stolen. Du tager Månestenen fra bordet.",
-      effekter: { giv: "Månestenen" },
+      effekter: { giv: "Månestenen", husk: "Besejrede Morvak" },
       valg: [{ tekst: "Forlad tårnet", til: 98 }],
     },
 
@@ -932,7 +1013,7 @@ window.STORY = {
     86: {
       stemning: "kammer",
       tekst: "Morvak falder sammen til en bunke grå aske og en tom kappe. Ravnen flyver skrigende ud ad vinduet og kommer aldrig igen. Du tager Månestenen fra bordet.",
-      effekter: { giv: "Månestenen" },
+      effekter: { giv: "Månestenen", husk: "Besejrede Morvak" },
       valg: [{ tekst: "Gå hjem til Vildmose", til: 98 }],
     },
 
@@ -1037,6 +1118,10 @@ window.STORY = {
         "Månestenen på sin pæl er ikke længere blå. Den er sort som kul, og rundt om husene glider skikkelser af skygge med lange fingre. Den ældste står i sin dør med et lys i hånden. \"Morvak var ikke alene,\" siger hun. \"Han tjente Skyggekongen Vardrak i ruinbyen Askeborg. Nu drikker Vardrak stenens lys.\"\n\n" +
         "\"Dværgene i Jernbjerget smedede stenen engang. Måske kan de hjælpe. Men skal skyggerne væk for altid, må nogen knuse Vardraks skyggekrystal.\"",
       effekter: { udholdenhed: 30, held: 6, forladAlle: true },
+      ekstra: [
+        { husker: "Befriede Ilsa", tekst: "Ilsa står ved siden af den ældste med en hammer i hånden. Siden du befriede hende fra Morvaks kælder, er hun blevet landsbyens smed. \"Kom tilbage i ét stykke,\" siger hun." },
+        { husker: "Svigtede Ilsa", tekst: "Smedens værksted står stadig tomt. Ingen har hørt fra Ilsa, siden du lod hende sidde i Morvaks kælder, og smeden ser ikke på dig, når du går forbi." },
+      ],
       valg: [
         { tekst: "Pak din oppakning og gå ud over heden", til: 102 },
         { tekst: "Søg først den gamle kone på kroen", til: 103, kraever: "Rygte om sumpstien" },
@@ -1121,7 +1206,7 @@ window.STORY = {
       stemning: "fare",
       tekst:
         "\"Forkert!\" Grimhild knipser med fingrene. Verden bliver kæmpestor, og du sidder pludselig i mudderet og kvækker. Det varer en hel time, før du er dig selv igen, og du er både våd og ydmyget.",
-      effekter: { udholdenhed: -2, held: -2 },
+      effekter: { udholdenhed: -2, held: -2, husk: "Blev til tudse" },
       valg: [{ tekst: "Hink tilbage til heden", til: 102 }],
     },
 
@@ -1183,6 +1268,7 @@ window.STORY = {
       tekst:
         "Mineskakten er bygget af dværge for længe siden. Gamle skinner fører ind i mørket, og en malmvogn står glemt ved indgangen. Langt inde blinker noget gult. Det er øjne.",
       valg: [
+        { tekst: "Kald på kobolden Pip", til: 20, husker: "Befriede Pip" },
         { tekst: "Tænd din fakkel", til: 115, kraever: "Fakkel" },
         { tekst: "Famle dig frem i mørket", til: 117 },
       ],
@@ -1418,7 +1504,7 @@ window.STORY = {
       stemning: "skygge",
       tekst:
         "Fangevogterens nøgler passer i alle låse. Fangerne griber kæppe, kæder og hvad de ellers kan finde. \"Når du giver tegn,\" siger den største dværg, \"så stormer vi ind og holder hans skygger beskæftiget.\"",
-      effekter: { giv: "Fangernes hjælp", held: 1 },
+      effekter: { giv: "Fangernes hjælp", held: 1, husk: "Befriede fangerne i Askeborg" },
       valg: [{ tekst: "Gå op mod tronsalen", til: 136 }],
     },
 
@@ -1520,6 +1606,7 @@ window.STORY = {
       tekst:
         "Ylva bliver kronet i den genopbyggede tronsal, og du står ved hendes side. Bagefter rejser du hjem til Vildmose med en karavane af dværge, bønder og købmænd.\n\n" +
         "Den nat hænger Månestenen igen på sin pæl, og dens sølvlys når helt ud til Askeborg. Fra den dag hedder du ikke bare helten fra Vildmose. Du hedder Lysbringeren.",
+      effekter: { husk: "Ylva er dronning" },
       slut: "sejr",
       slutnavn: "Lysbringeren",
       fortsaet: { til: 151, tekst: "Fortsæt til kapitel 3: Havets Sang" },
@@ -1561,6 +1648,9 @@ window.STORY = {
       tekst:
         "Saltvig ligger ved mundingen af Sølvå, hvor floden møder havet. Garnene hænger tomme til tørre, og mågerne er tavse. I havnen ligger kun to skibe, der er klar til at sejle.\n\n" +
         "Det ene er »Mågen«, en gammel, lappet kogge. Dens skipper, Bram, er gråhåret og har venlige øjne. Det andet er »Hajen«, et sort, smalt skib med røde sejl, som tilhører smugleren Skarre. Han smiler med en guldtand.",
+      ekstra: [
+        { husker: "Trolden er din ven", tekst: "Ude for enden af molen sidder en kæmpe, mosgroet skikkelse og fisker. Det er brotrolden! Han vinker glad med hele armen." },
+      ],
       valg: [
         { tekst: "Spørg skipper Bram om plads på Mågen", til: 153 },
         { tekst: "Tal med smugleren Skarre", til: 156 },
@@ -1779,7 +1869,7 @@ window.STORY = {
       tekst:
         "Fyret flammer op, og spejlene kaster en lang, gylden stråle ud over havet. Langt ude hører du en svag lyd, som når en hval synger.\n\n" +
         "Hedda har tårer i øjnene. Hun giver dig en lille fløjte af hvalben. \"Min mand var hvalfanger, før han blev fyrpasser. Blæs i den, når du står over revet, så kommer hvalerne.\"",
-      effekter: { giv: "Hvalbensfløjte", held: 2 },
+      effekter: { giv: "Hvalbensfløjte", held: 2, husk: "Tændte fyret" },
       valg: [{ tekst: "Sejl mod revet over den sunkne by", til: 179 }],
     },
 
@@ -1883,7 +1973,7 @@ window.STORY = {
       stemning: "hav",
       tekst:
         "Du hugger korallåsene over én efter én. Havfolket strømmer ud, og deres ældste, en gammel havmand med perler i skægget, lægger hånden på dit hoved. \"Vi står i gæld til dig. Når du kæmper mod Morga, kæmper vi med dig.\"\n\nHan giver dig en lille, glinsende perle, og havfruen Nerea svømmer op ved din side. \"Jeg følger dig til Morga,\" siger hun. \"Min sang kan hele dine sår.\"",
-      effekter: { giv: ["Havfolkets løfte", "Havets perle"], held: 2, foelge: "Nerea" },
+      effekter: { giv: ["Havfolkets løfte", "Havets perle"], held: 2, foelge: "Nerea", husk: "Havfolkets ven" },
       valg: [{ tekst: "Svøm mod slottet", til: 185 }],
     },
 
@@ -1921,6 +2011,9 @@ window.STORY = {
       tekst:
         "I slottets sal sidder Morga på en trone af koral. Hendes hår bølger som tang, og hendes hale er sort som blæk. I hænderne holder hun Havets Hjerte, en perle så stor som et æble, der lyser i alle havets farver.\n\n" +
         "\"Månestenens bærer,\" siger hun med en stemme som en bølge, der trækker sig tilbage. \"Lad os handle. Giv mig din sten, så får du min perle. Så kan din landsby få sit hav, og jeg får månen.\"",
+      ekstra: [
+        { husker: "Besejrede Morvak", tekst: "Bag hendes smil aner du frygt. Rygtet om, at du knuste Morvak, er nået helt ned i havet." },
+      ],
       valg: [
         { tekst: "Hold sølvspejlet op foran hende", til: 196, kraever: "Sølvspejl" },
         { tekst: "Angrib hende med havfolkets trefork", til: 197, kraever: "Havfolkets trefork" },
@@ -1978,7 +2071,7 @@ window.STORY = {
       stemning: "hav",
       tekst:
         "\"Aftale er aftale,\" siger Skarre og ser på din pung. Du holder dit ord og deler guldet med ham. Han tæller det, griner og slår dig på skulderen. \"Du er den første ærlige person, jeg har sejlet med. Det må jeg vænne mig til.\"",
-      effekter: { tag: "Skarres aftale", guld: -5 },
+      effekter: { tag: "Skarres aftale", guld: -5, husk: "Skarre er din ven" },
       valg: [{ tekst: "Sejl hjem mod Saltvig", til: 199 }],
     },
 
@@ -2094,6 +2187,9 @@ window.STORY = {
     210: {
       stemning: "fare",
       tekst: "Uden for byen finder du flokken i sneen. To frostulve med hvid pels og øjne som blåt is går til angreb.",
+      ekstra: [
+        { husker: "Fodrede ulveungerne", tekst: "Den største ulv standser og snuser i luften. Et øjeblik ser det ud, som om den genkender lugten af Gråskoven. Men så knurrer den igen." },
+      ],
       kamp: [
         { navn: "Frostulv", evne: 7, udholdenhed: 6 },
         { navn: "Frostulvenes leder", evne: 8, udholdenhed: 7 },
@@ -2178,6 +2274,7 @@ window.STORY = {
       tekst:
         "Midt i passet rejser en kæmpe sig af sneen. Han er tre gange så høj som en mand, hans skæg er af istapper, og hans øjne er blå som gletsjeren. \"Ingen går forbi Hrimgars vagt,\" buldrer han. \"Medmindre de kan svare på min gåde.\"",
       valg: [
+        { tekst: "Hils ham fra hans fætter, brotrolden", til: 22, husker: "Trolden er din ven" },
         { tekst: "Vis ham dit sværd af dværgestål", til: 221, kraever: "Dværgestålsværd" },
         { tekst: "Svar på gåden", til: 218 },
         { tekst: "Kald ham en overgroet istap", til: 15, hoejstKarisma: 7 },
@@ -2231,6 +2328,7 @@ window.STORY = {
       tekst:
         "Isslottet rejser sig foran dig med tårne af klar is, der fanger nordlyset. Ved hovedporten står to vagter i hvide rustninger med lange spyd.",
       valg: [
+        { tekst: "Giv tegn til dværgene fra Askeborgs fangehul", til: 38, husker: "Befriede fangerne i Askeborg" },
         { tekst: "Find den skjulte dør på østsiden", til: 223, kraever: "Grimbolds kort" },
         { tekst: "Gå til angreb på vagterne ved porten", til: 224 },
         { tekst: "Klatr op ad isvæggen", test: "held", til: 225, ellers: 226 },
@@ -2321,6 +2419,7 @@ window.STORY = {
         "I tronsalen sidder Frostjarlen Hrimgar med en kappe af isbjørneskind og en krone af istapper. Hans hofmænd ler og drikker.\n\n" +
         "\"Helten fra Vildmose!\" råber han. \"Jeg har hørt om dig. Slut dig til mig! Når min drage vokser op, hersker vi to over hele Norden.\"",
       valg: [
+        { tekst: "Nævn, at dronning Ylva af Askeborg er din ven", til: 23, husker: "Ylva er dronning" },
         { tekst: "Lad som om du siger ja", til: 233 },
         { tekst: "Afvis ham og træk dit sværd", til: 232 },
       ],
@@ -2439,6 +2538,17 @@ window.STORY = {
       tekst:
         "Isvinge lander på engen uden for Vildmose, og hele landsbyen løber ud for at se. Mellem dem står venner fra alle dine rejser, og den gamle kone fra kroen smiler, som om hun hele tiden vidste det.\n\n" +
         "Isvinge bøjer hovedet for dig. \"Når mit barn er klækket,\" siger hun med en stemme som vinterstorm og forårsregn, \"får det brug for en ven. Kom med os mod nord, hvis du vil. Eller bliv her, hvor du hører hjemme.\"",
+      ekstra: [
+        { husker: "Befriede Ilsa", tekst: "Ilsa har smedet en ny, smuk pæl til Månestenen, og hun står stolt ved siden af den." },
+        { husker: "Svigtede Ilsa", tekst: "Kun én mangler. Smedens datter, Ilsa, kom aldrig hjem fra Ravnetårnet, og det tynger dig stadig." },
+        { husker: "Ylva er dronning", tekst: "Fra Askeborg er dronning Ylva kommet med et følge af riddere i sølv. Hun omfavner dig som en gammel ven." },
+        { husker: "Skarre er din ven", tekst: "Selv Skarre er der, med guldtanden glimtende i solen og en tønde rom på skulderen." },
+        { husker: "Havfolkets ven", tekst: "Nede ved floden vinker havfolket fra vandet, og Nerea synger en sang for dig." },
+        { husker: "Tændte fyret", tekst: "Hedda har sendt en pakke røget fisk med en hilsen fra fyrtårnet: \"Lyset brænder stadig.\"" },
+        { husker: "Befriede Pip", tekst: "Og oppe på kroens tag sidder en lille grøn kobold og griner, så hans hale svinger." },
+        { husker: "Trolden er din ven", tekst: "Brotrolden har taget sin bedste fiskestang med og lover at lære dragen at fiske." },
+        { husker: "Blev til tudse", tekst: "Grimhild har sendt en gave: en lille frø i en glaskrukke. Du har en fornemmelse af, at det er en vittighed." },
+      ],
       valg: [
         { tekst: "Bliv i Vildmose", til: 249 },
         { tekst: "Drag mod nord med Isvinge", til: 246 },
