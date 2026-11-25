@@ -229,11 +229,43 @@
         el("button", { class: "stor sekundaer", type: "button", onclick: () => { slag = slaaEvner(); tegnSlag(); } }, "🎲 Slå igen"),
         el("button", {
           class: gemt ? "stor sekundaer" : "stor", type: "button",
-          onclick: () => {
-            if (gemt && !confirm("Vil du starte et nyt eventyr? Dit gemte eventyr bliver overskrevet.")) return;
-            spiller = slag; ark.hidden = false; gaaTil(STORY.start);
-          },
+          onclick: () => begynd(slag, STORY.start, null, gemt),
         }, gemt ? "Begynd et nyt eventyr" : "Begynd eventyret")
+      ),
+      kapitelvalg(() => slag, gemt)
+    );
+  }
+
+  // Start et nyt eventyr – evt. i et senere kapitel med standard-udstyr
+  function begynd(slag, start, udstyr, gemt) {
+    if (gemt && !confirm("Vil du starte et nyt eventyr? Dit gemte eventyr bliver overskrevet.")) return;
+    const s = JSON.parse(JSON.stringify(slag));
+    if (udstyr) {
+      if (udstyr.inventar) s.inventar = [...udstyr.inventar];
+      if (typeof udstyr.guld === "number") s.guld = udstyr.guld;
+      for (const [stat, n] of Object.entries(udstyr.loeft || {})) {
+        s.max[stat] += n;
+        s[stat] += n;
+      }
+    }
+    spiller = s;
+    ark.hidden = false;
+    gaaTil(start);
+  }
+
+  function kapitelvalg(hentSlag, gemt) {
+    const senere = (STORY.kapitler || []).filter((k) => k.start !== STORY.start);
+    if (!senere.length) return null;
+    return el("details", { class: "kapitelvalg" },
+      el("summary", {}, "Start i et senere kapitel"),
+      el("p", { class: "regel" },
+        "Du starter med dine slåede evner, lidt ekstra styrke og et standard-udstyr. " +
+        "Ting, du ellers ville have fundet i de tidligere kapitler, har du ikke med."),
+      el("div", { class: "knapper" },
+        ...senere.map((k) => el("button", {
+          class: "stor sekundaer", type: "button",
+          onclick: () => begynd(hentSlag(), k.start, k.udstyr, gemt),
+        }, k.titel))
       )
     );
   }

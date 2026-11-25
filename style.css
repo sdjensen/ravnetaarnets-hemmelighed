@@ -297,6 +297,26 @@ button {
 .kamplog li:first-child { animation: ny 0.35s ease-out; }
 @keyframes ny { from { opacity: 0; transform: translateY(-6px); } }
 
+/* ---------- Kapitelvalg på forsiden ---------- */
+.kapitelvalg {
+  margin-top: 28px;
+  border-top: 1px solid var(--blaek-svag);
+  padding-top: 18px;
+}
+.kapitelvalg summary {
+  cursor: pointer;
+  font-family: "Cinzel", serif;
+  color: var(--blaek-svag);
+  text-align: center;
+  list-style: none;
+}
+.kapitelvalg summary::-webkit-details-marker { display: none; }
+.kapitelvalg summary::before { content: "▸ "; }
+.kapitelvalg[open] summary::before { content: "▾ "; }
+.kapitelvalg summary:hover { color: var(--rod); }
+.kapitelvalg .regel { text-align: center; margin-top: 12px; }
+.kapitelvalg .knapper { margin-top: 12px; }
+
 /* ---------- Gemt spil ---------- */
 .gemt {
   border: 1px solid var(--guld);

@@ -35,6 +35,25 @@ window.STORY = {
   forsidebillede: "assets/art/egne/ravnetaarnet.jpg",
   forsidestemning: "taarn",
 
+  // Kapitler, man kan starte direkte i fra forsiden. Starter man i et senere
+  // kapitel, får man et standard-udstyr i stedet for det, man ville have
+  // samlet i de tidligere kapitler (loeft hæver evnerne permanent).
+  kapitler: [
+    { titel: "Kapitel 1 · Ravnetårnets Hemmelighed", start: 1 },
+    {
+      titel: "Kapitel 2 · Skyggekongen", start: 101,
+      udstyr: { inventar: ["Sværd", "Lædervest", "Fakkel", "Månestenen"], guld: 8, loeft: { evne: 1, udholdenhed: 2 } },
+    },
+    {
+      titel: "Kapitel 3 · Havets Sang", start: 151,
+      udstyr: { inventar: ["Sværd", "Lædervest", "Fakkel", "Månestenen"], guld: 10, loeft: { evne: 2, udholdenhed: 4, held: 1 } },
+    },
+    {
+      titel: "Kapitel 4 · Dragens Vinter", start: 201,
+      udstyr: { inventar: ["Sværd", "Lædervest", "Fakkel", "Månestenen"], guld: 12, loeft: { evne: 3, udholdenhed: 6, held: 1 } },
+    },
+  ],
+
   intro:
     "I landsbyen Vildmose er Månestenen, den gamle amulet som holder ulvene borte fra markerne, blevet stjålet. Sporene fører mod Ravnetårnet, hvor troldmanden Morvak bor.\n\n" +
     "Du er landsbyens sidste håb. Slå dine evner med terningerne, og begynd så din rejse.",
