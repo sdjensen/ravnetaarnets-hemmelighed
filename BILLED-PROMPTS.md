@@ -1,6 +1,6 @@
 # Billed-prompts til Gemini
 
-32 prompts – én til hver scene i spillet, i samme stil som Ravnetårnet (`assets/art/egne/ravnetaarnet.jpg`).
+57 prompts – én til hver scene i spillet, i samme stil som Ravnetårnet (`assets/art/egne/ravnetaarnet.jpg`).
 
 ## Sådan gør du
 
@@ -192,4 +192,132 @@ An enormous dark throne room with tall stone pillars disappearing into darkness 
 ### 32. `lysets-sejr.jpg` – afsnit 149 og 150
 ```
 A joyful night festival in a small medieval village with thatched cottages: a moonstone amulet on a wooden post in the village square shines brilliant silver-blue light in rays across the whole sky. Villagers dance with raised arms, strings of warm lanterns hang between the houses, a full moon and stars above, mountains in the background. Magical, happy, triumphant mood. Detailed traditional oil painting, romantic fantasy landscape style, rich textured brushwork, soft painterly clouds, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+---
+
+## Kapitel 3 – Havets Sang
+
+### 34. `havets-stilhed.jpg` – afsnit 151
+```
+Early spring morning in a small medieval village with thatched cottages. On a wooden post in the village square hangs a glowing blue moonstone amulet. An exhausted messenger in a salt-stained cloak has just arrived at the village gate, leaning on his staff, talking to an old village elder. In the glow of the moonstone, a faint vision floats in the air: a sunken marble city deep under the sea and a woman with seaweed hair holding a shining pearl. Soft morning light, mysterious mood. Detailed traditional oil painting, romantic fantasy landscape style, rich textured brushwork, soft painterly clouds, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 35. `saltvig.jpg` – afsnit 152
+```
+A small medieval fishing harbor town at the mouth of a river where it meets the sea: wooden houses with steep roofs, empty fishing nets hanging to dry, silent seagulls on the posts. Two ships lie at the quay: an old patched wooden cog with a weathered grey-bearded captain, and a sleek black smuggler ship with red sails and a grinning captain with a gold tooth. Calm grey-blue sea, overcast sky with a hint of sun. Detailed traditional oil painting, romantic maritime fantasy style, rich textured brushwork, soft painterly clouds, atmospheric depth, reflective water. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 36. `havnekroen.jpg` – afsnit 154
+```
+Interior of a cozy harbor tavern called "The Anchor": dark wooden beams with ropes, nets and an old ship's wheel on the walls, lanterns, a crackling fireplace. An old one-legged sailor with a white beard and a pipe leans forward at a table, telling a story. On a shelf behind the bar stands a small clay pot of yellow beeswax. Warm golden lantern light, cozy seafaring atmosphere. Detailed traditional oil painting, fantasy style, rich textured brushwork, warm candlelit atmosphere. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 37. `stormen.jpg` – afsnit 161
+```
+A small old wooden sailing cog fighting a violent storm at sea: towering dark waves crash over the deck, the mast bends, torn sails flap in the wind, sailors cling to ropes. Lightning splits the black sky, sea spray everywhere. Dramatic, dangerous, powerful. Detailed traditional oil painting, romantic maritime style in the tradition of classic sea storm paintings, rich textured brushwork, dramatic light and clouds. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 38. `sirenernes-skaer.jpg` – afsnit 165
+```
+Black jagged rocks rising from a misty sea like teeth. On the rocks sit beautiful, eerie sirens with long pale hair, singing toward a passing sailing ship. On the ship a sailor at the helm smiles dreamily as he steers toward the rocks, while a hero is tied to the mast, struggling. Pale silver-green twilight, mist curling over the water, hypnotic and dangerous mood. Detailed traditional oil painting, romantic fantasy style, rich textured brushwork, atmospheric mist, reflective water. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 39. `soeslangen.jpg` – afsnit 169
+```
+A giant sea serpent rising out of the ocean next to a small wooden sailing ship: scales like green shields, a head as big as a boat, sickly glowing eyes, water pouring off its body. On deck, a small hero raises a shining blue moonstone amulet toward the monster while sailors cower. Dramatic afternoon sky with sunbeams through clouds, choppy sea. Epic and exciting. Detailed traditional oil painting, romantic maritime fantasy style, rich textured brushwork, soft painterly clouds. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 40. `fyrtaarnet.jpg` – afsnit 170
+```
+A small rocky island at sunset with an old white stone lighthouse on top; its lamp is dark. A narrow path winds up the cliffs. In the doorway stands an old woman with white hair and a shawl. A small sailing ship is anchored in the cove below. Golden-orange sunset over a calm sea, seabirds, gentle melancholic mood. Detailed traditional oil painting, romantic maritime landscape style, rich textured brushwork, soft painterly clouds, reflective water. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 41. `ulmar.jpg` – afsnit 183
+```
+A sunken ancient city deep under the sea: streets of white marble, broken columns and domes covered in seaweed and coral, statues of merfolk. Glowing jellyfish drift like lanterns between the pillars, shafts of blue-green light fall from the surface far above. In the distance a palace made of mother-of-pearl glows with eerie green light. A small hero swims among the ruins. Beautiful, sad and mysterious. Detailed traditional oil painting, underwater fantasy style, rich textured brushwork, atmospheric depth and light rays. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 42. `skibsvraget.jpg` – afsnit 186
+```
+An old sunken war galley lying between rocks on the sea floor, its hull broken open. Gold coins spill from the hold, and a trident of shining blue metal lies among them. A giant crab with enormous claws rises from the sand in front of the wreck. Blue-green underwater light, floating particles, small fish. Exciting underwater adventure. Detailed traditional oil painting, underwater fantasy style, rich textured brushwork, atmospheric light rays. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 43. `havfolket.jpg` – afsnit 187
+```
+Underwater: cages made of black coral hold captured merfolk – men, women and children with fish tails and sad eyes, among them a young mermaid with silver-green hair. Two huge eels with glowing teeth coil around the cages as guards. Dim blue light, drifting seaweed, glowing plankton. Sad but hopeful mood. Detailed traditional oil painting, underwater fantasy style, rich textured brushwork, atmospheric depth. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 44. `havheksens-grotte.jpg` – afsnit 185
+```
+The entrance to an underwater sea witch's palace: a gigantic half-open seashell serves as the gate, framed by coral and mother-of-pearl columns. In front of it, a giant octopus with arms as long as ship masts opens one huge eye. A small hero hides behind a column. Eerie green glow from inside the palace, dark blue water. Menacing and magical. Detailed traditional oil painting, underwater dark fantasy style, rich textured brushwork, atmospheric light. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 45. `havheksen.jpg` – afsnit 191
+```
+An underwater throne hall of coral and pearls. On a coral throne sits the sea witch Morga: once a mermaid, now with hair that drifts like dark seaweed, a black ink-colored fish tail and cold beautiful eyes. In her hands she holds a large glowing pearl that shines with all the colors of the sea. She smiles slyly at a small hero who stands before her holding a glowing blue moonstone. Eerie green and turquoise light. Detailed traditional oil painting, underwater dark fantasy style, rich textured brushwork, dramatic light. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 46. `havets-sang.jpg` – afsnit 200
+```
+A harbor quay at sunset: a young hero sits at the end of a wooden pier looking out at the sea. Whales blow fountains of water on the golden horizon, seagulls fly again, fishing boats come home full of fish. Waves sparkle in warm orange and pink light. Peaceful, happy, triumphant mood. Detailed traditional oil painting, romantic maritime landscape style, rich textured brushwork, soft painterly clouds, reflective water. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+---
+
+## Kapitel 4 – Dragens Vinter
+
+### 47. `evig-vinter.jpg` – afsnit 201
+```
+A small medieval village with thatched cottages buried in deep snow in the middle of summer: green leaves frozen on the trees under a layer of frost, a frozen river, icicles hanging from the roofs. Villagers huddle around a bonfire. Far to the north, on the horizon, a huge pale shadow with wings is barely visible among snowy mountains. Cold blue light with warm firelight. Melancholic and ominous. Detailed traditional oil painting, romantic winter landscape style, rich textured brushwork, falling snow, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 48. `frostby.jpg` – afsnit 204
+```
+A northern frontier town of log houses half buried in snow, with smoking chimneys and frozen banners. Above the town on a hill stands a stone hall. On the snowy market square, a sly hooded man with glowing yellow eyes sneaks into a warehouse, looking nervously over his shoulder. A merchant sells sled dogs with blue eyes. Cold blue twilight, warm windows. Detailed traditional oil painting, romantic winter fantasy style, rich textured brushwork, falling snow, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 49. `gletsjeren.jpg` – afsnit 211
+```
+A dog sled pulled by six husky-like dogs with blue eyes races across a vast blue glacier. Deep crevasses open on both sides, and ahead a narrow natural bridge of ice spans a bottomless chasm. Towering snowy peaks in the background, pale cold sunlight, sparkling snow. Breathtaking and dangerous. Detailed traditional oil painting, romantic winter landscape style, rich textured brushwork, soft painterly clouds, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 50. `nordlys.jpg` – afsnit 213
+```
+A quiet snowy valley under brilliant green and violet northern lights. On a snow-covered rock by the path sits a huge white snow owl with golden eyes. Far away across the valley glitters a palace made of clear ice like a crystal. A small traveler with a dog sled stands looking up at the sky. Magical, serene, awe-inspiring. Detailed traditional oil painting, romantic winter landscape style, rich textured brushwork, glowing aurora, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 51. `frostkaempen.jpg` – afsnit 216
+```
+A narrow mountain pass in deep snow. A frost giant three times the height of a man rises out of the snow, blocking the way: a beard of icicles, skin like blue-white ice, glacier-blue eyes, a cloak of snow. A small hero stands before him holding up a blue-glowing dwarven sword. Swirling snow, cold blue light, epic sense of scale. Detailed traditional oil painting, romantic winter fantasy style, rich textured brushwork, dramatic clouds. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 52. `isslottet.jpg` – afsnit 220
+```
+A majestic palace made entirely of clear ice with tall crystal towers that catch the green and violet northern lights. Two guards in white armor with long spears stand at the main gate. A small hero hides behind a snowdrift in the foreground. Night, sparkling snow, cold magical light. Detailed traditional oil painting, romantic winter fantasy style, rich textured brushwork, glowing aurora, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 53. `dragens-aeg.jpg` – afsnit 227
+```
+A hall of blue ice inside an ice palace. In a cradle of frost lies a huge dragon egg as big as a chest, covered in scales that shine like stars. Before it stands an ice golem made of blocks of glacier ice, with a glowing crystal in its chest and eyes lighting up. A small hero aims a silver elven bow at the crystal. Cold blue and silver light, sparkling frost. Detailed traditional oil painting, fantasy style, rich textured brushwork, magical light. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 54. `frostjarlen.jpg` – afsnit 228
+```
+A throne hall of ice: the Frost Jarl Hrimgar, a big bearded warlord in a polar bear fur cloak and a crown of icicles, sits on an ice throne, laughing with a goblet in his hand. Courtiers in furs drink around him. Northern lights shine through the transparent ice ceiling. Arrogant, cold and menacing. Detailed traditional oil painting, fantasy style, rich textured brushwork, cold dramatic light. Wide 16:9 format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 55. `isvinge.jpg` – afsnit 237
+```
+An enormous ice dragon lands in a snowy valley in front of a collapsing ice palace: as big as a church tower, scales of white crystal, vast wings casting shadow over the valley, deep glacier-blue eyes full of anger and sorrow. A small hero stands before her in the snow holding a huge glowing dragon egg. Swirling snow, dramatic light breaking through clouds. Epic, awe-inspiring. Detailed traditional oil painting, romantic winter fantasy style, rich textured brushwork, dramatic clouds, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 56. `dragerytteren.jpg` – afsnit 244 og 250
+```
+A young hero rides on the back of a huge white crystal ice dragon flying south over a vast landscape. Below them winter is melting away: rivers breaking their ice, forests turning green, a sunrise spreading golden light over mountains, lakes and a distant tower. The dragon carries a shining egg in its claws. Joyful, free, triumphant. Detailed traditional oil painting, romantic fantasy landscape style, rich textured brushwork, soft painterly clouds, atmospheric depth. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
+```
+
+### 57. `foraar-i-vildmose.jpg` – afsnit 249
+```
+A warm summer evening in a small medieval village with thatched cottages surrounded by blooming meadows. A blue moonstone amulet glows on a post in the village square. Children sit around a campfire listening to a storyteller – the hero, now older. High in the golden sunset sky a white dragon flies past and waves its wings. Peaceful, warm, happy ending. Detailed traditional oil painting, romantic fantasy landscape style, rich textured brushwork, soft painterly clouds, golden light. Wide 16:9 landscape format. No text, no letters, no frame, no border, no watermark.
 ```

@@ -1281,6 +1281,7 @@ window.STORY = {
         "Ylva bliver kronet i den genopbyggede tronsal, og du står ved hendes side. Bagefter rejser du hjem til Vildmose med en karavane af dværge, bønder og købmænd.\n\n" +
         "Den nat hænger Månestenen igen på sin pæl, og dens sølvlys når helt ud til Askeborg. Fra den dag hedder du ikke bare helten fra Vildmose. Du hedder Lysbringeren.",
       slut: "sejr",
+      fortsaet: { til: 151, tekst: "Fortsæt til kapitel 3: Havets Sang" },
     },
 
     150: {
@@ -1290,6 +1291,931 @@ window.STORY = {
       tekst:
         "Vildmose tager imod dig med fakler, lygter og sang. Den ældste hænger Månestenen tilbage på pælen, og den lyser så klart, at selv skyggerne under sengene forsvinder.\n\n" +
         "Den nat danser hele landsbyen under stenens lys. Skyggekongen er væk, og Vildmose har en helt, som har reddet den to gange.",
+      slut: "sejr",
+      fortsaet: { til: 151, tekst: "Fortsæt til kapitel 3: Havets Sang" },
+    },
+
+    // =========================================================
+    //  KAPITEL 3: HAVETS SANG (afsnit 151–200)
+    // =========================================================
+
+    151: {
+      kapitel: "Kapitel 3 · Havets Sang",
+      stemning: "hav",
+      billede: "assets/art/egne/havets-stilhed.jpg",
+      billedtekst: "Havet er blevet tavst",
+      tekst:
+        "Foråret kommer til Vildmose, og Månestenen lyser klarere end nogensinde. Men en morgen står en udmattet budbringer fra havnebyen Saltvig ved landsbyens port.\n\n" +
+        "\"Havet er blevet tavst,\" siger han. \"Ingen bølger synger, ingen fisk går i garnene, og skibe forsvinder sporløst. Om natten hører sømændene en sang ude fra skærene, og de, der følger den, kommer aldrig hjem.\"\n\n" +
+        "Den nat viser Månestenen dig et syn: en sunket by af marmor dybt under vandet, og en kvinde med hår som tang, der holder en lysende perle i sine hænder. Havets Hjerte. Uden det mister havet sin sang.",
+      effekter: { udholdenhed: 30, held: 6 },
+      valg: [{ tekst: "Rejs til Saltvig", til: 152 }],
+    },
+
+    152: {
+      stemning: "hav",
+      billede: "assets/art/egne/saltvig.jpg",
+      billedtekst: "Havnen i Saltvig",
+      tekst:
+        "Saltvig ligger ved mundingen af Sølvå, hvor floden møder havet. Garnene hænger tomme til tørre, og mågerne er tavse. I havnen ligger kun to skibe, der er klar til at sejle.\n\n" +
+        "Det ene er »Mågen«, en gammel, lappet kogge. Dens skipper, Bram, er gråhåret og har venlige øjne. Det andet er »Hajen«, et sort, smalt skib med røde sejl, som tilhører smugleren Skarre. Han smiler med en guldtand.",
+      valg: [
+        { tekst: "Spørg skipper Bram om plads på Mågen", til: 153 },
+        { tekst: "Tal med smugleren Skarre", til: 156 },
+        { tekst: "Gå ind på havnekroen og hør nyt", til: 154 },
+      ],
+    },
+
+    154: {
+      stemning: "landsby",
+      billede: "assets/art/egne/havnekroen.jpg",
+      billedtekst: "Havnekroen »Ankeret«",
+      tekst:
+        "Kroen lugter af tjære og saltvand. En gammel enbenet sømand vinker dig hen til sit bord. \"Skal du ud til skærene?\" spørger han. \"Så husk det her: Sirenernes sang får selv den stærkeste mand til at styre mod klipperne. Stop voks i ørerne, eller bind dig til masten.\"\n\n" +
+        "Kroværten har et lille lerkrus med bivoks på hylden.",
+      valg: [
+        { tekst: "Køb bivoks til ørerne (1 guld)", til: 155, kraeverGuld: 1, mangler: "Bivoks" },
+        { tekst: "Gå tilbage til havnen", til: 152 },
+      ],
+    },
+
+    155: {
+      stemning: "landsby",
+      tekst: "Kroværten ruller to små kugler af gul bivoks og giver dig dem i en klud. \"Til ørerne,\" siger han og blinker. \"Ikke til brødet.\"",
+      effekter: { guld: -1, giv: "Bivoks" },
+      valg: [{ tekst: "Gå tilbage til havnen", til: 152 }],
+    },
+
+    153: {
+      stemning: "hav",
+      tekst:
+        "Bram klør sig i skægget. \"Ud til skærene? Det er galskab. Men min søn sejlede derud for en måned siden og kom aldrig hjem.\" Han ser på dig. \"Tre guld for turen. Har du dem ikke, kan du skrubbe dæk.\"",
+      valg: [
+        { tekst: "Betal tre guld", til: 158, kraeverGuld: 3 },
+        { tekst: "Arbejd for overfarten", til: 159 },
+      ],
+    },
+
+    158: {
+      stemning: "hav",
+      tekst: "Bram stikker mønterne i lommen og giver dig hånden. Hans hånd er ru som tovværk. \"Vi sejler ved højvande.\"",
+      effekter: { guld: -3 },
+      valg: [{ tekst: "Gå om bord på Mågen", til: 157 }],
+    },
+
+    159: {
+      stemning: "hav",
+      tekst: "Du skrubber dæk, splejser tov og bærer tønder, til armene værker. Men da solen går ned, nikker Bram anerkendende. \"Du er sejere end du ser ud.\"",
+      effekter: { udholdenhed: -2, held: 1 },
+      valg: [{ tekst: "Sejl ud med Mågen", til: 157 }],
+    },
+
+    156: {
+      stemning: "hav",
+      tekst:
+        "Skarre læner sig op ad rælingen. \"Havets Hjerte, siger du? Hvis den heks har perlen, har hun også alt guldet fra de skibe, hun har sænket.\" Han rækker hånden frem. \"Jeg sejler dig gratis derud. Til gengæld får jeg halvdelen af det guld, du finder. Aftale?\"",
+      valg: [
+        { tekst: "Giv ham hånden på det", til: 160 },
+        { tekst: "Gå tilbage og find et andet skib", til: 152 },
+      ],
+    },
+
+    160: {
+      stemning: "hav",
+      tekst:
+        "Hajen skærer gennem bølgerne som en kniv. Første nat vågner du ved, at en mager sømand lister hen mod din oppakning med en kniv i hånden. Hans øjne skinner grådigt i månelyset. Han vil have Månestenen.",
+      effekter: { giv: "Skarres aftale" },
+      kamp: { navn: "Grådig sømand", evne: 7, udholdenhed: 6 },
+      valg: [{ tekst: "Kast ham over bord og sov videre", til: 164 }],
+    },
+
+    164: {
+      stemning: "hav",
+      tekst:
+        "Næste morgen ser Skarre på den tomme køje og trækker på skuldrene. \"Han var alligevel ikke god til at splejse tov.\" Men du ser, at han holder øje med dig nu. Ved middagstid dukker de første sorte skær op i horisonten, og sømændene bliver stille.",
+      valg: [{ tekst: "Sejl mod skærene", til: 165 }],
+    },
+
+    157: {
+      stemning: "hav",
+      tekst:
+        "Mågen knirker og stønner, men den holder kursen. På andendagen bliver himlen sort mod vest, og vinden begynder at hyle i riggen. Bram bider tænderne sammen. \"Hold fast i noget, der er sømmet fast!\"",
+      valg: [{ tekst: "Stormen bryder løs", til: 161 }],
+    },
+
+    161: {
+      stemning: "fare",
+      billede: "assets/art/egne/stormen.jpg",
+      billedtekst: "Stormen",
+      tekst:
+        "Bølger, høje som huse, slår ind over dækket. Masten bøjer sig som et siv, og tovværket hugger i dine hænder. Bram råber noget, men vinden river ordene væk.",
+      valg: [{ tekst: "Kæmp dig hen til sejlet", test: "held", til: 162, ellers: 163 }],
+    },
+
+    162: {
+      stemning: "hav",
+      tekst:
+        "Med fælles kræfter får I sejlet bjærget, og Mågen rider stormen af. Ved daggry er havet blankt og stille, alt for stille. Bram klapper dig på skulderen. \"Uden dig var vi gået ned.\"",
+      effekter: { held: 1 },
+      valg: [{ tekst: "Sejl videre mod skærene", til: 165 }],
+    },
+
+    163: {
+      stemning: "fare",
+      tekst:
+        "En bølge river dig over bord. Det sorte vand lukker sig over dig, og du synker. Så griber en kold hånd om dit håndled. Et ansigt med sølvgrønt hår og øjne som perlemor ser på dig. Det er en havfrue.\n\n" +
+        "Hun trækker dig op til overfladen og løfter dig op til rælingen. \"Jeg hedder Nerea,\" hvisker hun. \"Havet er sygt. Hvis du vil hjælpe os, så tag dette.\" Hun lægger et skinnende skæl i din hånd. \"Med det kan du ånde under vand. Men kun én gang.\"",
+      effekter: { udholdenhed: -4, giv: "Nereas skæl" },
+      valg: [{ tekst: "Hold dig fast og sejl videre", til: 165 }],
+    },
+
+    165: {
+      stemning: "fare",
+      billede: "assets/art/egne/sirenernes-skaer.jpg",
+      billedtekst: "Sirenernes skær",
+      tekst:
+        "Skærene rejser sig af havet som sorte tænder. Så begynder sangen. Den er det smukkeste, du nogensinde har hørt, og den kalder på dig. Rorsmanden drejer langsomt roret mod klipperne med et drømmende smil på læben.",
+      valg: [
+        { tekst: "Stop bivoks i ørerne og tag roret", til: 166, kraever: "Bivoks" },
+        { tekst: "Bind dig selv til masten", til: 167 },
+      ],
+    },
+
+    167: {
+      stemning: "fare",
+      tekst:
+        "Du surrer tovet om dig selv og masten, så hårdt du kan. Sangen river i dig, og du kæmper mod tovet, men det holder. Nu skal du bare få rorsmanden til at vågne.",
+      valg: [{ tekst: "Råb til rorsmanden af alle kræfter", test: "held", til: 166, ellers: 168 }],
+    },
+
+    166: {
+      stemning: "hav",
+      tekst:
+        "Du river roret til dig og styrer uden om de sorte klipper. Sangen bliver svagere og svagere bag jer, og sømændene ryster på hovedet som efter en lang søvn. Foran jer ligger åbent hav.",
+      valg: [{ tekst: "Sejl videre", til: 169 }],
+    },
+
+    168: {
+      stemning: "fare",
+      tekst:
+        "For sent! Skibet skraber mod klipperne med et skrig af splintret træ. Du bliver slynget mod rælingen. Vandet fosser ind, og I når lige akkurat at sætte jollen i vandet, før skibet synker. I ror mod et lys på en ø ude i horisonten.",
+      effekter: { udholdenhed: -5 },
+      valg: [{ tekst: "Ro mod lyset", til: 170 }],
+    },
+
+    169: {
+      stemning: "fare",
+      billede: "assets/art/egne/soeslangen.jpg",
+      billedtekst: "Søslangen",
+      tekst:
+        "Vandet foran stævnen begynder at boble. Så rejser en kæmpe søslange sig af havet. Den har skæl som grønne skjolde og et hoved så stort som en båd, og dens øjne gløder af den samme syge farve, som havet har haft siden perlen forsvandt.",
+      valg: [
+        { tekst: "Skyd en pil mellem dens øjne med elverbuen", til: 171, kraever: "Elverbue" },
+        { tekst: "Hold Månestenen op mod uhyret", til: 174 },
+        { tekst: "Træk dit våben og kæmp", til: 172 },
+      ],
+    },
+
+    171: {
+      stemning: "hav",
+      tekst:
+        "Uhyret skriger og kaster hovedet tilbage. Et øjeblik efter glider det ned under bølgerne igen og forsvinder i dybet. Sømændene jubler.",
+      valg: [{ tekst: "Sejl videre mod øen med fyrtårnet", til: 173 }],
+    },
+
+    174: {
+      stemning: "fare",
+      tekst: "Du løfter Månestenen højt. Den blå glød vokser og vokser, mens slangen hvæser mod dig.",
+      valg: [{ tekst: "Lad stenen lyse med al sin kraft", test: "held", til: 171, ellers: 172 }],
+    },
+
+    172: {
+      stemning: "fare",
+      tekst: "Søslangen kaster sig over skibet. Du står ved rælingen med våbnet klar.",
+      kamp: { navn: "Søslange", evne: 9, udholdenhed: 11 },
+      valg: [{ tekst: "Sejl videre mod øen med fyrtårnet", til: 173 }],
+    },
+
+    173: {
+      stemning: "hav",
+      tekst: "Ved solnedgang kaster I anker ved en lille klippeø. Øverst på øen står et fyrtårn, men lampen er slukket.",
+      valg: [{ tekst: "Gå i land", til: 170 }],
+    },
+
+    170: {
+      stemning: "hav",
+      billede: "assets/art/egne/fyrtaarnet.jpg",
+      billedtekst: "Fyrtårnet på klippeøen",
+      tekst:
+        "En smal sti snor sig op til fyrtårnet. I døren står en gammel kvinde med hvidt hår og et sjal om skuldrene. \"Jeg hedder Hedda,\" siger hun. \"Fyret gik ud den nat, havet blev tavst. Siden da har jeg ikke kunnet tænde det.\"",
+      valg: [
+        { tekst: "Klatr op og prøv at tænde fyret", til: 175 },
+        { tekst: "Spørg Hedda om Havheksen", til: 176 },
+      ],
+    },
+
+    175: {
+      stemning: "hav",
+      tekst: "Øverst i tårnet står den store lampe med sine polerede spejle. Olien er der, men vægen vil ikke fænge, som om noget kvæler flammen.",
+      valg: [
+        { tekst: "Tænd vægen med din fakkel", til: 177, kraever: "Fakkel" },
+        { tekst: "Slå gnister med dit sværd mod stenen", test: "held", til: 177, ellers: 178 },
+      ],
+    },
+
+    178: {
+      stemning: "fare",
+      tekst: "Gnisterne springer, og pludselig blusser olien op i dit ansigt. Du brænder dine hænder, men flammen fænger.",
+      effekter: { udholdenhed: -2 },
+      valg: [{ tekst: "Se lyset sprede sig", til: 177 }],
+    },
+
+    177: {
+      stemning: "sejr",
+      tekst:
+        "Fyret flammer op, og spejlene kaster en lang, gylden stråle ud over havet. Langt ude hører du en svag lyd, som når en hval synger.\n\n" +
+        "Hedda har tårer i øjnene. Hun giver dig en lille fløjte af hvalben. \"Min mand var hvalfanger, før han blev fyrpasser. Blæs i den, når du står over revet, så kommer hvalerne.\"",
+      effekter: { giv: "Hvalbensfløjte", held: 2 },
+      valg: [{ tekst: "Sejl mod revet over den sunkne by", til: 179 }],
+    },
+
+    176: {
+      stemning: "hav",
+      tekst:
+        "\"Morga,\" siger Hedda stille. \"Hun var engang en havfrue, men hun ville herske over hele havet. Nu bor hun i den sunkne by Ulmar under revet. Byen sank for tusind år siden.\"\n\n" +
+        "\"For at komme derned skal du kunne ånde under vand. I bugten ligger en gammel dykkerklokke fra de gode dage, men jeg ved ikke, om den stadig holder tæt.\"",
+      valg: [
+        { tekst: "Prøv at tænde fyret for hende først", til: 175 },
+        { tekst: "Sejl mod revet", til: 179 },
+      ],
+    },
+
+    179: {
+      stemning: "hav",
+      tekst:
+        "Over revet er vandet klart som glas. Dybt under jer ser du spirer af hvidt marmor og ødelagte kupler, og alt er dækket af tang. Det er den sunkne by Ulmar. Ingen fisk svømmer dernede.",
+      valg: [
+        { tekst: "Læg Nereas skæl på tungen og spring i", til: 180, kraever: "Nereas skæl" },
+        { tekst: "Blæs i hvalbensfløjten", til: 182, kraever: "Hvalbensfløjte" },
+        { tekst: "Dyk med den gamle dykkerklokke", til: 181 },
+      ],
+    },
+
+    180: {
+      stemning: "hav",
+      tekst:
+        "Skællet smelter på din tunge som is. Du springer i, og i stedet for vand fylder du lungerne med noget køligt og klart. Du kan ånde! Med lange svømmetag glider du ned mod byen.",
+      effekter: { tag: "Nereas skæl" },
+      valg: [{ tekst: "Svøm ned til Ulmar", til: 183 }],
+    },
+
+    182: {
+      stemning: "hav",
+      tekst:
+        "Fløjtens tone er så lys, at du næsten ikke kan høre den. Men et øjeblik efter bryder en gammel, ar-dækket hval vandoverfladen. Den puster en kæmpe sølvskinnende luftboble omkring dig og bærer dig blidt ned i dybet.",
+      effekter: { held: 1 },
+      valg: [{ tekst: "Lad hvalen bære dig ned", til: 183 }],
+    },
+
+    181: {
+      stemning: "fare",
+      tekst: "Dykkerklokken er af bronze og grøn af ir. Du kravler ind under den, og sømændene firer den langsomt ned i dybet. Halvvejs nede hører du en hvislende lyd.",
+      valg: [{ tekst: "Hold vejret og håb", test: "held", til: 183, ellers: 184 }],
+    },
+
+    184: {
+      stemning: "fare",
+      tekst: "En revne! Vandet sprøjter ind, og luften forsvinder. Du må forlade klokken og svømme det sidste stykke med brændende lunger. Lige før du besvimer, finder du en luftlomme under en sunket kuppel.",
+      effekter: { udholdenhed: -4 },
+      valg: [{ tekst: "Kom til hægterne og se dig om", til: 183 }],
+    },
+
+    183: {
+      stemning: "hav",
+      billede: "assets/art/egne/ulmar.jpg",
+      billedtekst: "Den sunkne by Ulmar",
+      tekst:
+        "Ulmar er smuk og trist på samme tid. Gader af hvidt marmor, statuer af havfolk, og lysende vandmænd, der svæver som lygter mellem søjlerne. Langt inde i byen gløder et grønligt lys fra et slot af perlemor.\n\n" +
+        "Til venstre ligger et stort skibsvrag mellem klipperne. Til højre hører du svage, klagende stemmer bag en mur af koraller.",
+      valg: [
+        { tekst: "Følg lyset mod slottet", til: 185 },
+        { tekst: "Undersøg skibsvraget", til: 186 },
+        { tekst: "Følg de klagende stemmer", til: 187 },
+      ],
+    },
+
+    186: {
+      stemning: "fare",
+      billede: "assets/art/egne/skibsvraget.jpg",
+      billedtekst: "Skibsvraget",
+      tekst:
+        "Vraget er en gammel krigsgalej, og i dens lastrum glimter guld og en trefork af blåt metal. Men da du nærmer dig, rejser en kæmpe krabbe sig fra sandet. Dens klosaks er større end din overkrop.",
+      kamp: { navn: "Kæmpekrabbe", evne: 8, udholdenhed: 8 },
+      valg: [{ tekst: "Tag skatten fra vraget", til: 188 }],
+    },
+
+    188: {
+      stemning: "hav",
+      tekst:
+        "Treforken er let i hånden og summer svagt, som om havet selv lever i den. Den blev smedet af havfolket til at bekæmpe Morga, står der med gamle tegn langs skaftet. Du fylder også lommerne med guld.",
+      effekter: { giv: "Havfolkets trefork", loeft: { evne: 1 }, guld: 8 },
+      valg: [{ tekst: "Svøm mod slottet", til: 185 }],
+    },
+
+    187: {
+      stemning: "fare",
+      billede: "assets/art/egne/havfolket.jpg",
+      billedtekst: "Havfolkets fangenskab",
+      tekst:
+        "Bag koralmuren hænger bure af sort koral, og i dem sidder havfolk: mænd, kvinder og børn med fiskehaler og sørgmodige øjne. Blandt dem genkender du måske Nerea. To kæmpe ål med lysende tænder snor sig om burene som vagter.",
+      kamp: [
+        { navn: "Vagtål", evne: 7, udholdenhed: 6 },
+        { navn: "Stor vagtål", evne: 8, udholdenhed: 7 },
+      ],
+      valg: [{ tekst: "Bryd burene op", til: 189 }],
+    },
+
+    189: {
+      stemning: "hav",
+      tekst:
+        "Du hugger korallåsene over én efter én. Havfolket strømmer ud, og deres ældste, en gammel havmand med perler i skægget, lægger hånden på dit hoved. \"Vi står i gæld til dig. Når du kæmper mod Morga, kæmper vi med dig.\"",
+      effekter: { giv: "Havfolkets løfte", held: 2 },
+      valg: [{ tekst: "Svøm mod slottet", til: 185 }],
+    },
+
+    185: {
+      stemning: "fare",
+      billede: "assets/art/egne/havheksens-grotte.jpg",
+      billedtekst: "Indgangen til Havheksens slot",
+      tekst:
+        "Slottets port er et kæmpe muslingeskal, der står på klem. Foran den ligger noget, du først tror er et klippefremspring. Så åbner det et øje. Det er en kæmpe blæksprutte, og dens arme er lange som master.",
+      valg: [
+        { tekst: "Giv havfolket tegn til at angribe", til: 192, kraever: "Havfolkets løfte" },
+        { tekst: "Snig dig forbi i skyggen af søjlerne", test: "held", til: 191, ellers: 190 },
+        { tekst: "Kæmp mod blæksprutten", til: 190 },
+      ],
+    },
+
+    192: {
+      stemning: "hav",
+      tekst: "Havfolket strømmer frem fra alle sider med spyd og net. Blæksprutten sprøjter sort blæk og forsvinder i et virvar af arme. Vejen er fri.",
+      valg: [{ tekst: "Svøm ind i slottet", til: 191 }],
+    },
+
+    190: {
+      stemning: "fare",
+      tekst: "Blæksprutten opdager dig, og dens arme kommer piskende mod dig.",
+      kamp: { navn: "Kæmpeblæksprutte", evne: 9, udholdenhed: 10 },
+      valg: [{ tekst: "Svøm ind i slottet", til: 191 }],
+    },
+
+    191: {
+      stemning: "skygge",
+      billede: "assets/art/egne/havheksen.jpg",
+      billedtekst: "Havheksen Morga",
+      tekst:
+        "I slottets sal sidder Morga på en trone af koral. Hendes hår bølger som tang, og hendes hale er sort som blæk. I hænderne holder hun Havets Hjerte, en perle så stor som et æble, der lyser i alle havets farver.\n\n" +
+        "\"Månestenens bærer,\" siger hun med en stemme som en bølge, der trækker sig tilbage. \"Lad os handle. Giv mig din sten, så får du min perle. Så kan din landsby få sit hav, og jeg får månen.\"",
+      valg: [
+        { tekst: "Hold sølvspejlet op foran hende", til: 196, kraever: "Sølvspejl" },
+        { tekst: "Angrib hende med havfolkets trefork", til: 197, kraever: "Havfolkets trefork" },
+        { tekst: "Tag imod handlen", til: 193 },
+        { tekst: "Afvis hende og angrib", til: 194 },
+      ],
+    },
+
+    193: {
+      stemning: "død",
+      tekst:
+        "Du rækker hende Månestenen. Morga smiler, og hendes smil er det sidste, du ser, før havet lukker sig om dig. Hun havde aldrig tænkt sig at give dig perlen.\n\n" +
+        "Den nat bliver Månestenen sort i Vildmose, og ulvene kommer.",
+      slut: "død",
+    },
+
+    196: {
+      stemning: "fare",
+      tekst:
+        "Morga hæver hånden for at kaste en forbandelse, men i det samme ser hun sit eget spejlbillede i Morvaks gamle sølvspejl. Forbandelsen slår tilbage mod hende selv. Hun skriger, og hendes greb om perlen løsner sig.",
+      kamp: { navn: "Havheksen Morga (svækket)", evne: 7, udholdenhed: 8 },
+      valg: [{ tekst: "Grib Havets Hjerte", til: 195 }],
+    },
+
+    197: {
+      stemning: "fare",
+      tekst:
+        "Da Morga ser treforken, farer hun tilbage. \"Den blev smedet til at dræbe mig!\" hvæser hun. Men hun trækker en kniv af sort skal og går til angreb.",
+      kamp: { navn: "Havheksen Morga", evne: 8, udholdenhed: 9 },
+      valg: [{ tekst: "Grib Havets Hjerte", til: 195 }],
+    },
+
+    194: {
+      stemning: "fare",
+      tekst: "\"Så må du synke som alle de andre,\" siger Morga og rejser sig fra tronen. Vandet omkring hende bliver koldt og sort.",
+      kamp: { navn: "Havheksen Morga", evne: 10, udholdenhed: 12 },
+      valg: [{ tekst: "Grib Havets Hjerte", til: 195 }],
+    },
+
+    195: {
+      stemning: "sejr",
+      tekst:
+        "Morga opløses i sort skum og forsvinder med strømmen. Havets Hjerte falder ned i dine hænder, og i samme øjeblik begynder havet at synge. Fisk strømmer ind gennem gaderne, havfolket danser, og langt over dig hører du hvalerne svare.\n\n" +
+        "Hvalerne bærer dig op til overfladen, hvor skibet venter.",
+      effekter: { giv: "Havets Hjerte" },
+      valg: [
+        { tekst: "Skarre venter ved rælingen med hånden fremme", til: 198, kraever: "Skarres aftale" },
+        { tekst: "Sejl hjem mod Saltvig", til: 199, mangler: "Skarres aftale" },
+      ],
+    },
+
+    198: {
+      stemning: "hav",
+      tekst:
+        "\"Aftale er aftale,\" siger Skarre og ser på din pung. Du holder dit ord og deler guldet med ham. Han tæller det, griner og slår dig på skulderen. \"Du er den første ærlige person, jeg har sejlet med. Det må jeg vænne mig til.\"",
+      effekter: { guld: -5 },
+      valg: [{ tekst: "Sejl hjem mod Saltvig", til: 199 }],
+    },
+
+    199: {
+      stemning: "landsby",
+      tekst:
+        "Da I sejler ind i Saltvig, står hele byen på kajen. Havets Hjerte bliver sat på sin plads i den gamle havkirke, og samme aften er garnene fulde af sild. Bram finder sin søn, som havde siddet fanget i Ulmar sammen med havfolket.",
+      valg: [{ tekst: "Fejr sejren", til: 200 }],
+    },
+
+    200: {
+      stemning: "sejr",
+      billede: "assets/art/egne/havets-sang.jpg",
+      billedtekst: "Havet synger igen",
+      tekst:
+        "Den nat sidder du på kajen og ser solen gå ned i havet. Hvaler blæser springvand i horisonten, og bølgerne synger mod molen. I Vildmose fortæller de nu historien om den helt, der reddede både månen og havet.",
+      slut: "sejr",
+      fortsaet: { til: 201, tekst: "Fortsæt til kapitel 4: Dragens Vinter" },
+    },
+
+    // =========================================================
+    //  KAPITEL 4: DRAGENS VINTER (afsnit 201–250)
+    // =========================================================
+
+    201: {
+      kapitel: "Kapitel 4 · Dragens Vinter",
+      stemning: "is",
+      billede: "assets/art/egne/evig-vinter.jpg",
+      billedtekst: "Vinteren, der ikke vil slutte",
+      tekst:
+        "Sommeren kommer aldrig til Vildmose det år. Sne falder midt i juli, floden fryser til, og om natten hører man et brøl fra nord, så dybt at jorden ryster.\n\n" +
+        "Den ældste folder et gammelt kort ud på bordet. \"I Nordfjeldene sover isdragen Isvinge,\" siger hun. \"Hun har sovet i tusind år. Hvis hun er vågnet, er det fordi nogen har gjort hende vred. Og så kommer vinteren for at blive.\"",
+      effekter: { udholdenhed: 30, held: 6 },
+      valg: [
+        { tekst: "Drag nordpå mod Frostby", til: 202 },
+      ],
+    },
+
+    202: {
+      stemning: "is",
+      tekst:
+        "Vejen nordpå er dækket af sne til knæene. Efter tre dage når du til et vejkryds. Mod øst ligger Jernbjerget, hvor dværgene bor. Mod nord fører vejen direkte til Frostby, den sidste by før fjeldene.",
+      valg: [
+        { tekst: "Søg hjælp hos dværgene først", til: 203 },
+        { tekst: "Fortsæt direkte til Frostby", til: 204 },
+      ],
+    },
+
+    203: {
+      stemning: "smedje",
+      tekst:
+        "Brokk tager imod dig med et brøl af glæde og et krus varm mjød. \"Nordfjeldene? Så har du brug for de her.\" Han giver dig et par isbrodder af dværgestål, der kan spændes under støvlerne. \"Med dem kan du gå på blankis, som var det et stuegulv.\"",
+      effekter: { giv: "Isbrodder", udholdenhed: 4 },
+      valg: [{ tekst: "Tak Brokk og drag mod Frostby", til: 204 }],
+    },
+
+    204: {
+      stemning: "is",
+      billede: "assets/art/egne/frostby.jpg",
+      billedtekst: "Frostby",
+      tekst:
+        "Frostby er en by af tømmerhuse begravet i sne. Folk går med bøjet hoved, og kun røgen fra skorstenene viser, at her bor nogen. Over byen ligger Frostjarlens stenhal.\n\n" +
+        "Ved markedspladsen ser du en skikkelse, du kender: en mand med hætte og gule øjne. Det er Grimbold fra kroen i Vildmose. Han lister ind i et pakhus og ser sig nervøst over skulderen.",
+      valg: [
+        { tekst: "Følg efter Grimbold", til: 205, mangler: "Sporet efter ægget" },
+        { tekst: "Gå op til Frostjarlens hal", til: 206 },
+        { tekst: "Køb en hundeslæde på markedet (4 guld)", til: 207, kraeverGuld: 4 },
+      ],
+    },
+
+    205: {
+      stemning: "fare",
+      tekst:
+        "Inde i pakhuset står Grimbold bøjet over en tom trækasse fyldt med halm. I halmen er der et rundt aftryk, så stort som et vognhjul, og kanten er dækket af rimfrost.\n\n" +
+        "\"Det var bare en sten,\" mumler han for sig selv. \"En stor, kold sten. Hvordan skulle jeg vide, at det var et drageæg?\"",
+      valg: [
+        { tekst: "Træd frem og konfronter ham", til: 208 },
+        { tekst: "Bliv i skjul og lyt", til: 209 },
+      ],
+    },
+
+    208: {
+      stemning: "fare",
+      tekst:
+        "Grimbold farer sammen og falder over kassen. \"Du! Nej, nej, jeg vidste det ikke!\" Han rækker hænderne op. \"Frostjarlen Hrimgar betalte mig hundrede guld for at hente det i fjeldene. Det ligger nu i hans isslot bag gletsjeren.\"\n\n" +
+        "Han roder i sin kappe og giver dig et sammenrullet pergament. \"Her er tegningerne af slottet. Der er en skjult dør på østsiden. Bare lad mig gå!\"",
+      effekter: { giv: ["Grimbolds kort", "Sporet efter ægget"] },
+      valg: [{ tekst: "Lad ham løbe og gå tilbage til markedet", til: 204 }],
+    },
+
+    209: {
+      stemning: "fare",
+      tekst:
+        "Grimbold taler med sig selv, mens han tæller mønter. Han har stjålet dragens æg fra fjeldene og solgt det til Frostjarlen Hrimgar, som har bragt det til sit isslot bag gletsjeren. Jarlen vil opfostre dragen og bruge den som våben.\n\n" +
+        "Du lister ud, før han ser dig. Nu ved du, hvorfor Isvinge er så vred.",
+      effekter: { held: 1, giv: "Sporet efter ægget" },
+      valg: [{ tekst: "Gå tilbage til markedet", til: 204 }],
+    },
+
+    206: {
+      stemning: "is",
+      tekst:
+        "Frostjarlens hal er næsten tom. Kun hans foged, en mager mand med pelskrave, sidder ved ilden. \"Jarlen er ude i sit isslot,\" siger han kort. \"Men hvis du vil tjene en hundeslæde, kan du jage frostulvene, der angriber vores kvæg.\"",
+      valg: [
+        { tekst: "Tag imod opgaven", til: 210 },
+        { tekst: "Gå tilbage til markedet", til: 204 },
+      ],
+    },
+
+    210: {
+      stemning: "fare",
+      tekst: "Uden for byen finder du flokken i sneen. To frostulve med hvid pels og øjne som blåt is går til angreb.",
+      kamp: [
+        { navn: "Frostulv", evne: 7, udholdenhed: 6 },
+        { navn: "Frostulvenes leder", evne: 8, udholdenhed: 7 },
+      ],
+      valg: [{ tekst: "Hent din belønning: en hundeslæde", til: 211 }],
+    },
+
+    207: {
+      stemning: "is",
+      tekst: "En gammel kvinde sælger dig en slæde og seks hunde med blå øjne og tyk pels. \"De kender vejen over gletsjeren bedre end nogen mand,\" siger hun.",
+      effekter: { guld: -4 },
+      valg: [{ tekst: "Kør nordpå mod gletsjeren", til: 211 }],
+    },
+
+    211: {
+      stemning: "is",
+      billede: "assets/art/egne/gletsjeren.jpg",
+      billedtekst: "Over gletsjeren",
+      tekst:
+        "Hundene trækker slæden ud over den store gletsjer. Isen er blå og knirker under mederne, og dybe sprækker åbner sig til begge sider. Foran dig spænder en smal bro af is over en kløft, der er så dyb, at du ikke kan se bunden.",
+      valg: [
+        { tekst: "Spænd isbrodderne på og led hundene over", til: 213, kraever: "Isbrodder" },
+        { tekst: "Kør over isbroen", test: "held", til: 213, ellers: 212 },
+        { tekst: "Tag den lange vej rundt om kløften", til: 214 },
+      ],
+    },
+
+    212: {
+      stemning: "fare",
+      tekst:
+        "Midt på broen knækker isen. Hundene når over, men du bliver slynget af slæden og falder ned i kløften. Du lander hårdt på en isskrænt langt nede. Ved siden af dig åbner sig en grotte af blå is.",
+      effekter: { udholdenhed: -5 },
+      valg: [{ tekst: "Kravl ind i isgrotten", til: 215 }],
+    },
+
+    215: {
+      stemning: "is",
+      tekst:
+        "I grotten står en kriger frosset fast i isen, som han har stået i hundreder af år. På armen bærer han et skjold af hvidt metal med en drage indgraveret. Isen omkring skjoldet er smeltet en anelse, som om det venter på dig.\n\n" +
+        "Du løsner skjoldet. Bagerst i grotten fører en tunnel opad, og du kan høre dine hunde gø.",
+      effekter: { giv: "Frostskjold", loeft: { udholdenhed: 3 } },
+      valg: [{ tekst: "Kravl op til hundene", til: 213 }],
+    },
+
+    214: {
+      stemning: "is",
+      tekst: "Den lange vej tager to dage. Kulden bider gennem din kappe, og om natten må du grave dig ned i sneen sammen med hundene for at holde varmen.",
+      effekter: { udholdenhed: -3 },
+      valg: [{ tekst: "Kør videre", til: 213 }],
+    },
+
+    213: {
+      stemning: "is",
+      billede: "assets/art/egne/nordlys.jpg",
+      billedtekst: "Nordlysets dal",
+      tekst:
+        "Bag gletsjeren ligger en stille dal, hvor nordlyset danser i grønt og violet over himlen. Langt ude glimter isslottet som en krystal. På en sten ved vejen sidder en kæmpe sneugle og ser på dig med gyldne øjne.\n\n" +
+        "Vejen deler sig. Den ene går gennem et pas, hvor noget stort bevæger sig i sneen. Den anden fører ind i nogle iskolde grotter.",
+      valg: [
+        { tekst: "Gå hen til sneuglen", til: 248, mangler: "Uglefjer" },
+        { tekst: "Tag passet", til: 216 },
+        { tekst: "Gå gennem isgrotterne", til: 217 },
+      ],
+    },
+
+    248: {
+      stemning: "is",
+      tekst:
+        "Uglen drejer hovedet og taler med en stemme som vind i fyrretræer. \"Isvinge er min gamle veninde. Hendes vrede er sorg, ikke ondskab. Giv hende ægget tilbage, og vinteren slutter.\"\n\n" +
+        "Den lader en hvid fjer falde ned i din hånd. \"Vis hende denne, så ved hun, at du kommer som ven.\"",
+      effekter: { giv: "Uglefjer", held: 1 },
+      valg: [
+        { tekst: "Tag passet", til: 216 },
+        { tekst: "Gå gennem isgrotterne", til: 217 },
+      ],
+    },
+
+    216: {
+      stemning: "fare",
+      billede: "assets/art/egne/frostkaempen.jpg",
+      billedtekst: "Frostkæmpen i passet",
+      tekst:
+        "Midt i passet rejser en kæmpe sig af sneen. Han er tre gange så høj som en mand, hans skæg er af istapper, og hans øjne er blå som gletsjeren. \"Ingen går forbi Hrimgars vagt,\" buldrer han. \"Medmindre de kan svare på min gåde.\"",
+      valg: [
+        { tekst: "Vis ham dit sværd af dværgestål", til: 221, kraever: "Dværgestålsværd" },
+        { tekst: "Svar på gåden", til: 218 },
+        { tekst: "Træk dit våben og kæmp", til: 219 },
+      ],
+    },
+
+    221: {
+      stemning: "is",
+      tekst:
+        "Kæmpen ser på det blå dværgestål og bøjer langsomt hovedet. \"Thrains arbejde. Hans folk og mit folk var venner engang.\" Han træder til side. \"Gå, dværgeven. Jeg har aldrig brudt mig om den jarl alligevel.\"",
+      valg: [{ tekst: "Gå gennem passet", til: 220 }],
+    },
+
+    218: {
+      stemning: "is",
+      tekst: "Kæmpen bøjer sig ned, så hans ånde fryser i dit hår. \"Hvad bliver vådere, jo mere det tørrer?\"",
+      valg: [
+        { tekst: "»Et håndklæde«", til: 220 },
+        { tekst: "»Is«", til: 222 },
+        { tekst: "»Sne«", til: 222 },
+      ],
+    },
+
+    222: {
+      stemning: "fare",
+      tekst: "\"Forkert!\" brøler kæmpen og slynger dig gennem luften. Du lander i en snedrive nede i dalen.",
+      effekter: { udholdenhed: -3 },
+      valg: [{ tekst: "Kom på benene igen", til: 213 }],
+    },
+
+    219: {
+      stemning: "fare",
+      tekst: "Kæmpen løfter en knytnæve så stor som en tønde.",
+      kamp: { navn: "Frostkæmpe", evne: 10, udholdenhed: 12 },
+      flygt: { tekst: "Løb tilbage ned i dalen", til: 213 },
+      valg: [{ tekst: "Gå gennem passet", til: 220 }],
+    },
+
+    217: {
+      stemning: "fare",
+      tekst: "Grotterne lyser af blå krystaller. Midt i den største sal rejser en istrold sig fra gulvet. Dens krop er hård og gennemsigtig som is.",
+      kamp: { navn: "Istrold", evne: 8, udholdenhed: 9 },
+      valg: [{ tekst: "Følg grotten ud på den anden side", til: 220 }],
+    },
+
+    220: {
+      stemning: "is",
+      billede: "assets/art/egne/isslottet.jpg",
+      billedtekst: "Frostjarlens isslot",
+      tekst:
+        "Isslottet rejser sig foran dig med tårne af klar is, der fanger nordlyset. Ved hovedporten står to vagter i hvide rustninger med lange spyd.",
+      valg: [
+        { tekst: "Find den skjulte dør på østsiden", til: 223, kraever: "Grimbolds kort" },
+        { tekst: "Gå til angreb på vagterne ved porten", til: 224 },
+        { tekst: "Klatr op ad isvæggen", test: "held", til: 225, ellers: 226 },
+      ],
+    },
+
+    223: {
+      stemning: "is",
+      tekst: "Grimbolds kort er overraskende nøjagtigt. Bag en isblok på østsiden finder du en lille dør, der fører ind i slottets kældre.",
+      valg: [{ tekst: "Snig dig ind", til: 225 }],
+    },
+
+    224: {
+      stemning: "fare",
+      tekst: "Vagterne sænker spydene og kommer mod dig.",
+      kamp: [
+        { navn: "Isvagt", evne: 8, udholdenhed: 7 },
+        { navn: "Isvagt", evne: 8, udholdenhed: 7 },
+      ],
+      valg: [{ tekst: "Gå ind i slottet", til: 225 }],
+    },
+
+    226: {
+      stemning: "fare",
+      tekst: "Halvvejs oppe glider dine fingre på den blanke is. Du falder ned i sneen med et brag.",
+      effekter: { udholdenhed: -4 },
+      valg: [{ tekst: "Kom på benene igen", til: 220 }],
+    },
+
+    225: {
+      stemning: "is",
+      tekst:
+        "Slottets gange er af klar is, og nordlyset skinner ned gennem loftet i grønne og violette strømme. Fra en gang til venstre kommer et blåt skær, der pulserer som et hjerte. Fra en gang til højre hører du stemmer og latter. Lige frem står en dør på klem til et kammer fuldt af glimtende ting.",
+      valg: [
+        { tekst: "Følg det blå skær", til: 227 },
+        { tekst: "Følg stemmerne", til: 228 },
+        { tekst: "Kig ind i kammeret med de glimtende ting", til: 247, mangler: "Frostkrone" },
+      ],
+    },
+
+    247: {
+      stemning: "kammer",
+      tekst:
+        "Kammeret er Frostjarlens skatkammer. Mellem kister af sølv ligger en smal krone af blåt is, der aldrig smelter. Da du sætter den på, bliver dine tanker klare og rolige.",
+      effekter: { giv: "Frostkrone", loeft: { held: 2 } },
+      valg: [{ tekst: "Gå tilbage til gangen", til: 225 }],
+    },
+
+    227: {
+      stemning: "fare",
+      billede: "assets/art/egne/dragens-aeg.jpg",
+      billedtekst: "Dragens æg",
+      tekst:
+        "I en sal af blå is ligger ægget i en vugge af frost. Det er så stort som en kiste og dækket af skæl, der lyser som stjerner. Foran det står en isgolem, lavet af blokke af gletsjeris. Dens øjne tændes, da du træder ind.",
+      valg: [
+        { tekst: "Skyd en pil mod krystallen i golemmens bryst", til: 230, kraever: "Elverbue" },
+        { tekst: "Kæmp mod isgolemmen", til: 229 },
+      ],
+    },
+
+    230: {
+      stemning: "fare",
+      tekst: "Pilen rammer den lysende krystal i golemmens bryst. Den knækker med en lyd som en klokke, og golemmen falder sammen til en bunke isblokke.",
+      valg: [{ tekst: "Løft ægget", til: 231 }],
+    },
+
+    229: {
+      stemning: "fare",
+      tekst: "Golemmen træder frem med drønende skridt, og isen revner under den.",
+      kamp: { navn: "Isgolem", evne: 9, udholdenhed: 10 },
+      valg: [{ tekst: "Løft ægget", til: 231 }],
+    },
+
+    231: {
+      stemning: "fare",
+      tekst:
+        "Ægget er tungt og koldt, men da du løfter det, mærker du, at noget derinde bevæger sig. I det samme går døren op. I åbningen står Frostjarlen Hrimgar med sit sværd draget.\n\n" +
+        "\"Tyv!\" brøler han. \"Det æg er mit!\"",
+      effekter: { giv: "Dragens æg" },
+      valg: [{ tekst: "Sæt ægget forsigtigt ned og kæmp", til: 232 }],
+    },
+
+    228: {
+      stemning: "fare",
+      billede: "assets/art/egne/frostjarlen.jpg",
+      billedtekst: "Frostjarlen Hrimgar",
+      tekst:
+        "I tronsalen sidder Frostjarlen Hrimgar med en kappe af isbjørneskind og en krone af istapper. Hans hofmænd ler og drikker.\n\n" +
+        "\"Helten fra Vildmose!\" råber han. \"Jeg har hørt om dig. Slut dig til mig! Når min drage vokser op, hersker vi to over hele Norden.\"",
+      valg: [
+        { tekst: "Lad som om du siger ja", til: 233 },
+        { tekst: "Afvis ham og træk dit sværd", til: 232 },
+      ],
+    },
+
+    233: {
+      stemning: "fare",
+      tekst: "Du bukker og smiler. Hrimgar ler og vil vise dig sin skat.",
+      valg: [{ tekst: "Følg med og vent på din chance", test: "held", til: 227, ellers: 232 }],
+    },
+
+    232: {
+      stemning: "fare",
+      tekst: "Hrimgar kaster sin kappe og hæver et sværd af blåt is. \"Så må du fryse som alle de andre!\"",
+      kamp: { navn: "Frostjarlen Hrimgar", evne: 10, udholdenhed: 12 },
+      valg: [{ tekst: "Se jarlen falde", til: 234 }],
+    },
+
+    234: {
+      stemning: "is",
+      tekst:
+        "Hrimgars sværd splintres, og han falder på knæ. Uden for slottet lyder et brøl så højt, at isen i væggene revner. Hrimgar bliver hvid i ansigtet. \"Hun er her,\" hvisker han. \"Isvinge er kommet efter sit æg.\"",
+      valg: [
+        { tekst: "Løb efter ægget", til: 235, mangler: "Dragens æg" },
+        { tekst: "Løb ud med ægget", til: 236, kraever: "Dragens æg" },
+      ],
+    },
+
+    235: {
+      stemning: "fare",
+      tekst: "Du løber gennem de revnende gange, finder ægget i sin vugge og løfter det op. Bag dig styrter loftet sammen.",
+      effekter: { giv: "Dragens æg" },
+      valg: [{ tekst: "Løb ud", til: 236 }],
+    },
+
+    236: {
+      stemning: "fare",
+      tekst:
+        "Slottet smuldrer omkring dig. Tårne af is styrter i grus, og du løber ud gennem porten med ægget i armene, mens slottet falder sammen bag dig i en sky af frostrøg.",
+      valg: [{ tekst: "Se op mod himlen", til: 237 }],
+    },
+
+    237: {
+      stemning: "fare",
+      billede: "assets/art/egne/isvinge.jpg",
+      billedtekst: "Isdragen Isvinge",
+      tekst:
+        "Isvinge lander foran dig, og jorden ryster. Hun er så stor som et kirketårn, med skæl af hvid krystal og vinger, der kaster skygge over hele dalen. Hendes øjne er dybe og blå som gletsjersprækker, og de er fulde af vrede.",
+      valg: [
+        { tekst: "Vis hende uglens fjer", til: 238, kraever: "Uglefjer" },
+        { tekst: "Læg ægget foran hende og træd tilbage", til: 238 },
+        { tekst: "Løb med ægget", til: 241 },
+        { tekst: "Angrib dragen", til: 239 },
+      ],
+    },
+
+    241: {
+      stemning: "fare",
+      tekst:
+        "Du klemmer ægget ind til dig og løber ned ad skrænten. Bag dig lyder et brøl, og en kæmpe skygge glider hen over sneen. Isvinge letter fra jorden.",
+      valg: [{ tekst: "Løb for livet mod klipperne", test: "held", til: 242, ellers: 243 }],
+    },
+
+    242: {
+      stemning: "fare",
+      tekst:
+        "Du løber, men en skygge falder over dig, og en klo lander blidt i sneen foran dig og spærrer vejen. Isvinge bøjer hovedet ned mod dig. Først nu forstår du, at hun ikke vil skade ægget, og at hun ikke vil skade den, der bærer det.",
+      valg: [{ tekst: "Giv hende ægget", til: 238 }],
+    },
+
+    243: {
+      stemning: "død",
+      tekst:
+        "Du løber gennem sneen, men dragens ånde rammer dig som en vinterstorm. Du bliver stående midt i et skridt, frosset til en statue af is.\n\n" +
+        "Isvinge tager sit æg og flyver mod nord. Vinteren bliver i Norden i hundrede år.",
+      slut: "død",
+    },
+
+    239: {
+      stemning: "fare",
+      tekst: "Du hæver dit våben. Isvinge brøler, og sneen hvirvler op omkring jer.",
+      kamp: { navn: "Isvinge", evne: 12, udholdenhed: 18 },
+      valg: [{ tekst: "Se dragen falde", til: 240 }],
+    },
+
+    240: {
+      stemning: "is",
+      tekst:
+        "Isvinge synker sammen i sneen. Hendes øjne finder ægget en sidste gang, og så lukker hun dem. Vinteren slutter, og foråret kommer til Norden.\n\n" +
+        "Men da du går hjem med ægget i armene, føles sejren tom. Den sidste drage i verden er død, og det var ikke hende, der var skurken. I Vildmose fejrer de dig, men du ved, at du kunne have valgt anderledes.",
+      slut: "sejr",
+    },
+
+    238: {
+      stemning: "sejr",
+      tekst:
+        "Isvinge bøjer sit enorme hoved og lægger snuden mod ægget. En dyb, blid lyd vibrerer i hendes bryst. Så ser hun på dig, og vreden i hendes øjne smelter som is i forårssol.\n\n" +
+        "Omkring jer begynder sneen at tø. Det drypper fra istapperne, og i dalen bryder de første grønne strå frem gennem sneen. Isvinge sænker sin vinge mod jorden som en trappe.",
+      valg: [{ tekst: "Klatr op på dragens ryg", til: 244 }],
+    },
+
+    244: {
+      stemning: "sejr",
+      billede: "assets/art/egne/dragerytteren.jpg",
+      billedtekst: "Hjem på dragens ryg",
+      tekst:
+        "Isvinge flyver sydpå med dig på ryggen og ægget i sine klør. Under jer smelter vinteren bort. Floderne bryder deres is, skovene bliver grønne, og fuglene vender hjem. Du ser Frostby, Jernbjerget, Saltvig og Ravnetårnet glide forbi dybt under jer.",
+      valg: [{ tekst: "Land i Vildmose", til: 245 }],
+    },
+
+    245: {
+      stemning: "landsby",
+      tekst:
+        "Isvinge lander på engen uden for Vildmose, og hele landsbyen løber ud for at se. Mellem dem står venner fra alle dine rejser, og den gamle kone fra kroen smiler, som om hun hele tiden vidste det.\n\n" +
+        "Isvinge bøjer hovedet for dig. \"Når mit barn er klækket,\" siger hun med en stemme som vinterstorm og forårsregn, \"får det brug for en ven. Kom med os mod nord, hvis du vil. Eller bliv her, hvor du hører hjemme.\"",
+      valg: [
+        { tekst: "Bliv i Vildmose", til: 249 },
+        { tekst: "Drag mod nord med Isvinge", til: 246 },
+      ],
+    },
+
+    246: {
+      stemning: "sejr",
+      tekst:
+        "Du siger farvel til Vildmose og klatrer op på dragens ryg igen. Hele landsbyen vinker, til I er en lille prik mod himlen.\n\n" +
+        "I Nordfjeldene klækker ægget en forårsmorgen. Den lille drage er hvid som sne og har øjne som Månestenen, og den første, den ser, er dig.",
+      valg: [{ tekst: "Se mod fremtiden", til: 250 }],
+    },
+
+    249: {
+      stemning: "sejr",
+      billede: "assets/art/egne/foraar-i-vildmose.jpg",
+      billedtekst: "Foråret vender hjem",
+      tekst:
+        "Du bliver i Vildmose. Den sommer er den varmeste i mands minde. Månestenen lyser over landsbyen, havet synger i Saltvig, og hvert forår flyver en hvid drage forbi og vifter med vingerne.\n\n" +
+        "Om aftenen sidder børnene om dig ved ilden og vil høre om ravnetårnet, skyggekongen, havheksen og isdragen. Og du fortæller, for det er de bedste historier, du kender.",
+      slut: "sejr",
+    },
+
+    250: {
+      stemning: "sejr",
+      billede: "assets/art/egne/dragerytteren.jpg",
+      billedtekst: "Nye eventyr venter",
+      tekst:
+        "År senere flyver to drager over Norden, en stor og en lille, og på den lilles ryg sidder en rytter med en lysende sten om halsen.\n\n" +
+        "I Vildmose fortæller de stadig om helten, der begyndte som en ganske almindelig landsbyboer og endte som dragernes ven. Og eventyret? Det er aldrig rigtigt slut.",
       slut: "sejr",
     },
   },

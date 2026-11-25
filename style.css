@@ -25,6 +25,8 @@ body[data-stemning="bjerg"]  { --himmel: #3a4a5a; }
 body[data-stemning="aske"]   { --himmel: #3a3430; }
 body[data-stemning="skygge"] { --himmel: #24102e; }
 body[data-stemning="smedje"] { --himmel: #5a2a10; }
+body[data-stemning="hav"]    { --himmel: #14405a; }
+body[data-stemning="is"]     { --himmel: #3a5a70; }
 
 body {
   margin: 0;
