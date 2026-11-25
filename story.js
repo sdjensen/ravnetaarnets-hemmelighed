@@ -11,6 +11,8 @@
 //                 Valg med "kraever" er skjulte, hvis man ikke har tingen.
 //                 Valg med "mangler" er skjulte, hvis man HAR tingen.
 //                 Lykke-valg: { tekst, test: "held", til: <heldig>, ellers: <uheldig> }
+//                 Karisma-valg: { tekst, test: "karisma", til, ellers } (bruger ikke Karisma op)
+//                 kraeverKarisma: N (kun med høj Karisma), hoejstKarisma: N (kun for de grove)
 //    effekter.loeft – { evne: 2 } hæver både startværdi og nuværende værdi
 //    slut       – "sejr" eller "død" (så vises ingen valg)
 //    billede    – sti til et billede, fx "assets/art/scenes/graaskoven.jpg" (valgfrit)
@@ -54,6 +56,59 @@ window.STORY = {
     },
   ],
 
+  // Genstande: beskrivelse (vises, når man klikker på tingen i oppakningen)
+  // og evt. "brug": effekter, når man bruger den. Brugbare ting forsvinder
+  // efter brug og kan bruges når som helst – også midt i en kamp.
+  genstande: {
+    "Sværd": { ikon: "🗡️", tekst: "Et godt, gammelt sværd fra landsbysmeden." },
+    "Lædervest": { ikon: "🦺", tekst: "Tykt læder, der har reddet dig fra mangen en skramme." },
+    "Fakkel": { ikon: "🔥", tekst: "Giver lys i mørke steder – og skræmmer det, der lever der." },
+    "Månestenen": { ikon: "🌙", tekst: "Den gamle amulet, der holder ulvene væk fra Vildmose. Den lyser svagt blåt." },
+    "Runesværd": { ikon: "⚔️", tekst: "Et sværd fra stencirklen. Runerne langs klingen gløder, når der er fare." },
+    "Elverbue": { ikon: "🏹", tekst: "Liriels bue. Den rammer altid det, den sigtes efter." },
+    "Sølvnøgle": { ikon: "🗝️", tekst: "Åbner alle låse, Morvak har lavet." },
+    "Sølvspejl": { ikon: "🪞", tekst: "Morvaks gamle spejl. Den, der ser sig selv i det, mens hun kaster en forbandelse, rammer sig selv." },
+    "Ringbrynje": { ikon: "⛓️", tekst: "En tung brynje fra ulvehulen." },
+    "Dragehudsskjold": { ikon: "🛡️", tekst: "Let som et blad, men intet sværd skærer igennem det." },
+    "Dværgestålsværd": { ikon: "⚔️", tekst: "Smedet om af Thrain i Jernbjerget. Klingen er blå som is." },
+    "Havfolkets trefork": { ikon: "🔱", tekst: "Smedet af havfolket til at bekæmpe Havheksen." },
+    "Frostskjold": { ikon: "🛡️", tekst: "Et skjold af hvidt metal fra en frossen kriger i gletsjeren." },
+    "Frostkrone": { ikon: "👑", tekst: "En krone af blåt is, der aldrig smelter. Den gør tankerne klare." },
+    "Isbrodder": { ikon: "🥾", tekst: "Dværgestål under støvlerne. Nu er blankis som et stuegulv." },
+    "Kort over tårnet": { ikon: "🗺️", tekst: "Grimbolds tegning af Ravnetårnet med et kryds ved skattekammeret." },
+    "Grimbolds kort": { ikon: "🗺️", tekst: "Tegninger af Frostjarlens isslot med en skjult dør på østsiden." },
+    "Ordet »Korvus«": { ikon: "💬", tekst: "Ravnens rette navn. Den adlyder, når man kalder den ved det." },
+    "Ordet »Sten, sov«": { ikon: "💬", tekst: "Ordene, der får Morvaks stengolem til at falde i søvn." },
+    "Rygte om sumpstien": { ikon: "💬", tekst: "Følg de døde birketræer – aldrig de blå lys." },
+    "Syn af tronen": { ikon: "👁️", tekst: "Du ved, at Vardraks krystal sidder bag hans trone." },
+    "Sporet efter ægget": { ikon: "👣", tekst: "Grimbold stjal dragens æg og solgte det til Frostjarlen." },
+    "Koboldens løfte": { ikon: "👺", tekst: "Kald på kobolden Pip, når du har brug for ham. Én gang." },
+    "Nereas skæl": { ikon: "🐚", tekst: "Med det på tungen kan du ånde under vand. Én gang." },
+    "Hvalbensfløjte": { ikon: "🎶", tekst: "Heddas fløjte. Blæs i den over revet, så kommer hvalerne." },
+    "Bivoks": { ikon: "🕯️", tekst: "To små kugler voks til ørerne – mod sirenernes sang." },
+    "Dragens æg": { ikon: "🥚", tekst: "Stort som en kiste og koldt som is. Noget bevæger sig derinde." },
+    "Uglefjer": { ikon: "🪶", tekst: "Vis den til Isvinge, så ved hun, at du kommer som ven." },
+    "Tom eliksirflaske": { ikon: "🧪", tekst: "Her var engang en eliksir med kæmpestyrke." },
+
+    // Brugbare ting
+    "Helbredende urter": { ikon: "🌿", tekst: "Gnid dem i et sår, så lukker det sig som ved trylleri.", brug: { udholdenhed: 8 } },
+    "Tørret fisk": { ikon: "🐟", tekst: "Marnas røgede fisk. Salt og mættende.", brug: { udholdenhed: 4 } },
+    "Heksesalve": { ikon: "🫙", tekst: "Grimhilds grønne salve. Den lugter af mose, men den virker.", brug: { udholdenhed: 6, held: 1 } },
+    "Livseliksir": { ikon: "🧪", tekst: "En glødende rød eliksir fra Morvaks kiste.", brug: { udholdenhed: 12 } },
+    "Dværgemjød": { ikon: "🍺", tekst: "Brokks bedste mjød. Den varmer helt ned i tæerne.", brug: { udholdenhed: 5, held: 1 } },
+    "Havets perle": { ikon: "🫧", tekst: "En lille perle fra havfolket. Knus den, og havet giver dig kræfter.", brug: { udholdenhed: 8, held: 2 } },
+  },
+
+  // Følgesvende hjælper dig i kampe: hver runde er der en chance for, at de
+  // gør skade på fjenden eller heler dig. De skilles fra dig, når et nyt
+  // kapitel begynder (effekter: { forladAlle: true }).
+  foelgesvende: {
+    "Ilsa": { ikon: "⛓️", tekst: "Smedens datter fra Vildmose. Hun slår med sin gamle kæde.", chance: 0.35, skade: 1, handling: "Ilsa slår med kæden" },
+    "Liriel": { ikon: "🗡️", tekst: "Elveren fra kløften. Hun gav dig sin bue, men hendes elverdolke er lige så hurtige.", chance: 0.5, skade: 1, handling: "Liriel kaster en elverdolk" },
+    "Nerea": { ikon: "🧜", tekst: "Havfruen, der reddede dig. Hendes sang heler sår.", chance: 0.4, heling: 2, handling: "Nerea synger, og dine sår lukker sig" },
+    "Brokk": { ikon: "🪓", tekst: "Dværgen fra Jernbjerget. Bred som en dør og stærk som en okse.", chance: 0.4, skade: 2, handling: "Brokk hugger med sin økse" },
+  },
+
   // Præstationer, som huskes på tværs af gennemspilninger (se Opdagelser).
   // Betingelser: afsnit (besøgt), ting (fået), procent (af alle afsnit),
   // slutninger (antal fundet), doede (antal gange død).
@@ -76,6 +131,8 @@ window.STORY = {
     { id: "opdager", titel: "Opdagelsesrejsende", tekst: "Har set halvdelen af alle afsnit.", procent: 50 },
     { id: "kortlaegger", titel: "Kortlægger", tekst: "Har set alle afsnit i eventyret.", procent: 100 },
     { id: "slutninger5", titel: "Mange veje", tekst: "Har fundet 5 forskellige slutninger.", slutninger: 5 },
+    { id: "soelvtunge", titel: "Sølvtunge", tekst: "Talte dig til noget, andre må betale eller kæmpe for.", nogenAfsnit: [2, 5, 6, 8, 10, 12, 14] },
+    { id: "grov", titel: "Grov, men ærlig", tekst: "Fik en trold eller en kæmpe til at grine med dine fornærmelser.", nogenAfsnit: [4, 15] },
     { id: "doed5", titel: "Ni liv? Ikke helt", tekst: "Er død 5 gange.", doede: 5 },
   ],
 
@@ -124,6 +181,7 @@ window.STORY = {
         "Han lægger en hånd på et sammenrullet stykke pergament. \"Jeg tegnede et kort over tårnet, før jeg gik. Der er et skattekammer bag en løs sten i vindeltrappen. Tre guld, så er det dit.\"",
       valg: [
         { tekst: "Køb kortet", til: 45, kraeverGuld: 3, mangler: "Kort over tårnet" },
+        { tekst: "Prut om prisen", test: "karisma", til: 6, ellers: 7, mangler: "Kort over tårnet" },
         { tekst: "Gå tilbage til kroens stue", til: 41 },
       ],
     },
@@ -250,8 +308,8 @@ window.STORY = {
       stemning: "skov",
       tekst:
         "Du skærer forsigtigt i spindet. Ud kommer en slank skikkelse med spidse ører og sølvhår. Det er en elver, der har hængt der i tre dage.\n\n" +
-        "\"Jeg hedder Liriel,\" siger hun, mens hun gnider liv i sine arme. \"Jeg jagede Morvaks ravn, da edderkoppen tog mig. Tag min bue. Den rammer altid, hvad den sigtes efter, og du har mere brug for den end jeg lige nu.\"",
-      effekter: { giv: "Elverbue", held: 2 },
+        "\"Jeg hedder Liriel,\" siger hun, mens hun gnider liv i sine arme. \"Jeg jagede Morvaks ravn, da edderkoppen tog mig. Tag min bue. Den rammer altid, hvad den sigtes efter, og du har mere brug for den end jeg lige nu.\"\n\n\"Og jeg følger dig til tårnet,\" tilføjer hun og trækker to lange elverdolke. \"Ravnen skylder mig en fjer.\"",
+      effekter: { giv: "Elverbue", held: 2, foelge: "Liriel" },
       valg: [{ tekst: "Følg kløften til tårnets fod", til: 61 }],
     },
 
@@ -313,6 +371,108 @@ window.STORY = {
       valg: [{ tekst: "Fortsæt mod tårnet", til: 47 }],
     },
 
+
+    // ---------- Karisma-scener (numre fra de ledige pladser under 100) ----------
+
+    2: {
+      stemning: "flod",
+      tekst:
+        "Du fortæller færgemanden om Vildmose, om den stjålne Månesten og om ulvene, der kommer ved fuldmåne. Han siger ingenting længe. Så skubber han hætten tilbage, og du ser et gammelt, vejrbidt ansigt.\n\n" +
+        "\"Jeg voksede op i Vildmose,\" siger han. \"Hop om bord. Det her er gratis.\" Midt på floden læner han sig mod dig. \"Morvaks ravn vogter døren. Kald den ved dens rette navn, Korvus, og den lukker dig ind.\"",
+      effekter: { giv: "Ordet »Korvus«" },
+      valg: [{ tekst: "Gå mod tårnet", til: 61 }],
+    },
+
+    3: {
+      stemning: "flod",
+      tekst: "Færgemanden spytter i floden og vender sig væk. \"Alle har en trist historie. Tre guld, eller også kan du svømme.\"",
+      valg: [
+        { tekst: "Betal færgemanden", til: 73, kraeverGuld: 3 },
+        { tekst: "Svøm over floden", til: 18 },
+        { tekst: "Følg bredden mod nord og se efter en bro", til: 21 },
+      ],
+    },
+
+    4: {
+      stemning: "flod",
+      tekst:
+        "Du kalder trolden en tangbefængt sumpklump med en ånde værre end en død sild, og du siger, at hans bro ser ud, som om en ged har bygget den.\n\n" +
+        "Der bliver helt stille. Så slår trolden sig på lårene og brøler af grin, så broen ryster. \"Ha! Endelig en med ordentlig mund på! Alle de andre siger »kære hr. trold« og »undskyld, hr. trold«.\" Han tørrer en tåre væk. \"Gå bare over, du. Du har gjort min dag.\"",
+      valg: [{ tekst: "Gå over broen og mod tårnet", til: 61 }],
+    },
+
+    5: {
+      stemning: "flod",
+      tekst:
+        "Du roser trolden for hans flotte bro, hans imponerende skæg og hans smukke stemme. Trolden rødmer under tangen. \"Synes du virkelig?\" Han kigger ned i vandet på sit eget spejlbillede.\n\n" +
+        "\"Gå bare over,\" mumler han genert. \"Og tag lige det her. Jeg fandt det i floden.\" Han rækker dig et par blanke mønter.",
+      effekter: { guld: 2 },
+      valg: [{ tekst: "Gå over broen og mod tårnet", til: 61 }],
+    },
+
+    6: {
+      stemning: "landsby",
+      tekst:
+        "Du roser Grimbolds tegnefærdigheder, fortæller ham, at Morvak var en tåbe at smide sådan en dygtig mand ud, og du griner af hans dårlige vittigheder. Grimbold smelter som smør. \"Ja, det var han! En tåbe!\" Han skubber kortet over bordet. \"En guld. Fordi det er dig.\"",
+      effekter: { guld: -1, giv: "Kort over tårnet" },
+      valg: [{ tekst: "Gå tilbage til kroens stue", til: 41 }],
+    },
+
+    7: {
+      stemning: "landsby",
+      tekst: "Grimbold ser koldt på dig med sine gule øjne. \"Tre guld. Ikke en kobberskilling mindre. Og spar mig for dit smil.\"",
+      valg: [
+        { tekst: "Køb kortet", til: 45, kraeverGuld: 3, mangler: "Kort over tårnet" },
+        { tekst: "Gå tilbage til kroens stue", til: 41 },
+      ],
+    },
+
+    8: {
+      stemning: "skov",
+      tekst:
+        "Du bukker dybt og roser hendes hytte, hendes gryde og hendes flotte, spidse hat. Grimhild fniser som en ung pige. \"Det er hundrede år siden, nogen har sagt pænt goddag til mig!\" Hun klatrer ned ad stigen og tager dig ved armen. \"Kom. Selvfølgelig skal du have hjælp.\"",
+      valg: [{ tekst: "Følg med heksen", til: 105 }],
+    },
+
+    10: {
+      stemning: "hav",
+      tekst:
+        "Du fortæller Bram om Havets Hjerte og om, at du måske kan finde hans søn derude. Den gamle skipper ser længe ud over havet. Så lægger han sin ru hånd på din skulder. \"Behold dine penge. Hvis du kan bringe min dreng hjem, er det mig, der skylder dig.\"",
+      effekter: { held: 1 },
+      valg: [{ tekst: "Gå om bord på Mågen", til: 157 }],
+    },
+
+    11: {
+      stemning: "hav",
+      tekst: "Bram ryster på hovedet. \"Søde ord fylder ikke maven på mine folk. Betal, eller tag en skrubbe.\"",
+      valg: [
+        { tekst: "Betal tre guld", til: 158, kraeverGuld: 3 },
+        { tekst: "Arbejd for overfarten", til: 159 },
+      ],
+    },
+
+    12: {
+      stemning: "fare",
+      tekst:
+        "\"Så smuk en perle,\" siger du og træder tættere på. \"Og så smuk en dronning til at bære den. Ingen i hele havet kan måle sig med dig.\" Morga smiler og læner sig frem, og for et øjeblik holder hun perlen løst. Du griber ud efter den. Hun skriger af raseri, men hun er ude af balance.",
+      kamp: { navn: "Havheksen Morga (overrumplet)", evne: 7, udholdenhed: 7 },
+      valg: [{ tekst: "Grib Havets Hjerte", til: 195 }],
+    },
+
+    14: {
+      stemning: "is",
+      tekst:
+        "Du sætter dig ved fogedens ild og taler med ham om kulden, om kvæget og om hans børn, der ikke har set en sommer i år. Til sidst sukker han. \"Du er et ordentligt menneske. Tag min egen slæde og mine hunde. De kender vejen over gletsjeren. Bare kom med sommeren tilbage.\"",
+      valg: [{ tekst: "Kør nordpå mod gletsjeren", til: 211 }],
+    },
+
+    15: {
+      stemning: "is",
+      tekst:
+        "Du stiller dig foran kæmpen og kalder ham en overgroet istap med snot i skægget. Kæmpen stirrer på dig. Så begynder han at grine, så sneen falder af fjeldet. \"Ha! Ingen har talt sådan til mig i tusind år! Alle andre ryster i bukserne.\" Han træder til side. \"Gå bare, lille frækkert. Og sig til jarlen, at hans vagt holder fri.\"",
+      valg: [{ tekst: "Gå gennem passet", til: 220 }],
+    },
+
     9: {
       stemning: "flod",
       billede: "assets/art/egne/soelvaa-faergen.jpg",
@@ -324,6 +484,7 @@ window.STORY = {
         { tekst: "Betal færgemanden", til: 73, kraeverGuld: 3 },
         { tekst: "Svøm over floden", til: 18 },
         { tekst: "Følg bredden mod nord og se efter en bro", til: 21 },
+        { tekst: "Fortæl færgemanden om Vildmose og bed om en gratis tur", test: "karisma", til: 2, ellers: 3 },
       ],
     },
 
@@ -336,6 +497,8 @@ window.STORY = {
         "\"Ingen går over MIN bro uden at betale!\" brøler den. \"Fem guld, ellers tager jeg dit skind!\"",
       valg: [
         { tekst: "Betal trolden fem guld", til: 25, kraeverGuld: 5 },
+        { tekst: "Smigr trolden", test: "karisma", til: 5, ellers: 27 },
+        { tekst: "Fornærm trolden groft", til: 4, hoejstKarisma: 8 },
         { tekst: "Træk dit våben og kæmp", til: 27 },
         { tekst: "Gå tilbage til færgestedet", til: 9 },
       ],
@@ -392,8 +555,8 @@ window.STORY = {
       billedtekst: "Marnas hytte ved floden",
       tekst:
         "Hytten er lav og lugter af røget fisk. En bredskuldret kone åbner døren, før du når at banke på. Hun ser på dit drivvåde tøj og trækker dig ind til ilden uden et ord.\n\n" +
-        "Mens du spiser hendes suppe, fortæller hun, at hun hedder Marna, og at hendes mand byggede stenene til Ravnetårnet for mange år siden. \"Morvak betalte ham aldrig,\" siger hun bittert. \"Men han hørte, hvordan troldmanden styrer sin stengolem. Råber man »Sten, sov!«, så står den stille som en klippe.\"",
-      effekter: { udholdenhed: 4, giv: "Ordet »Sten, sov«" },
+        "Mens du spiser hendes suppe, fortæller hun, at hun hedder Marna, og at hendes mand byggede stenene til Ravnetårnet for mange år siden. \"Morvak betalte ham aldrig,\" siger hun bittert. \"Men han hørte, hvordan troldmanden styrer sin stengolem. Råber man »Sten, sov!«, så står den stille som en klippe.\" Da du går, stikker hun dig et bundt røget fisk. \"Til turen,\" siger hun.",
+      effekter: { udholdenhed: 4, giv: ["Ordet »Sten, sov«", "Tørret fisk"] },
       valg: [{ tekst: "Tak Marna og gå mod tårnet", til: 61 }],
     },
 
@@ -492,8 +655,8 @@ window.STORY = {
       stemning: "taarn",
       tekst:
         "Ilsa gnider sine håndled. \"Tak. Hør nu godt efter: Morvak fik sin magt fra et spejl, og hans eget blik er hans svaghed. Ser han sig selv, mens han kaster en forbandelse, rammer den ham selv.\"\n\n" +
-        "Hun trækker et lille sølvspejl frem fra sin kjole. \"Jeg stjal det fra ham. Og der er en skjult trappe herfra, der fører lige op til hans kammer.\"",
-      effekter: { giv: "Sølvspejl", held: 2 },
+        "Hun trækker et lille sølvspejl frem fra sin kjole. \"Jeg stjal det fra ham. Og der er en skjult trappe herfra, der fører lige op til hans kammer.\"\n\n\"Og jeg går med dig,\" siger Ilsa og vikler den knækkede kæde om sin hånd. \"Jeg har en regning at gøre op med Morvak.\"",
+      effekter: { giv: "Sølvspejl", held: 2, foelge: "Ilsa" },
       valg: [{ tekst: "Gå op ad den skjulte trappe", til: 29 }],
     },
 
@@ -606,8 +769,8 @@ window.STORY = {
     89: {
       stemning: "kammer",
       tekst:
-        "Du løfter låget forsigtigt med spidsen af dit sværd. Klik! En lille nål skyder ud af låsen og ind i luften, hvor din hånd ville have været. I kisten ligger en pung med ædelstene.",
-      effekter: { guld: 8, held: 1 },
+        "Du løfter låget forsigtigt med spidsen af dit sværd. Klik! En lille nål skyder ud af låsen og ind i luften, hvor din hånd ville have været. I kisten ligger en pung med ædelstene. Ved siden af ligger en lille flaske med en glødende rød eliksir.",
+      effekter: { guld: 8, held: 1, giv: "Livseliksir" },
       valg: [{ tekst: "Skynd dig videre op ad trappen", til: 66 }],
     },
 
@@ -873,7 +1036,7 @@ window.STORY = {
         "En måned er gået. Dine sår er helet, og Vildmose har fejret dig, til selv kroværten var træt af at synge. Men en nat vågner du ved, at hundene hyler.\n\n" +
         "Månestenen på sin pæl er ikke længere blå. Den er sort som kul, og rundt om husene glider skikkelser af skygge med lange fingre. Den ældste står i sin dør med et lys i hånden. \"Morvak var ikke alene,\" siger hun. \"Han tjente Skyggekongen Vardrak i ruinbyen Askeborg. Nu drikker Vardrak stenens lys.\"\n\n" +
         "\"Dværgene i Jernbjerget smedede stenen engang. Måske kan de hjælpe. Men skal skyggerne væk for altid, må nogen knuse Vardraks skyggekrystal.\"",
-      effekter: { udholdenhed: 30, held: 6 },
+      effekter: { udholdenhed: 30, held: 6, forladAlle: true },
       valg: [
         { tekst: "Pak din oppakning og gå ud over heden", til: 102 },
         { tekst: "Søg først den gamle kone på kroen", til: 103, kraever: "Rygte om sumpstien" },
@@ -915,6 +1078,7 @@ window.STORY = {
       valg: [
         { tekst: "Sig: »Konen fra Vildmose hilser«", til: 105, kraever: "Konens hilsen" },
         { tekst: "Bed hende om hjælp mod skyggerne", til: 106 },
+        { tekst: "Charmér den gamle heks", til: 8, kraeverKarisma: 10 },
         { tekst: "Gå tilbage til heden", til: 102 },
       ],
     },
@@ -923,8 +1087,8 @@ window.STORY = {
       stemning: "skov",
       tekst:
         "Grimhild klatrer ned ad stigen med overraskende fart. \"Så den gamle kælling lever endnu,\" griner hun. \"Godt. Så skal du få hjælp.\"\n\n" +
-        "Hun smører en salve på dine skrammer og stikker dig en lille pung. \"Sølvpulver. Kast det mod skyggerne, så brænder de som papir. Men der er kun til én gang.\"",
-      effekter: { tag: "Konens hilsen", udholdenhed: 6, giv: "Sølvpulver" },
+        "Hun smører en salve på dine skrammer og stikker dig en lille pung. \"Sølvpulver. Kast det mod skyggerne, så brænder de som papir. Men der er kun til én gang.\" Hun giver dig også en lille krukke af sin grønne salve. \"Til senere. Du kommer til at få brug for den.\"",
+      effekter: { tag: "Konens hilsen", udholdenhed: 6, giv: ["Sølvpulver", "Heksesalve"] },
       valg: [
         { tekst: "Drik af gryden, som Grimhild byder dig", til: 107 },
         { tekst: "Tag afsked og gå mod Jernbjerget", til: 110 },
@@ -1386,7 +1550,7 @@ window.STORY = {
         "Foråret kommer til Vildmose, og Månestenen lyser klarere end nogensinde. Men en morgen står en udmattet budbringer fra havnebyen Saltvig ved landsbyens port.\n\n" +
         "\"Havet er blevet tavst,\" siger han. \"Ingen bølger synger, ingen fisk går i garnene, og skibe forsvinder sporløst. Om natten hører sømændene en sang ude fra skærene, og de, der følger den, kommer aldrig hjem.\"\n\n" +
         "Den nat viser Månestenen dig et syn: en sunket by af marmor dybt under vandet, og en kvinde med hår som tang, der holder en lysende perle i sine hænder. Havets Hjerte. Uden det mister havet sin sang.",
-      effekter: { udholdenhed: 30, held: 6 },
+      effekter: { udholdenhed: 30, held: 6, forladAlle: true },
       valg: [{ tekst: "Rejs til Saltvig", til: 152 }],
     },
 
@@ -1431,6 +1595,7 @@ window.STORY = {
       valg: [
         { tekst: "Betal tre guld", til: 158, kraeverGuld: 3 },
         { tekst: "Arbejd for overfarten", til: 159 },
+        { tekst: "Fortæl Bram, at du måske kan finde hans søn", test: "karisma", til: 10, ellers: 11 },
       ],
     },
 
@@ -1717,8 +1882,8 @@ window.STORY = {
     189: {
       stemning: "hav",
       tekst:
-        "Du hugger korallåsene over én efter én. Havfolket strømmer ud, og deres ældste, en gammel havmand med perler i skægget, lægger hånden på dit hoved. \"Vi står i gæld til dig. Når du kæmper mod Morga, kæmper vi med dig.\"",
-      effekter: { giv: "Havfolkets løfte", held: 2 },
+        "Du hugger korallåsene over én efter én. Havfolket strømmer ud, og deres ældste, en gammel havmand med perler i skægget, lægger hånden på dit hoved. \"Vi står i gæld til dig. Når du kæmper mod Morga, kæmper vi med dig.\"\n\nHan giver dig en lille, glinsende perle, og havfruen Nerea svømmer op ved din side. \"Jeg følger dig til Morga,\" siger hun. \"Min sang kan hele dine sår.\"",
+      effekter: { giv: ["Havfolkets løfte", "Havets perle"], held: 2, foelge: "Nerea" },
       valg: [{ tekst: "Svøm mod slottet", til: 185 }],
     },
 
@@ -1759,6 +1924,7 @@ window.STORY = {
       valg: [
         { tekst: "Hold sølvspejlet op foran hende", til: 196, kraever: "Sølvspejl" },
         { tekst: "Angrib hende med havfolkets trefork", til: 197, kraever: "Havfolkets trefork" },
+        { tekst: "Smigr Morga og lok hende tættere på", test: "karisma", til: 12, ellers: 194 },
         { tekst: "Tag imod handlen", til: 193 },
         { tekst: "Afvis hende og angrib", til: 194 },
       ],
@@ -1847,7 +2013,7 @@ window.STORY = {
       tekst:
         "Sommeren kom aldrig til Vildmose det år. Sneen faldt midt i juli, floden frøs til, og om natten hørte man et brøl fra nord, så dybt at jorden rystede.\n\n" +
         "Nu folder den ældste et gammelt kort ud på bordet. \"I Nordfjeldene sover isdragen Isvinge,\" siger hun. \"Hun har sovet i tusind år. Hvis hun er vågnet, er det fordi nogen har gjort hende vred. Og så kommer vinteren for at blive.\"",
-      effekter: { udholdenhed: 30, held: 6 },
+      effekter: { udholdenhed: 30, held: 6, forladAlle: true },
       valg: [
         { tekst: "Drag nordpå mod Frostby", til: 202 },
       ],
@@ -1866,8 +2032,8 @@ window.STORY = {
     203: {
       stemning: "smedje",
       tekst:
-        "Brokk tager imod dig med et brøl af glæde og et krus varm mjød. \"Nordfjeldene? Så har du brug for de her.\" Han giver dig et par isbrodder af dværgestål, der kan spændes under støvlerne. \"Med dem kan du gå på blankis, som var det et stuegulv.\"",
-      effekter: { giv: "Isbrodder", udholdenhed: 4 },
+        "Brokk tager imod dig med et brøl af glæde og et krus varm mjød. \"Nordfjeldene? Så har du brug for de her.\" Han giver dig et par isbrodder af dværgestål, der kan spændes under støvlerne. \"Med dem kan du gå på blankis, som var det et stuegulv.\"\n\nSå tager han sin økse ned fra væggen. \"Og jeg går med dig. Jeg har altid villet se en drage – helst på afstand, men man kan jo ikke få alt.\"",
+      effekter: { giv: ["Isbrodder", "Dværgemjød"], udholdenhed: 4, foelge: "Brokk" },
       valg: [{ tekst: "Tak Brokk og drag mod Frostby", til: 204 }],
     },
 
@@ -1920,6 +2086,7 @@ window.STORY = {
         "Frostjarlens hal er næsten tom. Kun hans foged, en mager mand med pelskrave, sidder ved ilden. \"Jarlen er ude i sit isslot,\" siger han kort. \"Men hvis du vil tjene en hundeslæde, kan du jage frostulvene, der angriber vores kvæg.\"",
       valg: [
         { tekst: "Tag imod opgaven", til: 210 },
+        { tekst: "Overtal fogeden til at låne dig en slæde", til: 14, kraeverKarisma: 10 },
         { tekst: "Gå tilbage til markedet", til: 204 },
       ],
     },
@@ -2013,6 +2180,7 @@ window.STORY = {
       valg: [
         { tekst: "Vis ham dit sværd af dværgestål", til: 221, kraever: "Dværgestålsværd" },
         { tekst: "Svar på gåden", til: 218 },
+        { tekst: "Kald ham en overgroet istap", til: 15, hoejstKarisma: 7 },
         { tekst: "Træk dit våben og kæmp", til: 219 },
       ],
     },
@@ -2161,7 +2329,7 @@ window.STORY = {
     233: {
       stemning: "fare",
       tekst: "Du bukker og smiler. Hrimgar ler og vil vise dig sin skat.",
-      valg: [{ tekst: "Følg med og vent på din chance", test: "held", til: 227, ellers: 232 }],
+      valg: [{ tekst: "Smil, nik og følg med", test: "karisma", til: 227, ellers: 232 }],
     },
 
     232: {

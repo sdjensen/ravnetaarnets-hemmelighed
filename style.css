@@ -219,7 +219,7 @@ button {
 /* ---------- Terningeslag ved start ---------- */
 .slag {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 12px;
   margin: 24px 0;
   text-align: center;
@@ -296,6 +296,53 @@ button {
 }
 .kamplog li:first-child { animation: ny 0.35s ease-out; }
 @keyframes ny { from { opacity: 0; transform: translateY(-6px); } }
+
+/* ---------- Ting og følgesvende i eventyrarket ---------- */
+.inventar .ting-knap {
+  background: none;
+  border: none;
+  padding: 1px 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
+}
+.inventar .ting-knap:hover, .inventar .ting-knap:focus-visible { color: var(--rod); outline: none; text-decoration: underline dotted; }
+.inventar .ting-knap .ikon { font-size: .9em; }
+.brug-maerke {
+  font-family: "Cinzel", serif;
+  font-size: .65rem;
+  color: var(--pergament);
+  background: #2f6b2f;
+  border-radius: 999px;
+  padding: 1px 6px;
+  align-self: center;
+}
+.ark .inventar { list-style: none; padding-left: 0; }
+
+dialog.ting-dialog {
+  width: min(380px, calc(100vw - 32px));
+  border: none;
+  border-radius: 6px;
+  padding: 26px 26px 22px;
+  text-align: center;
+  background: radial-gradient(ellipse at center, var(--pergament) 55%, var(--pergament-mork) 100%);
+  color: var(--blaek);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, .7), inset 0 0 60px var(--skygge);
+}
+dialog.ting-dialog::backdrop { background: rgba(15, 10, 5, .6); }
+dialog.ting-dialog .ting-ikon { font-size: 2.6rem; line-height: 1; margin-bottom: 6px; }
+dialog.ting-dialog h2 { font-size: 1.25rem; margin-bottom: 8px; }
+dialog.ting-dialog p { margin: 0 0 16px; }
+dialog.ting-dialog .luk {
+  position: absolute; top: 8px; right: 10px;
+  background: none; border: none; font-size: 1.2rem; color: var(--blaek-svag);
+}
+dialog.ting-dialog .luk:hover { color: var(--rod); }
+dialog.ting-dialog .stor { justify-content: center; }
 
 /* ---------- Opdagelser ---------- */
 .opd-link { text-align: center; margin: -18px 0 24px; }

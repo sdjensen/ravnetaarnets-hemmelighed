@@ -36,6 +36,12 @@
         // ting, der har skiftet navn siden spillet blev gemt
         const NYE_NAVNE = { "Nissens løfte": "Koboldens løfte" };
         data.spiller.inventar = (data.spiller.inventar || []).map((t) => NYE_NAVNE[t] || t);
+        data.spiller.foelge = data.spiller.foelge || [];
+        // gemt før Karisma fandtes: giv en middel-værdi
+        if (data.spiller.karisma == null) {
+          data.spiller.karisma = 9;
+          data.spiller.max.karisma = 9;
+        }
         return data;
       }
     } catch (e) { /* ugyldigt eller utilgængeligt */ }
@@ -311,10 +317,12 @@
     const evne = d6() + 6;
     const udh = d6() + d6() + 12;
     const held = d6() + 6;
+    const karisma = d6() + 6;
     return {
-      evne, udholdenhed: udh, held, guld: STORY.startGuld ?? 5,
-      max: { evne, udholdenhed: udh, held },
+      evne, udholdenhed: udh, held, karisma, guld: STORY.startGuld ?? 5,
+      max: { evne, udholdenhed: udh, held, karisma },
       inventar: [...(STORY.startInventar || [])],
+      foelge: [],
     };
   }
 
@@ -326,7 +334,7 @@
     const vaerdier = el("div", { class: "slag" });
     const tegnSlag = () => {
       vaerdier.replaceChildren(
-        ...[["Evne", slag.evne], ["Udholdenhed", slag.udholdenhed], ["Held", slag.held]]
+        ...[["Evne", slag.evne], ["Udholdenhed", slag.udholdenhed], ["Held", slag.held], ["Karisma", slag.karisma]]
           .map(([navn, v]) => el("div", {}, el("span", { class: "vaerdi" }, String(v)), el("span", { class: "navn" }, navn)))
       );
     };
@@ -360,7 +368,8 @@
       afsnitTekst(STORY.intro),
       el("h2", {}, "Dine evner"),
       el("p", { class: "regel" },
-        "Evne = 1 terning + 6 · Udholdenhed = 2 terninger + 12 · Held = 1 terning + 6. " +
+        "Evne = 1 terning + 6 · Udholdenhed = 2 terninger + 12 · Held = 1 terning + 6 · Karisma = 1 terning + 6. " +
+        "Karisma afgør, hvordan folk tager imod dig – men ikke alle kan lide en sølvtunge. " +
         "Falder din Udholdenhed til 0, er dit eventyr forbi."),
       vaerdier,
       el("div", { class: "knapper" },
@@ -413,7 +422,7 @@
     const log = [];
     if (!eff) return log;
 
-    for (const stat of ["evne", "udholdenhed", "held", "guld"]) {
+    for (const stat of ["evne", "udholdenhed", "held", "karisma", "guld"]) {
       if (typeof eff[stat] !== "number" || eff[stat] === 0) continue;
       const foer = spiller[stat];
       let efter = foer + eff[stat];
@@ -450,7 +459,73 @@
         log.push({ klasse: "minus", tekst: `− ${ting}` });
       }
     }
+    // Følgesvende kommer og går
+    spiller.foelge = spiller.foelge || [];
+    if (eff.forladAlle && spiller.foelge.length) {
+      for (const navn of spiller.foelge) log.push({ klasse: "minus", tekst: `👋 ${navn} går sin egen vej` });
+      spiller.foelge = [];
+    }
+    for (const navn of [].concat(eff.forlad || [])) {
+      const i = spiller.foelge.indexOf(navn);
+      if (i >= 0) {
+        spiller.foelge.splice(i, 1);
+        log.push({ klasse: "minus", tekst: `👋 ${navn} går sin egen vej` });
+      }
+    }
+    for (const navn of [].concat(eff.foelge || [])) {
+      if (!spiller.foelge.includes(navn)) {
+        spiller.foelge.push(navn);
+        log.push({ klasse: "plus", tekst: `🤝 ${navn} følger med dig` });
+      }
+    }
     return log;
+  }
+
+  // ---------- Brug af ting ----------
+  function brugTing(navn) {
+    const def = (STORY.genstande || {})[navn];
+    const i = spiller.inventar.indexOf(navn);
+    if (!def || !def.brug || i < 0 || spiller.udholdenhed <= 0) return;
+    spiller.inventar.splice(i, 1);
+    const log = anvendEffekter(def.brug);
+    Lyd.spil("held");
+    toast(`${def.ikon || "🎒"} Du bruger ${navn}`, log.map((l) => l.tekst).join(" · ") || "Intet sker.");
+    opdaterArk();
+    gem();
+  }
+
+  function visTing(navn) {
+    const def = (STORY.genstande || {})[navn] || {};
+    const kanBruges = !!def.brug && spiller.inventar.includes(navn) && spiller.udholdenhed > 0;
+    const dlg = el("dialog", { class: "ting-dialog" },
+      el("button", { class: "luk", type: "button", "aria-label": "Luk", onclick: () => dlg.close() }, "✕"),
+      el("div", { class: "ting-ikon" }, def.ikon || "🎒"),
+      el("h2", {}, navn),
+      el("p", {}, def.tekst || "En ting, du har med dig."),
+      kanBruges
+        ? el("button", { class: "stor", type: "button", onclick: () => { dlg.close(); brugTing(navn); } }, `Brug ${navn.toLowerCase()}`)
+        : null
+    );
+    dlg.addEventListener("close", () => dlg.remove());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    document.body.append(dlg);
+    dlg.showModal();
+  }
+
+  function visFoelgesvend(navn) {
+    const def = (STORY.foelgesvende || {})[navn] || {};
+    const evne = def.heling ? `Heler dig ${def.heling} Udholdenhed` : `Gør ${def.skade || 1} skade`;
+    const dlg = el("dialog", { class: "ting-dialog" },
+      el("button", { class: "luk", type: "button", "aria-label": "Luk", onclick: () => dlg.close() }, "✕"),
+      el("div", { class: "ting-ikon" }, def.ikon || "🤝"),
+      el("h2", {}, navn),
+      el("p", {}, def.tekst || "Din følgesvend."),
+      el("p", { class: "regel" }, `I kamp: ${evne} i ${Math.round((def.chance || 0) * 100)} % af runderne.`)
+    );
+    dlg.addEventListener("close", () => dlg.remove());
+    dlg.addEventListener("click", (e) => { if (e.target === dlg) dlg.close(); });
+    document.body.append(dlg);
+    dlg.showModal();
   }
 
   function blink(stat) {
@@ -480,6 +555,10 @@
     if (v.kraever && !spiller.inventar.includes(v.kraever)) return { synlig: false };
     if (v.mangler && spiller.inventar.includes(v.mangler)) return { synlig: false };
     if (v.kraeverGuld && spiller.guld < v.kraeverGuld) return { synlig: true, aktiv: false, grund: `kræver ${v.kraeverGuld} guld` };
+    // Karisma: nogle samtaler kræver, at folk kan lide dig – andre, at du er grov og ligefrem
+    const kar = spiller.karisma ?? 9;
+    if (v.kraeverKarisma && kar < v.kraeverKarisma) return { synlig: true, aktiv: false, grund: `kræver Karisma ${v.kraeverKarisma}` };
+    if (v.hoejstKarisma && kar > v.hoejstKarisma) return { synlig: true, aktiv: false, grund: `kun med Karisma højst ${v.hoejstKarisma}` };
     return { synlig: true, aktiv: true };
   }
 
@@ -636,7 +715,25 @@
       }
       animation = sidste;
       truffet = nr;
+      foelgesvendeHandler(f);
       if (!tjekSlut()) tegn(true);
+    }
+
+    // Hver runde kan dine følgesvende hjælpe til
+    function foelgesvendeHandler(f) {
+      for (const navn of spiller.foelge || []) {
+        const def = (STORY.foelgesvende || {})[navn];
+        if (!def || f.liv <= 0 || spiller.udholdenhed <= 0 || Math.random() >= (def.chance || 0)) continue;
+        if (def.skade) {
+          f.liv -= def.skade;
+          if (animation !== "ramt") { animation = "ramte"; truffet = nr; }
+          log.unshift({ k: "ramte", t: `${def.ikon || "🤝"} ${def.handling || navn + " hjælper"}: ${f.navn} mister ${def.skade}.` });
+        }
+        if (def.heling) {
+          aendre("udholdenhed", def.heling);
+          log.unshift({ k: "ramte", t: `${def.ikon || "🤝"} ${def.handling || navn + " hjælper"} (+${def.heling} Udholdenhed).` });
+        }
+      }
     }
 
     function proevLykken() {
@@ -710,6 +807,7 @@
   // Et valg kan være en lykketest: { test: "held", til: <heldig>, ellers: <uheldig> }
   //  Slå 2 terninger – højst din Held = heldig. Held falder altid med 1.
   function vaelg(v) {
+    if (v.test === "karisma") return karismaproeve(v);
     if (v.test !== "held") return gaaTil(v.til);
     const ds = [d6(), d6()];
     const sum = ds[0] + ds[1];
@@ -726,6 +824,23 @@
     });
   }
 
+  // Karismaprøve: slå 2 terninger – højst din Karisma = det lykkes.
+  //  I modsætning til Held bliver Karisma ikke brugt op af at prøve.
+  function karismaproeve(v) {
+    const ds = [d6(), d6()];
+    const sum = ds[0] + ds[1];
+    const kar = spiller.karisma ?? 9;
+    const lykkes = sum <= kar;
+    Lyd.spil("terning");
+    if (lykkes) setTimeout(() => Lyd.spil("held"), 300);
+    gaaTil(lykkes ? v.til : v.ellers, {
+      besked: {
+        klasse: lykkes ? "plus" : "minus",
+        tekst: `🗣️ ${ds[0]}+${ds[1]} = ${sum} mod Karisma ${kar}: ${lykkes ? "Det lykkes!" : "Det mislykkes."}`,
+      },
+    });
+  }
+
   function visValg(a) {
     const liste = el("ul", { class: "valg" });
     for (const v of a.valg || []) {
@@ -733,7 +848,7 @@
       if (!status.synlig) continue;
       const knap = el("button", { type: "button", disabled: !status.aktiv, onclick: () => vaelg(v) },
         el("span", {}, v.tekst + (status.grund ? ` (${status.grund})` : "")),
-        el("span", { class: "til" }, v.test === "held" ? "🍀 Prøv lykken" : `Gå til ${v.til}`)
+        el("span", { class: "til" }, v.test === "held" ? "🍀 Prøv lykken" : v.test === "karisma" ? "🗣️ Karismaprøve" : `Gå til ${v.til}`)
       );
       liste.append(el("li", {}, knap));
     }
@@ -746,13 +861,29 @@
     document.getElementById("stat-evne").textContent = `${spiller.evne} / ${spiller.max.evne}`;
     document.getElementById("stat-udholdenhed").textContent = `${spiller.udholdenhed} / ${spiller.max.udholdenhed}`;
     document.getElementById("stat-held").textContent = `${spiller.held} / ${spiller.max.held}`;
+    document.getElementById("stat-karisma").textContent = `${spiller.karisma ?? 9} / ${spiller.max.karisma ?? 9}`;
     document.getElementById("stat-guld").textContent = spiller.guld;
     const ul = document.getElementById("inventar");
+    const genstande = STORY.genstande || {};
     ul.replaceChildren(
       ...(spiller.inventar.length
-        ? spiller.inventar.map((t) => el("li", {}, t))
+        ? spiller.inventar.map((t) => {
+            const def = genstande[t] || {};
+            return el("li", { class: def.brug ? "kan-bruges" : "" },
+              el("button", { type: "button", class: "ting-knap", title: def.brug ? "Klik for at læse om tingen eller bruge den" : "Klik for at læse om tingen", onclick: () => visTing(t) },
+                def.ikon ? el("span", { class: "ikon" }, def.ikon) : null, t, def.brug ? el("span", { class: "brug-maerke" }, "brug") : null));
+          })
         : [el("li", { class: "tom" }, "Tom")])
     );
+    const fl = document.getElementById("foelge");
+    const foelge = spiller.foelge || [];
+    document.getElementById("foelge-titel").hidden = !foelge.length;
+    fl.hidden = !foelge.length;
+    fl.replaceChildren(...foelge.map((n) => {
+      const def = (STORY.foelgesvende || {})[n] || {};
+      return el("li", {}, el("button", { type: "button", class: "ting-knap", onclick: () => visFoelgesvend(n) },
+        el("span", { class: "ikon" }, def.ikon || "🤝"), n));
+    }));
   }
 
   document.getElementById("opdagelser").addEventListener("click", visOpdagelser);
