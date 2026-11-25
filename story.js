@@ -1809,8 +1809,8 @@ window.STORY = {
       billede: "assets/art/egne/evig-vinter.jpg",
       billedtekst: "Vinteren, der ikke vil slutte",
       tekst:
-        "Sommeren kommer aldrig til Vildmose det år. Sne falder midt i juli, floden fryser til, og om natten hører man et brøl fra nord, så dybt at jorden ryster.\n\n" +
-        "Den ældste folder et gammelt kort ud på bordet. \"I Nordfjeldene sover isdragen Isvinge,\" siger hun. \"Hun har sovet i tusind år. Hvis hun er vågnet, er det fordi nogen har gjort hende vred. Og så kommer vinteren for at blive.\"",
+        "Sommeren kom aldrig til Vildmose det år. Sneen faldt midt i juli, floden frøs til, og om natten hørte man et brøl fra nord, så dybt at jorden rystede.\n\n" +
+        "Nu folder den ældste et gammelt kort ud på bordet. \"I Nordfjeldene sover isdragen Isvinge,\" siger hun. \"Hun har sovet i tusind år. Hvis hun er vågnet, er det fordi nogen har gjort hende vred. Og så kommer vinteren for at blive.\"",
       effekter: { udholdenhed: 30, held: 6 },
       valg: [
         { tekst: "Drag nordpå mod Frostby", til: 202 },
