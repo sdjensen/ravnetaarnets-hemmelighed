@@ -45,11 +45,11 @@ window.STORY = {
       billede: "assets/art/egne/vildmose-landsby.jpg",
       billedtekst: "Landsbyen Vildmose i måneskin",
       tekst:
-        "Landsbyens ældste trykker din hånd ved den sidste hytte. \"Kom tilbage med Månestenen,\" hvisker hun. \"Ellers kommer ulvene, når månen er fuld.\"\n\n" +
-        "Foran dig deler vejen sig. Til venstre forsvinder en sti ind i den mørke Gråskov. Til højre fører en mudret vej ned mod floden Sølvå.",
+        "Landsbyens ældste trykker din hånd ved den sidste hytte og ser op på den fulde måne. \"Kom tilbage med Månestenen, før månen er fuld igen,\" hvisker hun. \"Ellers kommer ulvene.\"\n\n" +
+        "Foran dig deler vejen sig. Til venstre fører en mudret vej ned mod floden Sølvå. Til højre forsvinder en sti ind i den mørke Gråskov.",
       valg: [
-        { tekst: "Tag stien gennem Gråskoven", til: 24 },
         { tekst: "Følg vejen ned til floden", til: 9 },
+        { tekst: "Tag stien gennem Gråskoven", til: 24 },
         { tekst: "Kig ind på kroen »Den Sorte Gryde« først", til: 41 },
       ],
     },
